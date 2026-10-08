@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>書籤公仔 · SVG 重繪</title>
+<style>
+  body{margin:0;background:#fffefb;font-family:-apple-system,"PingFang TC",sans-serif;color:#1c1a17}
+  .wrap{max-width:1080px;margin:0 auto;padding:36px}
+  h1{font-family:"Songti TC",serif;font-weight:600;font-size:24px;margin:0 0 8px}
+  p.note{color:#71717a;font-size:14px;margin:0 0 30px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+  .cell{border:1px solid #e8e4dc;border-radius:14px;padding:18px;background:#fff;text-align:center}
+  .cell h2{font-size:12px;font-family:"SF Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#a63d1f;margin:0 0 12px}
+  .cell svg{display:block;width:100%;height:auto;max-width:190px;margin:0 auto}
+  .cell p{font-size:12.5px;color:#71717a;margin:12px 0 0}
+  .row{display:flex;gap:20px;align-items:flex-end;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .row .s{text-align:center}
+  .row .s svg{display:block;margin:0 auto}
+  .row .s span{font-size:11px;color:#71717a;font-family:"SF Mono",monospace}
+  /* 動態 */
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes blink{0%,93%,100%{transform:scaleY(1)}96%,97%{transform:scaleY(.1)}}
+  @keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+  .bob{animation:bob 3.8s cubic-bezier(.32,.72,.35,1) infinite}
+  .eye{transform-box:fill-box;transform-origin:center;animation:blink 5.2s ease-in-out infinite}
+  .arm{transform-box:fill-box;transform-origin:top center;animation:wave 2.6s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>書籤公仔 · SVG 重繪</h1>
+  <p class="note">照你的設計稿重繪（取樣配色：黃 #FFBD37／橘 #FA812F／藍 #404A68／青 #53ADAC）。純 SVG，無外部圖檔。</p>
+
+  <div class="grid">
+
+    <!-- 站姿 · 揮手 -->
+    <div class="cell">
+      <h2>A 揮手（推薦 hero）</h2>
+      <svg viewBox="0 0 200 380" id="svgA">
+        <ellipse cx="100" cy="356" rx="62" ry="11" fill="#DFE6E9" opacity=".9"/>
+        <g class="bob">
+          <!-- 腿 -->
+          <g fill="#404A68">
+            <rect x="63" y="265" width="20" height="58" rx="10"/>
+            <rect x="117" y="265" width="20" height="58" rx="10"/>
+            <ellipse cx="73" cy="334" rx="21" ry="15"/>
+            <ellipse cx="127" cy="334" rx="21" ry="15"/>
+          </g>
+          <!-- 尾巴橘 V -->
+          <path d="M 100 277 L 122 312 L 122 326 L 100 291 L 78 326 L 78 312 Z" fill="#FA812F"/>
+          <!-- 身體 -->
+          <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 124 L 100 272 L 76 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="#FFBD37"/>
+          <!-- 折角 -->
+          <path d="M 116 30 H 165 V 76 Z" fill="#FA812F"/>
+          <path d="M 116 30 L 165 76" stroke="#E4701F" stroke-width="3" opacity=".55" stroke-linecap="round"/>
+          <!-- 左臂（垂放） -->
+          <path d="M 42 214 Q 18 232 20 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+          <!-- 右臂（揮手） -->
+          <g class="arm">
+            <path d="M 158 214 Q 190 206 188 152" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+          </g>
+          <!-- 揮手小黃線 -->
+          <g stroke="#FFBD37" stroke-width="6" stroke-linecap="round">
+            <line x1="176" y1="106" x2="176" y2="90"/>
+            <line x1="196" y1="120" x2="206" y2="108"/>
+          </g>
+          <!-- 眉毛 -->
+          <g stroke="#404A68" stroke-width="6" stroke-linecap="round" fill="none">
+            <path d="M 53 112 Q 68 100 84 108"/>
+            <path d="M 116 108 Q 132 100 147 112"/>
+          </g>
+          <!-- 眼白 -->
+          <ellipse cx="67" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+          <ellipse cx="133" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+          <!-- 瞳孔 -->
+          <circle cx="72" cy="159" r="14.5" fill="#25304A"/>
+          <circle cx="128" cy="159" r="14.5" fill="#25304A"/>
+          <!-- 反光 -->
+          <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/>
+          <circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
+          <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/>
+          <circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
+          <!-- 嘴巴 -->
+          <path d="M 86 180 Q 100 177 114 180 Q 114 200 100 200 Q 86 200 86 180 Z" fill="#25304A"/>
+          <path d="M 91 189 Q 100 187 109 189 Q 109 198 100 198 Q 91 198 91 189 Z" fill="#FA812F"/>
+        </g>
+      </svg>
+      <p>一手垂放、一手揮手。最適合放主頁。</p>
+    </div>
+
+    <!-- 站姿 · 抱書 -->
+    <div class="cell">
+      <h2>B 抱書</h2>
+      <svg viewBox="0 0 200 380">
+        <ellipse cx="100" cy="356" rx="62" ry="11" fill="#DFE6E9" opacity=".9"/>
+        <g class="bob">
+          <g fill="#404A68">
+            <rect x="63" y="265" width="20" height="58" rx="10"/>
+            <rect x="117" y="265" width="20" height="58" rx="10"/>
+            <ellipse cx="73" cy="334" rx="21" ry="15"/>
+            <ellipse cx="127" cy="334" rx="21" ry="15"/>
+          </g>
+          <path d="M 100 277 L 122 312 L 122 326 L 100 291 L 78 326 L 78 312 Z" fill="#FA812F"/>
+          <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 124 L 100 272 L 76 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="#FFBD37"/>
+          <path d="M 116 30 H 165 V 76 Z" fill="#FA812F"/>
+          <path d="M 42 214 Q 18 232 20 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+          <path d="M 158 214 Q 182 232 180 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+          <!-- 書 -->
+          <g transform="translate(58 232) rotate(-6)">
+            <rect x="0" y="0" width="88" height="70" rx="7" fill="#53ADAC"/>
+            <rect x="0" y="0" width="88" height="14" rx="7" fill="#DFE6E9" opacity=".95"/>
+            <rect x="0" y="56" width="88" height="14" rx="7" fill="#DFE6E9" opacity=".95"/>
+            <rect x="0" y="0" width="9" height="70" rx="4" fill="#3E8F8E"/>
+            <line x1="24" y1="20" x2="76" y2="20" stroke="#BEE3E2" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+            <line x1="24" y1="46" x2="76" y2="46" stroke="#BEE3E2" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+          </g>
+          <g stroke="#404A68" stroke-width="6" stroke-linecap="round" fill="none">
+            <path d="M 53 112 Q 68 100 84 108"/>
+            <path d="M 116 108 Q 132 100 147 112"/>
+          </g>
+          <ellipse cx="67" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+          <ellipse cx="133" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+          <circle cx="72" cy="159" r="14.5" fill="#25304A"/>
+          <circle cx="128" cy="159" r="14.5" fill="#25304A"/>
+          <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/>
+          <circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
+          <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/>
+          <circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
+          <path d="M 86 180 Q 100 177 114 180 Q 114 200 100 200 Q 86 200 86 180 Z" fill="#25304A"/>
+          <path d="M 91 189 Q 100 187 109 189 Q 109 198 100 198 Q 91 198 91 189 Z" fill="#FA812F"/>
+        </g>
+      </svg>
+      <p>雙手抱一本青綠色的書。</p>
+    </div>
+
+    <!-- 動態預覽 -->
+    <div class="cell">
+      <h2>動態預覽</h2>
+      <div class="row">
+        <div class="s">
+          <svg viewBox="0 0 200 380" width="120">
+            <ellipse cx="100" cy="356" rx="62" ry="11" fill="#DFE6E9" opacity=".9"/>
+            <g>
+              <g fill="#404A68">
+                <rect x="63" y="265" width="20" height="58" rx="10"/><rect x="117" y="265" width="20" height="58" rx="10"/>
+                <ellipse cx="73" cy="334" rx="21" ry="15"/><ellipse cx="127" cy="334" rx="21" ry="15"/>
+              </g>
+              <path d="M 100 277 L 122 312 L 122 326 L 100 291 L 78 326 L 78 312 Z" fill="#FA812F"/>
+              <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 124 L 100 272 L 76 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="#FFBD37"/>
+              <path d="M 116 30 H 165 V 76 Z" fill="#FA812F"/>
+              <path d="M 42 214 Q 18 232 20 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+              <path d="M 158 214 Q 182 232 180 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+              <g stroke="#404A68" stroke-width="6" stroke-linecap="round" fill="none">
+                <path d="M 53 112 Q 68 100 84 108"/><path d="M 116 108 Q 132 100 147 112"/>
+              </g>
+              <ellipse cx="67" cy="156" rx="20" ry="22" fill="#FFFFFF"/><ellipse cx="133" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+              <g class="eye">
+                <circle cx="72" cy="159" r="14.5" fill="#25304A"/><circle cx="128" cy="159" r="14.5" fill="#25304A"/>
+                <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/><circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
+                <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/><circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
+              </g>
+              <path d="M 86 180 Q 100 177 114 180 Q 114 200 100 200 Q 86 200 86 180 Z" fill="#25304A"/>
+              <path d="M 91 189 Q 100 187 109 189 Q 109 198 100 198 Q 91 198 91 189 Z" fill="#FA812F"/>
+            </g>
+          </svg>
+          <span>站姿</span>
+        </div>
+      </div>
+      <p>呼吸起伏 + 眨眼。</p>
+    </div>
+
+    <!-- 尺寸測試 -->
+    <div class="cell">
+      <h2>縮到實際尺寸</h2>
+      <div class="row">
+        <div class="s"><svg viewBox="0 0 200 380" width="122"><use href="#mini"/></svg><span>122px（手機）</span></div>
+        <div class="s"><svg viewBox="0 0 200 380" width="178"><use href="#mini"/></svg><span>178px（平板）</span></div>
+        <div class="s"><svg viewBox="0 0 200 380" width="236"><use href="#mini"/></svg><span>236px（電腦）</span></div>
+      </div>
+      <p>檢查小尺寸下五官是否還看得清。</p>
+    </div>
+
+  </div>
+</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <g id="mini">
+    <ellipse cx="100" cy="356" rx="62" ry="11" fill="#DFE6E9" opacity=".9"/>
+    <g fill="#404A68">
+      <rect x="63" y="265" width="20" height="58" rx="10"/><rect x="117" y="265" width="20" height="58" rx="10"/>
+      <ellipse cx="73" cy="334" rx="21" ry="15"/><ellipse cx="127" cy="334" rx="21" ry="15"/>
+    </g>
+    <path d="M 100 277 L 122 312 L 122 326 L 100 291 L 78 326 L 78 312 Z" fill="#FA812F"/>
+    <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 124 L 100 272 L 76 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="#FFBD37"/>
+    <path d="M 116 30 H 165 V 76 Z" fill="#FA812F"/>
+    <path d="M 42 214 Q 18 232 20 262" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+    <path d="M 158 214 Q 190 206 188 152" stroke="#404A68" stroke-width="26" stroke-linecap="round" fill="none"/>
+    <g stroke="#FFBD37" stroke-width="6" stroke-linecap="round">
+      <line x1="176" y1="106" x2="176" y2="90"/><line x1="196" y1="120" x2="206" y2="108"/>
+    </g>
+    <g stroke="#404A68" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M 53 112 Q 68 100 84 108"/><path d="M 116 108 Q 132 100 147 112"/>
+    </g>
+    <ellipse cx="67" cy="156" rx="20" ry="22" fill="#FFFFFF"/><ellipse cx="133" cy="156" rx="20" ry="22" fill="#FFFFFF"/>
+    <circle cx="72" cy="159" r="14.5" fill="#25304A"/><circle cx="128" cy="159" r="14.5" fill="#25304A"/>
+    <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/><circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
+    <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/><circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
+    <path d="M 86 180 Q 100 177 114 180 Q 114 200 100 200 Q 86 200 86 180 Z" fill="#25304A"/>
+    <path d="M 91 189 Q 100 187 109 189 Q 109 198 100 198 Q 91 198 91 189 Z" fill="#FA812F"/>
+  </g>
+</svg>
+</body>
+</html>

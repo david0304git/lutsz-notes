@@ -24,7 +24,7 @@
     padding:104px 0 62px;
   }
   .hero-text{min-width:0}
-  .hero-mascot{justify-self:end;width:100%;max-width:236px}
+  .hero-mascot{justify-self:end;width:100%;max-width:228px}
   .hero-mascot svg{display:block;width:100%;height:auto;overflow:visible}
 
   /* 吉祥物：輕微呼吸 + 眨眼 + 光暈（尊重 reduced-motion） */
@@ -34,6 +34,8 @@
   .hero-mascot .m-bob{animation:mascotBob 4s var(--ease-soft) infinite}
   .hero-mascot .m-eye{transform-box:fill-box;transform-origin:center;animation:mascotBlink 5.4s ease-in-out infinite}
   .hero-mascot .m-glow{transform-box:fill-box;transform-origin:center;animation:mascotGlow 3.4s ease-in-out infinite}
+  .hero-mascot .m-arm{transform-box:fill-box;transform-origin:bottom left;animation:mascotWave 2.8s var(--ease-soft) infinite}
+  @keyframes mascotWave{0%,100%{transform:rotate(0)}50%{transform:rotate(-11deg)}}
 
   .home-hero .eyebrow{
     display:flex;align-items:center;gap:12px;
@@ -225,7 +227,7 @@
     .entry,.entry::before,.entry::after,.entry .no,.entry .no::after,
     .entry h3,.entry .desc,.entry .facts span + span,.entry .go,
     .home-hero h1 em{transition-duration:.001ms!important}
-    .hero-mascot .m-bob,.hero-mascot .m-eye,.hero-mascot .m-glow{animation:none!important}
+    .hero-mascot .m-bob,.hero-mascot .m-eye,.hero-mascot .m-glow,.hero-mascot .m-arm{animation:none!important}
   }
 
   /* 平板：吉祥物縮小，仍與文字並排 */
@@ -273,37 +275,72 @@
     </div>
 
     <div class="hero-mascot rise rise-4" aria-hidden="true">
-      <svg viewBox="0 0 200 210">
-        <circle cx="176" cy="30" r="5" fill="#f0b429" class="m-glow"/>
-        <circle cx="188" cy="50" r="3" fill="#f0b429" class="m-glow" style="animation-delay:.7s"/>
+      <svg viewBox="0 0 200 380">
+        <defs>
+          <linearGradient id="mBody" x1="0" y1="0" x2=".85" y2="1">
+            <stop offset="0" stop-color="#FFC94F"/>
+            <stop offset="1" stop-color="#F5A81F"/>
+          </linearGradient>
+          <linearGradient id="mFold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF9440"/>
+            <stop offset="1" stop-color="#EE741B"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="100" cy="352" rx="58" ry="10" fill="#DFE6E9" opacity=".9"/>
+
         <g class="m-bob">
-          <ellipse cx="100" cy="180" rx="46" ry="6" fill="#1c1a17" opacity=".07"/>
-          <rect x="46" y="42" width="12" height="118" rx="5" fill="#a63d1f"/>
-          <rect x="54" y="42" width="100" height="118" rx="9" fill="#fffdf8" stroke="#e0d9cc" stroke-width="2"/>
-          <rect x="54" y="72" width="100" height="2" fill="#e8e4dc"/>
-          <rect x="54" y="130" width="100" height="2" fill="#e8e4dc"/>
-          <path d="M132 42 L154 64 L132 64 Z" fill="#f4efe6" stroke="#e0d9cc" stroke-width="2" stroke-linejoin="round"/>
-          <g stroke="#b9b2a4" stroke-width="4.5" stroke-linecap="round">
-            <line x1="40" y1="58" x2="58" y2="58"/>
-            <line x1="40" y1="80" x2="58" y2="80"/>
-            <line x1="40" y1="102" x2="58" y2="102"/>
-            <line x1="40" y1="124" x2="58" y2="124"/>
-            <line x1="40" y1="146" x2="58" y2="146"/>
+          <!-- 腿 -->
+          <g fill="#404A68">
+            <rect x="66" y="260" width="19" height="58" rx="9.5"/>
+            <rect x="115" y="260" width="19" height="58" rx="9.5"/>
+            <ellipse cx="75" cy="329" rx="19" ry="14"/>
+            <ellipse cx="125" cy="329" rx="19" ry="14"/>
           </g>
+
+          <!-- 尾巴橘 V：收在身體輪廓內 -->
+          <path d="M 100 270 L 121 305 L 121 317 L 100 283 L 79 317 L 79 305 Z" fill="#EE741B"/>
+
+          <!-- 身體 -->
+          <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 121 L 100 273 L 79 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="url(#mBody)"/>
+
+          <!-- 折角 -->
+          <path d="M 114 30 H 157 Q 165 30 165 38 V 78 Z" fill="url(#mFold)"/>
+          <path d="M 114 30 L 165 78" stroke="#D9660F" stroke-width="2.5" opacity=".45" stroke-linecap="round"/>
+
+          <!-- 左臂（垂放） -->
+          <path d="M 46 198 Q 22 216 24 246" stroke="#404A68" stroke-width="25" stroke-linecap="round" fill="none"/>
+
+          <!-- 右臂（揮手） -->
+          <g class="m-arm">
+            <path d="M 154 200 Q 184 192 182 146" stroke="#404A68" stroke-width="25" stroke-linecap="round" fill="none"/>
+          </g>
+          <g stroke="#FFBD37" stroke-width="6" stroke-linecap="round">
+            <line x1="172" y1="104" x2="172" y2="90"/>
+            <line x1="192" y1="118" x2="202" y2="107"/>
+          </g>
+
+          <!-- 眉毛 -->
+          <g stroke="#404A68" stroke-width="5.5" stroke-linecap="round" fill="none">
+            <path d="M 55 122 Q 68 111 83 118"/>
+            <path d="M 117 118 Q 132 111 145 122"/>
+          </g>
+
+          <!-- 眼睛 -->
+          <ellipse cx="67" cy="156" rx="20" ry="21.5" fill="#FFFFFF"/>
+          <ellipse cx="133" cy="156" rx="20" ry="21.5" fill="#FFFFFF"/>
           <g class="m-eye">
-            <ellipse cx="83" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
-            <ellipse cx="118" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
+            <circle cx="72" cy="159" r="14.5" fill="#25304A"/>
+            <circle cx="128" cy="159" r="14.5" fill="#25304A"/>
+            <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/>
+            <circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
+            <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/>
+            <circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
           </g>
-          <circle cx="84.8" cy="97.4" r="2" fill="#fff"/>
-          <circle cx="119.8" cy="97.4" r="2" fill="#fff"/>
-          <ellipse cx="68" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
-          <ellipse cx="133" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
-          <path d="M92 110 Q100.5 119 109 110" fill="none" stroke="#2b2723" stroke-width="3" stroke-linecap="round"/>
-          <path d="M154 116 q12 -4 16 6" fill="none" stroke="#2b2723" stroke-width="3.4" stroke-linecap="round"/>
-          <g transform="rotate(-24 172 108)">
-            <rect x="168" y="76" width="7" height="52" rx="3" fill="#f0b429"/>
-            <path d="M168 128 L171.5 138 L175 128 Z" fill="#2b2723"/>
-          </g>
+
+          <!-- 嘴巴 -->
+          <path d="M 87 180 Q 100 177 113 180 Q 113 199 100 199 Q 87 199 87 180 Z" fill="#25304A"/>
+          <path d="M 92 188 Q 100 186 108 188 Q 108 197 100 197 Q 92 197 92 188 Z" fill="#FA812F"/>
         </g>
       </svg>
     </div>
