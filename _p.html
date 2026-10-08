@@ -305,5 +305,15 @@
   </div>
 </footer>
 
-</body>
+<script>
+(async function(){
+  await document.fonts.ready;
+  var h1 = document.querySelector('.page-head h1, .hero h1');
+  var h3 = document.querySelector('.card h3, .sec-head h2, .lesson-card h3, .entry h3');
+  document.title = 'pages=' + document.body.className +
+    ' | h1=' + (h1 ? getComputedStyle(h1).fontFamily.split(',')[0] : '無') +
+    ' | h3=' + (h3 ? getComputedStyle(h3).fontFamily.split(',')[0] : '無') +
+    ' | loaded=' + document.fonts.check('600 30px "Noto Serif TC Site"');
+})();
+</script></body>
 </html>

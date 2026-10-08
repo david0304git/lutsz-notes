@@ -4,6 +4,30 @@
    標題用宋體撐氣質，內文用黑體保清晰（雜誌式搭配）。
    ========================================================================== */
 
+/* ==========================================================================
+   自帶字型：Noto Serif TC（subset，只含本站實際用到的 901 個字元）
+   授權 SIL Open Font License 1.1，見 assets/fonts/OFL-LICENSE.txt
+
+   為什麼要自帶：系統內建的宋體（macOS 的 Songti TC）在 Windows 或其他裝置
+   上不存在，會退回預設字體，導致「你自己看很雅、別人看很普通」。
+   自帶後所有人看到的都是同一個字型。
+   ========================================================================== */
+
+@font-face{
+  font-family:"Noto Serif TC Site";
+  src:url("fonts/noto-serif-tc-400.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Noto Serif TC Site";
+  src:url("fonts/noto-serif-tc-600.ttf") format("truetype");
+  font-weight:600;
+  font-style:normal;
+  font-display:swap;
+}
+
 :root{
   --bg:#fffefb;              /* 紙白 */
   --bg-warm:#faf8f3;
@@ -16,9 +40,14 @@
   --accent-dim:#8a3116;
   --tint:#faf8f3;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
-  --serif:"Songti TC","STSong","Noto Serif TC","Source Han Serif TC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  --serif:"Noto Serif TC Site","Songti TC","STSong","Noto Serif TC","Source Han Serif TC",Georgia,serif;
   --mono:"SF Mono",ui-monospace,Menlo,Consolas,"DejaVu Sans Mono",monospace;
-  --ease:cubic-bezier(.22,.68,.32,1);
+  --ease-out:cubic-bezier(.16,.84,.44,1);    /* 平滑收尾，不陡起 */
+  --ease-soft:cubic-bezier(.32,.72,.35,1);   /* 更柔，大面積位移用 */
+  --ease:cubic-bezier(.16,.84,.44,1);        /* 向後相容 */
+  --t-fast:.22s;
+  --t-mid:.45s;
+  --t-slow:.85s;
   --wrap:1060px;
   --rad:12px;
 }
@@ -121,9 +150,9 @@ main.wrap{
 .brand:hover{color:var(--fg);text-decoration:none}
 .brand .dot{
   display:inline-block;color:var(--accent);
-  transition:transform .5s var(--ease);
+  transition:transform var(--t-mid) var(--ease-soft);
 }
-.brand:hover .dot{transform:translateY(-3px) scale(1.25)}
+.brand:hover .dot{transform:translateY(-2px)}
 
 .nav-links{
   display:flex;
@@ -142,13 +171,13 @@ main.wrap{
   line-height:1.5;
   color:var(--fg-2);
   white-space:nowrap;
-  transition:color .3s var(--ease);
+  transition:color var(--t-fast) var(--ease-out);
 }
-.nav-links a::after{                 /* 底線由中間展開 */
+.nav-links a::after{
   content:"";position:absolute;left:14px;right:14px;bottom:5px;height:1px;
   background:var(--accent);
-  transform:scaleX(0);transform-origin:center;
-  transition:transform .38s var(--ease);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--t-mid) var(--ease-out);
 }
 .nav-links a:hover{color:var(--fg);text-decoration:none}
 .nav-links a:hover::after{transform:scaleX(1)}
@@ -238,18 +267,20 @@ main.wrap{
   border-radius:var(--rad);
   background:var(--bg);
   color:inherit;
-  transition:border-color .3s var(--ease),box-shadow .35s var(--ease),transform .3s var(--ease);
+  transition:border-color var(--t-fast) var(--ease-out),
+             box-shadow var(--t-mid) var(--ease-out),
+             transform var(--t-mid) var(--ease-soft);
 }
 .card::before{                       /* 頂線：hover 時被朱色畫過 */
   content:"";position:absolute;top:-1px;left:12px;right:12px;height:1px;
   background:var(--accent);border-radius:1px;
   transform:scaleX(0);transform-origin:left;
-  transition:transform .55s var(--ease);
+  transition:transform var(--t-mid) var(--ease-out);
 }
 .card:hover{
   border-color:var(--line-2);
-  box-shadow:0 12px 30px rgba(28,26,23,.06);
-  transform:translateY(-3px);
+  box-shadow:0 8px 22px rgba(28,26,23,.05);
+  transform:translateY(-2px);
   text-decoration:none;
   color:inherit;
 }
@@ -263,7 +294,7 @@ main.wrap{
   letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--fg-3);
-  transition:color .3s var(--ease);
+  transition:color var(--t-fast) var(--ease-out);
 }
 .card:hover .card-tag{color:var(--accent)}
 .card h3{
@@ -274,7 +305,7 @@ main.wrap{
   letter-spacing:.01em;
   line-height:1.4;
   color:var(--fg);
-  transition:color .3s var(--ease);
+  transition:color var(--t-fast) var(--ease-out);
 }
 .card:hover h3{color:var(--accent)}
 .card p{
@@ -394,7 +425,8 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
   font-weight:500;
   color:var(--fg);
   background:#fff;
-  transition:border-color .14s ease,background .14s ease;
+  transition:border-color var(--t-fast) var(--ease-out),
+             background var(--t-fast) var(--ease-out);
 }
 .btn:hover{border-color:var(--fg-3);background:var(--tint);text-decoration:none;color:var(--fg)}
 .btn-primary{background:var(--fg);border-color:var(--fg);color:#fff}
@@ -442,7 +474,8 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
   box-shadow:0 1px 3px rgba(0,0,0,.06);
-  transition:background .14s ease,border-color .14s ease;
+  transition:background var(--t-fast) var(--ease-out),
+             border-color var(--t-fast) var(--ease-out);
 }
 .gn-back:hover{background:#fff;border-color:var(--fg-3);color:var(--fg);text-decoration:none}
 
