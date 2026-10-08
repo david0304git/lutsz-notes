@@ -5,7 +5,7 @@
    ========================================================================== */
 
 /* ==========================================================================
-   自帶字型：Noto Serif TC（subset，只含本站實際用到的 901 個字元）
+   自帶字型：Noto Serif TC（subset，只含本站實際用到的 912 個字元（含排版標點））
    授權 SIL Open Font License 1.1，見 assets/fonts/OFL-LICENSE.txt
 
    為什麼要自帶：系統內建的宋體（macOS 的 Songti TC）在 Windows 或其他裝置
@@ -15,14 +15,14 @@
 
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-400.ttf?v=2") format("truetype");
+  src:url("fonts/noto-serif-tc-400.woff2?v=3") format("woff2");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-600.ttf?v=2") format("truetype");
+  src:url("fonts/noto-serif-tc-600.woff2?v=3") format("woff2");
   font-weight:600;
   font-style:normal;
   font-display:swap;
@@ -150,6 +150,13 @@ main.wrap{
   letter-spacing:.02em;
   color:var(--fg);
   white-space:nowrap;
+}
+/* 撇號：中文字型的 U+2019 是全形標點，會產生怪空格，
+   所以讓它單獨走拉丁字型（半形字寬） */
+.brand .apo{
+  font-family:"Times New Roman",Georgia,"Songti TC",serif;
+  font-style:italic;
+  margin-right:.02em;
 }
 .brand:hover{color:var(--fg);text-decoration:none}
 .brand .dot{
