@@ -1,0 +1,464 @@
+/* ==========================================================================
+   主頁改版提案 · 共用基底
+   每個提案用 .pA / .pB / .pC / .pD 當根容器，樣式只作用在該區塊內，不影響網站。
+   ========================================================================== */
+
+.mock{
+  --ink:#18181b;
+  --ink-2:#52525b;
+  --ink-3:#a1a1aa;
+  --line:#e8e8e6;
+  --line-2:#d4d4d1;
+  --paper:#ffffff;
+  --paper-2:#fafaf9;
+  --accent:#b45309;
+  --num:#b45309;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  --font-mono:"SF Mono",ui-monospace,Menlo,Consolas,"DejaVu Sans Mono",monospace;
+  --font-serif:"Songti TC","Noto Serif TC",Georgia,"Times New Roman",serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:1.75;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.mock *,.mock *::before,.mock *::after{box-sizing:border-box}
+.mock a{color:inherit;text-decoration:none}
+.mock p{margin:0}
+.mock h1,.mock h2,.mock h3,.mock h4{margin:0;font-weight:640;letter-spacing:-.02em}
+
+.mock-wrap{
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+  padding:0 40px;
+  position:relative;
+  z-index:2;
+}
+
+/* ---------- 導航列（各提案共用骨架） ---------- */
+
+.mock-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  height:66px;
+}
+.mock-brand{font-weight:650;font-size:15.5px;letter-spacing:.01em;white-space:nowrap}
+.mock-brand .dot{color:var(--accent)}
+.mock-nav ul{display:flex;gap:3px;list-style:none;margin:0;padding:0}
+.mock-nav ul a{
+  display:block;padding:7px 13px;border-radius:8px;
+  font-size:14.5px;color:var(--ink-2);
+  transition:background .15s var(--ease),color .15s var(--ease);
+}
+.mock-nav ul a:hover{color:var(--ink);background:var(--paper-2)}
+.mock-nav ul a[aria-current]{color:var(--ink);font-weight:600}
+
+.mock-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+/* ==========================================================================
+   提案 A · 編輯排版（Editorial）
+   ========================================================================== */
+
+.pA{border-top:3px solid var(--ink)}
+.pA .mock-nav{border-bottom:1px solid var(--line)}
+
+.pA .hero{padding:104px 0 60px}
+.pA .hero .eyebrow{
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:26px;
+}
+.pA .hero h1{
+  font-size:clamp(42px,7vw,76px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+  font-weight:600;
+  max-width:16ch;
+}
+.pA .hero h1 em{
+  font-family:var(--font-serif);
+  font-style:italic;
+  font-weight:400;
+  letter-spacing:-.01em;
+}
+.pA .hero .lede{
+  margin-top:30px;
+  max-width:52ch;
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink-2);
+}
+
+.pA .entries{margin-bottom:40px}
+.pA .entry{
+  display:grid;
+  grid-template-columns:96px minmax(0,1fr) auto;
+  gap:32px;
+  align-items:start;
+  padding:34px 0;
+  border-top:1px solid var(--line);
+  transition:padding-left .22s var(--ease);
+}
+.pA .entry:last-child{border-bottom:1px solid var(--line)}
+.pA .entry:hover{padding-left:12px}
+.pA .entry .no{
+  font-family:var(--font-mono);
+  font-size:30px;
+  line-height:1;
+  color:var(--num);
+  padding-top:6px;
+  letter-spacing:-.04em;
+}
+.pA .entry h3{
+  font-size:clamp(22px,2.6vw,29px);
+  margin-bottom:8px;
+  transition:color .18s var(--ease);
+}
+.pA .entry:hover h3{color:var(--accent)}
+.pA .entry .desc{color:var(--ink-2);font-size:15.5px;max-width:56ch}
+.pA .entry .facts{
+  display:flex;flex-wrap:wrap;gap:18px;
+  margin-top:14px;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;
+  color:var(--ink-3);
+}
+.pA .entry .facts b{color:var(--ink-2);font-weight:600}
+.pA .entry .go{
+  font-size:15px;color:var(--ink-3);white-space:nowrap;padding-top:8px;
+  transition:color .18s var(--ease),transform .22s var(--ease);
+}
+.pA .entry:hover .go{color:var(--accent);transform:translateX(4px)}
+
+.pA .foot{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  padding:34px 0 54px;
+  font-size:13px;color:var(--ink-3);
+}
+
+/* ==========================================================================
+   提案 B · 色塊格子（Bento）
+   ========================================================================== */
+
+.pB{background:#fcfcfb}
+.pB .mock-brand::before{
+  content:"";display:inline-block;width:9px;height:9px;border-radius:3px;
+  background:var(--accent);margin-right:9px;transform:translateY(-1px);
+}
+.pB .hero{padding:78px 0 44px}
+.pB .hero h1{
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.14;letter-spacing:-.03em;
+  max-width:20ch;
+}
+.pB .hero .lede{margin-top:20px;max-width:50ch;color:var(--ink-2);font-size:16.5px}
+
+.pB .bento{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:16px;
+  padding-bottom:60px;
+}
+.pB .tile{
+  position:relative;
+  display:flex;flex-direction:column;justify-content:space-between;
+  gap:26px;
+  min-height:196px;
+  padding:26px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid var(--line);
+  overflow:hidden;
+  transition:transform .26s var(--ease),box-shadow .26s var(--ease),border-color .26s var(--ease);
+}
+.pB .tile::before{                       /* 頂部色條 */
+  content:"";position:absolute;inset:0 0 auto 0;height:3px;
+  background:var(--tile,var(--accent));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--ease);
+}
+.pB .tile::after{                        /* 背景細斜紋 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(135deg,rgba(0,0,0,.016) 0 1px,transparent 1px 9px);
+  opacity:0;transition:opacity .3s var(--ease);
+}
+.pB .tile:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 34px rgba(24,24,27,.09);
+  border-color:var(--line-2);
+}
+.pB .tile:hover::before{transform:scaleX(1)}
+.pB .tile:hover::after{opacity:1}
+
+.pB .t-head{position:relative;z-index:1}
+.pB .t-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;
+}
+.pB .t-tag i{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--tile,var(--accent));display:block;
+}
+.pB .tile h3{font-size:21px;margin-bottom:9px}
+.pB .tile .desc{font-size:14.5px;color:var(--ink-2);line-height:1.7}
+.pB .t-foot{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-top:16px;border-top:1px solid var(--line);
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-3);
+}
+.pB .t-foot .arrow{
+  width:26px;height:26px;border-radius:50%;
+  border:1px solid var(--line-2);
+  display:grid;place-items:center;
+  font-size:12px;color:var(--ink-2);
+  transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);
+}
+.pB .tile:hover .t-foot .arrow{background:var(--tile,var(--accent));color:#fff;border-color:transparent}
+
+.pB .t-wide{grid-column:span 4}
+.pB .t-narrow{grid-column:span 2}
+.pB .t-soft{background:linear-gradient(160deg,#fff, #fafaf9)}
+.pB .t-empty{border-style:dashed;background:#fafaf9}
+.pB .t-empty::after{display:none}
+
+.pB .stats{
+  grid-column:span 6;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;
+}
+.pB .stat{background:#fff;padding:20px 22px}
+.pB .stat .fig{
+  font-family:var(--font-mono);font-size:26px;letter-spacing:-.03em;
+  color:var(--ink);display:block;margin-bottom:4px;
+}
+.pB .stat .cap{font-size:12.5px;color:var(--ink-3)}
+
+.pB .foot{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  padding:0 0 54px;font-size:13px;color:var(--ink-3);
+}
+
+/* ==========================================================================
+   提案 C · 冷冽科技（Dark）
+   ========================================================================== */
+
+.pC{
+  --ink:#f4f4f5;
+  --ink-2:#a1a1aa;
+  --ink-3:#71717a;
+  --line:#27272a;
+  --line-2:#3f3f46;
+  --paper:#0b0b0d;
+  --paper-2:#141417;
+  --accent:#22d3ee;
+  --num:#22d3ee;
+  background:
+    radial-gradient(900px 520px at 82% -10%, rgba(34,211,238,.10), transparent 62%),
+    radial-gradient(760px 480px at 6% 4%, rgba(167,139,250,.09), transparent 60%),
+    #0b0b0d;
+}
+.pC::before{                             /* 細格線 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 82%);
+  -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),transparent 82%);
+}
+.pC .mock-nav{border-bottom:1px solid var(--line)}
+.pC .mock-nav ul a:hover{background:rgba(255,255,255,.05);color:var(--ink)}
+.pC .mock-brand .dot{color:var(--accent)}
+
+.pC .hero{padding:96px 0 54px}
+.pC .hero .term{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-2);
+  border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;background:rgba(255,255,255,.03);
+  margin-bottom:30px;
+}
+.pC .hero .term i{
+  width:7px;height:7px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 3px rgba(34,211,238,.16);
+  animation:pulse 2.4s var(--ease) infinite;
+}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(34,211,238,.16)}
+  50%{box-shadow:0 0 0 7px rgba(34,211,238,0)}
+}
+.pC .hero h1{
+  font-size:clamp(38px,6.2vw,68px);
+  line-height:1.1;letter-spacing:-.035em;font-weight:600;
+  max-width:18ch;
+}
+.pC .hero h1 .grad{
+  background:linear-gradient(100deg,#22d3ee,#a78bfa 70%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.pC .hero .lede{margin-top:26px;max-width:54ch;color:var(--ink-2);font-size:16.5px}
+
+.pC .nodes{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  padding-bottom:56px;
+}
+.pC .node{
+  position:relative;
+  display:block;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.008));
+  transition:border-color .22s var(--ease),background .22s var(--ease),transform .22s var(--ease);
+}
+.pC .node:hover{
+  border-color:rgba(34,211,238,.45);
+  background:linear-gradient(180deg,rgba(34,211,238,.07),rgba(255,255,255,.012));
+  transform:translateY(-3px);
+}
+.pC .node .path{
+  font-family:var(--font-mono);font-size:11.5px;color:var(--accent);
+  letter-spacing:.04em;display:block;margin-bottom:16px;
+}
+.pC .node h3{font-size:19px;margin-bottom:8px;color:var(--ink)}
+.pC .node .desc{font-size:14px;color:var(--ink-2);line-height:1.66}
+.pC .node .bars{
+  display:flex;flex-direction:column;gap:7px;margin-top:18px;
+  padding-top:16px;border-top:1px solid var(--line);
+}
+.pC .node .bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-family:var(--font-mono);font-size:11.5px;color:var(--ink-3);
+}
+.pC .node .bar .track{
+  flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden;
+}
+.pC .node .bar .fill{height:100%;background:var(--accent);border-radius:99px;display:block}
+
+.pC .foot{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  padding:30px 0 54px;border-top:1px solid var(--line);
+  font-family:var(--font-mono);font-size:12px;color:var(--ink-3);
+}
+
+/* ==========================================================================
+   提案 D · 精緻留白（Refined）
+   ========================================================================== */
+
+.pD .mock-nav{border-bottom:1px solid var(--line)}
+.pD .mock-nav ul a{
+  border-radius:999px;
+  border:1px solid transparent;
+}
+.pD .mock-nav ul a[aria-current]{
+  border-color:var(--line-2);
+  background:var(--paper-2);
+}
+
+.pD .hero{padding:92px 0 56px;text-align:center}
+.pD .hero .badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+  padding:7px 16px;border:1px solid var(--line);border-radius:999px;
+  margin-bottom:30px;
+}
+.pD .hero h1{
+  font-size:clamp(36px,5.6vw,60px);
+  line-height:1.16;letter-spacing:-.032em;font-weight:620;
+  margin:0 auto;max-width:19ch;
+}
+.pD .hero .lede{
+  margin:24px auto 0;max-width:48ch;
+  color:var(--ink-2);font-size:16.5px;
+}
+.pD .hero .cta{
+  display:flex;justify-content:center;gap:12px;margin-top:34px;flex-wrap:wrap;
+}
+.pD .btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:11px 24px;border-radius:999px;
+  font-size:14.5px;font-weight:500;
+  border:1px solid var(--line-2);
+  transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease),transform .18s var(--ease);
+}
+.pD .btn:hover{transform:translateY(-1px)}
+.pD .btn-solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pD .btn-solid:hover{background:#000}
+
+.pD .cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(276px,1fr));
+  gap:18px;padding-bottom:44px;
+}
+.pD .card{
+  position:relative;
+  display:flex;flex-direction:column;gap:20px;
+  min-height:190px;
+  padding:28px 26px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  transition:border-color .2s var(--ease),box-shadow .24s var(--ease),transform .24s var(--ease);
+}
+.pD .card:hover{
+  border-color:var(--line-2);
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(24,24,27,.07);
+}
+.pD .card .ico{
+  width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  font-size:18px;
+  transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);
+}
+.pD .card:hover .ico{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pD .card h3{font-size:19px;margin-bottom:8px}
+.pD .card .desc{font-size:14.5px;color:var(--ink-2);line-height:1.7}
+.pD .card .foot{
+  margin-top:auto;padding-top:16px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.05em;color:var(--ink-3);
+}
+.pD .card .dot{
+  width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:7px;
+}
+.pD .dot-on{background:#22c55e}
+.pD .dot-wait{background:var(--line-2)}
+
+.pD .foot{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  padding:30px 0 54px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-3);
+}
+
+/* ---------- 手機 ---------- */
+
+@media (max-width:900px){
+  .mock-wrap{padding:0 22px}
+  .pA .entry{grid-template-columns:56px minmax(0,1fr);gap:20px}
+  .pA .entry .go{grid-column:2;padding-top:0}
+  .pB .bento{grid-template-columns:repeat(2,1fr)}
+  .pB .t-wide,.pB .t-narrow,.pB .stats{grid-column:span 2}
+  .pB .stats{grid-template-columns:repeat(2,1fr)}
+  .pC .nodes{grid-template-columns:1fr}
+  .mock-nav{height:auto;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 0}
+  .mock-nav ul{margin-left:-13px;flex-wrap:wrap}
+}

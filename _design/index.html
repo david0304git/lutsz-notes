@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主頁改版提案 · 4 個方向</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    background:#f4f4f2;
+    color:#18181b;
+    -webkit-font-smoothing:antialiased;
+  }
+  .top{
+    position:sticky;top:0;z-index:10;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid #e8e8e6;
+    padding:16px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .top h1{margin:0;font-size:16px;font-weight:640;letter-spacing:-.01em}
+  .top .hint{font-size:13px;color:#71717a}
+  .top .hint b{color:#18181b;font-weight:600}
+  .switch{display:flex;gap:6px;background:#f4f4f2;padding:4px;border-radius:10px;border:1px solid #e8e8e6}
+  .switch button{
+    font:inherit;font-size:13px;padding:6px 14px;border:0;border-radius:7px;
+    background:transparent;color:#52525b;cursor:pointer;
+  }
+  .switch button.on{background:#fff;color:#18181b;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+    padding:20px 28px 60px;
+    align-items:start;
+  }
+  .panel{
+    background:#fff;border:1px solid #e8e8e6;border-radius:16px;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .p-head{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:14px 18px;border-bottom:1px solid #e8e8e6;flex-wrap:wrap;
+  }
+  .p-head .t{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .p-head .k{
+    font-family:"SF Mono",ui-monospace,Menlo,monospace;
+    font-size:11px;letter-spacing:.1em;color:#b45309;font-weight:600;
+  }
+  .p-head h2{margin:0;font-size:15.5px;font-weight:640}
+  .p-head .d{margin:0;font-size:13px;color:#71717a;width:100%}
+  .p-head a{
+    font-size:13px;color:#b45309;text-decoration:none;white-space:nowrap;
+    border:1px solid #e8e8e6;border-radius:999px;padding:5px 13px;
+  }
+  .p-head a:hover{background:#fafaf9}
+  .frame-wrap{position:relative;background:#fff}
+  iframe{
+    width:1440px;height:1020px;border:0;display:block;
+    transform-origin:top left;
+  }
+  .note{
+    margin:0;padding:14px 18px;border-top:1px solid #e8e8e6;
+    font-size:13px;color:#52525b;line-height:1.7;background:#fafaf9;
+  }
+  .note b{color:#18181b}
+
+  @media (max-width:1100px){
+    .grid{grid-template-columns:1fr;padding:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>主頁改版提案 · 4 個方向</h1>
+  <span class="hint">下面每個框都是<b>真的網頁</b>（不是圖片），可以捲動</span>
+  <div class="switch">
+    <button class="on" data-w="1440" data-h="1020">桌機</button>
+    <button data-w="820" data-h="1020">平板</button>
+    <button data-w="414" data-h="900">手機</button>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="panel">
+    <div class="p-head">
+      <div class="t"><span class="k">A</span><h2>編輯排版</h2></div>
+      <a href="a-editorial.html" target="_blank">開新視窗 ↗</a>
+      <p class="d">去掉卡片，改用細線與序號分割；標題字級放大，中文搭一點襯線體。</p>
+    </div>
+    <div class="frame-wrap"><iframe src="a-editorial.html" title="提案 A" loading="lazy"></iframe></div>
+    <p class="note"><b>特色</b>　最少的裝飾、最大的字。hover 時整列往右推、標題變色。適合「內容本身就是主角」。</p>
+  </div>
+
+  <div class="panel">
+    <div class="p-head">
+      <div class="t"><span class="k">B</span><h2>色塊格子</h2></div>
+      <a href="b-bento.html" target="_blank">開新視窗 ↗</a>
+      <p class="d">不對稱格子版面，卡片有顏色膠囊、頂部色條、hover 浮起與細斜紋。</p>
+    </div>
+    <div class="frame-wrap"><iframe src="b-bento.html" title="提案 B" loading="lazy"></iframe></div>
+    <p class="note"><b>特色</b>　變化最多、最「有設計感」。每個專區有自己的顏色，底部還有數字統計條。</p>
+  </div>
+
+  <div class="panel">
+    <div class="p-head">
+      <div class="t"><span class="k">C</span><h2>冷冽科技</h2></div>
+      <a href="c-dark.html" target="_blank">開新視窗 ↗</a>
+      <p class="d">深色主題、霓虹青點綴、細格線背景、等寬字路徑與進度條。</p>
+    </div>
+    <div class="frame-wrap"><iframe src="c-dark.html" title="提案 C" loading="lazy"></iframe></div>
+    <p class="note"><b>特色</b>　跟現在的白色風格差最多。三個專區寫成 <code>~/notes</code> 這種路徑，呼應開發專區的調性。</p>
+  </div>
+
+  <div class="panel">
+    <div class="p-head">
+      <div class="t"><span class="k">D</span><h2>精緻留白</h2></div>
+      <a href="d-refined.html" target="_blank">開新視窗 ↗</a>
+      <p class="d">維持白底與目前的結構，含蓄地提升：置中標題、按鈕、圖示、完成狀態點。</p>
+    </div>
+    <div class="frame-wrap"><iframe src="d-refined.html" title="提案 D" loading="lazy"></iframe></div>
+    <p class="note"><b>特色</b>　改動最小、最安全。現在的網站往前一步，不會讓人有「換了一個站」的感覺。</p>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    var grid = document.querySelector(".grid");
+    function apply(w, h) {
+      document.querySelectorAll("iframe").forEach(function (f) {
+        f.style.width = w + "px";
+        f.style.height = h + "px";
+        var wrap = f.parentElement;
+        var scale = Math.min(1, wrap.clientWidth / w);
+        f.style.transform = "scale(" + scale + ")";
+        wrap.style.height = Math.round(h * scale) + "px";
+      });
+    }
+    function current() {
+      var on = document.querySelector(".switch button.on");
+      return [on.dataset.w, on.dataset.h];
+    }
+    document.querySelectorAll(".switch button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        document.querySelectorAll(".switch button").forEach(function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+        apply(b.dataset.w, b.dataset.h);
+      });
+    });
+    window.addEventListener("resize", function () { apply.apply(null, current()); });
+    window.addEventListener("load", function () { apply.apply(null, current()); });
+    apply.apply(null, current());
+  })();
+</script>
+
+</body>
+</html>
