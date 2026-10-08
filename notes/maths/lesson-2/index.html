@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 2 · 數列、極限與財務應用 · EF2452</title>
+<meta name="description" content="EF2452 Lecture 2：數列、遞迴方程、一般解、極限、複利、年金與永續年金。">
+<link rel="stylesheet" href="../../../assets/style.css">
+<link rel="stylesheet" href="../assets/katex.min.css">
+<link rel="stylesheet" href="../assets/maths.css">
+<script defer src="../assets/katex.min.js"></script>
+<script defer src="../assets/maths.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="主要導航">
+    <a class="brand" href="../../../index.html">Lutszhong<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">首頁</a></li>
+      <li><a href="../../">筆記專區</a></li>
+      <li><a href="../../../personal/">私人專區</a></li>
+      <li><a href="../../../dev/">開發專區</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="page-head">
+    <p class="crumb"><a href="../../../index.html">首頁</a> ／ <a href="../../">筆記專區</a> ／ <a href="../">數學筆記</a> ／ Lecture 2</p>
+    <h1>數列、極限與財務應用</h1>
+    <p><strong>EF2452 Mathematics for Economics and Finance</strong> · Lecture 2 · Sequences, Limits and Financial Applications<br>
+    遞迴方程 → 一般解 → 極限，最後應用到複利、現值、年金與永續年金。</p>
+  </div>
+
+  <div class="lecture">
+
+    <nav class="lec-toc" aria-label="本課目錄">
+      <p class="toc-head">本課目錄</p>
+      <ol>
+        <li><a href="#s1">數列</a></li>
+        <li><a href="#s2">遞迴方程</a></li>
+        <li><a href="#s3">定常解與一般解</a></li>
+        <li><a href="#s4">經濟應用：國民所得動態</a></li>
+        <li><a href="#s5">極限</a></li>
+        <li><a href="#s6">財務應用：資本成長與現值</a></li>
+        <li><a href="#s7">財務應用：年金與永續年金</a></li>
+      </ol>
+    </nav>
+
+    <div class="lec-body">
+
+      <!-- ============================ 1 ============================ -->
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">01</span><h2>數列（Sequences）</h2></div>
+        <p class="sec-sub">一串依規則排列的數字——用來描述變數隨時間的變化。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 數列</span>
+          <p><strong>數列</strong>（sequence）是一串<strong>有序</strong>、且遵循某個特定規則的數字。例如：</p>
+          <div class="eq">$$y_1 = 2,\quad y_2 = 4,\quad y_3 = 6,\; \dots$$</div>
+        </div>
+
+        <p>在經濟與財務中，數列經常用來描述一個變數<strong>隨時間演變</strong>的過程，例如：</p>
+        <ul>
+          <li>一筆投資在各期的價值</li>
+          <li>一個人口隨時間的規模</li>
+        </ul>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>每年加薪的月薪</div>
+          <div class="ex-body">
+            <p>某員工起薪為每月 &#36;18,000，之後每年加薪 &#36;2,000。設 $y_t$ 為第 $t$ 年的月薪，則</p>
+            <div class="eq">$$y_0 = 18{,}000, \qquad y_t = y_{t-1} + 2{,}000 \quad (t = 1, 2, 3, \dots)$$</div>
+            <p>這個數列就是</p>
+            <div class="eq">$$\{y_0, y_1, y_2, \dots\} = \{18{,}000,\; 20{,}000,\; 22{,}000,\; \dots\}$$</div>
+          </div>
+        </div>
+
+        <h3>指定一個數列的三種方法</h3>
+
+        <table class="tbl">
+          <caption>同一數列的三種寫法</caption>
+          <thead>
+            <tr><th>方法</th><th>寫法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>列出各項</td><td>$18{,}000,\; 20{,}000,\; 22{,}000,\; \dots$</td></tr>
+            <tr><td>顯式公式（explicit formula）</td><td>$y_t = 18{,}000 + 2{,}000t$</td></tr>
+            <tr><td>遞迴方程（recurrence equation）</td><td>$y_0 = 18{,}000;\quad y_t = y_{t-1} + 2{,}000$</td></tr>
+          </tbody>
+        </table>
+
+        <div class="box box-tint">
+          <span class="box-label">三種寫法的差別</span>
+          <p><strong>顯式公式</strong>可以直接算出任何一項（例如 $y_{100}$），但要看出「怎麼變成下一項」比較不直觀；<strong>遞迴方程</strong>清楚描述了演變的<strong>機制</strong>，但要算第 100 項就得逐項算下去。本課的重點就是把遞迴方程「解」成顯式公式。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 2 ============================ -->
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">02</span><h2>遞迴方程（Recurrence Equation）</h2></div>
+        <p class="sec-sub">用「前一項」定義「這一項」——也稱為差分方程（difference equation）。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 遞迴方程</span>
+          <p><strong>遞迴方程</strong>（或稱<strong>差分方程</strong>）用一個或多個<strong>之前的項</strong>來定義數列的每一項（$y_t$ 用 $y_{t-1}, y_{t-2}, \dots$ 表示）。</p>
+          <p>要用遞迴方式指定一個數列，需要兩樣東西：</p>
+          <ul>
+            <li>一個<strong>初始值</strong>（initial value）</li>
+            <li>一個決定後續每一項的<strong>遞迴方程</strong></li>
+          </ul>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>醫生人數</div>
+          <div class="ex-body">
+            <p>某國目前有 10,000 名醫生。每年有 5% 的現職醫生退休，同時有 600 名新醫生進入職場。設 $D_t$ 為第 $t$ 年的執業醫生人數。</p>
+            <p>初始值：</p>
+            <div class="eq">$$D_0 = 10{,}000$$</div>
+            <p>遞迴方程：</p>
+            <div class="eq">$$D_t = 0.95\,D_{t-1} + 600$$</div>
+            <p class="eq-note">$0.95D_{t-1}$ 是「留下來的 95%」，$+600$ 是「新進的 600 人」。這條線性遞迴方程由前一期的值 $D_{t-1}$ <strong>唯一決定</strong> $D_t$。</p>
+          </div>
+        </div>
+
+        <h3>一階線性遞迴方程</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 標準形式</span>
+          <p><strong>一階</strong>（first-order）遞迴方程只用<strong>前一項</strong> $y_{t-1}$ 定義當期項 $y_t$。</p>
+          <p>係數為常數 $a, b$ 的<strong>一階線性遞迴方程</strong>標準形式為：</p>
+          <div class="eq">$$\boxed{\,y_t = a\,y_{t-1} + b\,}$$</div>
+          <p>給定初始值 $y_0$，這條方程就會產生一個數列。</p>
+        </div>
+
+        <h3>初始值決定一切</h3>
+        <p>考慮 $y_t = 2y_{t-1} - 5$（$t \ge 1$），其中 $a = 2$、$b = -5$。不同的初始值會產生<strong>不同的數列</strong>：</p>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 1</span>初始值 $y_0 = 0$</div>
+          <div class="ex-body">
+            <div class="eq">$$y_1 = 2y_0 - 5 = -5$$</div>
+            <div class="eq">$$y_2 = 2y_1 - 5 = 2(-5) - 5 = -15$$</div>
+            <p>得到數列 $0,\; -5,\; -15,\; \dots$</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 2</span>初始值 $y_0 = 4$</div>
+          <div class="ex-body">
+            <div class="eq">$$y_1 = 2(4) - 5 = 3, \qquad y_2 = 2(3) - 5 = 1, \qquad y_3 = 2(1) - 5 = -3$$</div>
+            <p>得到數列 $4,\; 3,\; 1,\; -3,\; \dots$</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 3</span>初始值 $y_0 = 5$</div>
+          <div class="ex-body">
+            <div class="eq">$$y_1 = 2(5) - 5 = 5, \qquad y_2 = 2(5) - 5 = 5$$</div>
+            <p>得到數列 $5,\; 5,\; 5,\; \dots$——數列<strong>不隨時間改變</strong>。這稱為<strong>定常解</strong>（time-independent solution）：$y_t = 5$，$t = 0, 1, 2, \dots$</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 3 ============================ -->
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">03</span><h2>定常解與一般解</h2></div>
+        <p class="sec-sub">先找出「不動點」，再從不動點推出所有項的顯式公式。</p>
+
+        <h3>定常解（time-independent solution）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 定常解</span>
+          <p>一階遞迴方程 $y_t = f(y_{t-1})$ 的<strong>定常解</strong> $y^{*}$ 是一個滿足下式的常數：</p>
+          <div class="eq">$$y^{*} = f(y^{*})$$</div>
+          <p>換句話說，常數數列 $y^{*}, y^{*}, y^{*}, \dots$ 本身就是該遞迴方程的一個解。</p>
+        </div>
+
+        <p>對線性形式 $y_t = ay_{t-1} + b$，定常解滿足</p>
+        <div class="eq">$$y^{*} = ay^{*} + b$$</div>
+        <p>移項求解：</p>
+        <div class="eq">$$y^{*} = \frac{b}{1 - a} \qquad (\text{provided } a \neq 1)$$</div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求定常解</div>
+          <div class="ex-body">
+            <p>對 $y_t = 2y_{t-1} - 5$（$a = 2$、$b = -5$）：</p>
+            <div class="eq">$$y^{*} = \frac{b}{1 - a} = \frac{-5}{1 - 2} = 5$$</div>
+            <p class="eq-note">這正好對應前面 CASE 3（$y_0 = 5$）得到的常數數列。</p>
+          </div>
+        </div>
+
+        <h3>為什麼需要一般解？</h3>
+        <p>我們想要的是 $y_t$ 對<strong>任意</strong> $t$ 的公式。若每次都要逐項計算（例如求 $y_{100}$），效率極差。我們希望的是一個顯式公式：</p>
+        <div class="eq">$$y_t = F(t)$$</div>
+
+        <h3>推導一般解</h3>
+        <p>定常解是推導一般解的關鍵。考慮</p>
+        <div class="eq">$$y_t = ay_{t-1} + b$$</div>
+        <p>而由定常解的定義，</p>
+        <div class="eq">$$y^{*} = ay^{*} + b$$</div>
+        <p>把兩式<strong>相減</strong>，$b$ 就被消掉：</p>
+        <div class="eq">$$y_t - y^{*} = a\left(y_{t-1} - y^{*}\right)$$</div>
+
+        <p>令 $z_t = y_t - y^{*}$，則上式變成一個<strong>沒有常數項</strong>的簡單遞迴：</p>
+        <div class="eq">$$z_t = az_{t-1}$$</div>
+        <p>反覆代入：</p>
+        <div class="eq">$$z_t = a\left(az_{t-2}\right) = a^2 z_{t-2}$$</div>
+        <div class="eq">$$z_t = a\left(a^2 z_{t-3}\right) = a^3 z_{t-3}$$</div>
+        <div class="eq">$$\vdots$$</div>
+        <div class="eq">$$z_t = a^{t} z_0$$</div>
+
+        <p>又因為 $z_t = y_t - y^{*}$ 且 $z_0 = y_0 - y^{*}$，代回得到</p>
+        <div class="eq">$$y_t - y^{*} = a^{t}\left(y_0 - y^{*}\right)$$</div>
+
+        <div class="def">
+          <span class="box-label">公式 · 一階線性遞迴方程的一般解</span>
+          <div class="eq">$$\boxed{\,y_t = y^{*} + a^{t}\left(y_0 - y^{*}\right)\,}, \qquad y^{*} = \frac{b}{1-a}$$</div>
+          <p>其中 $y_0$ 是初始值。這個公式就是線性一階遞迴方程的<strong>一般解</strong>。</p>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">怎麼讀這個公式</span>
+          <p>$y_t$ 由兩部分組成：<strong>長期水準</strong> $y^{*}$（定常解），加上一個<strong>隨時間衰減或放大</strong>的偏離項 $a^{t}(y_0 - y^{*})$。</p>
+          <p>初始值與定常解的差距 $(y_0 - y^{*})$ 會隨著 $a^{t}$ 演變：$|a| < 1$ 時差距越小、越靠近 $y^{*}$；$|a| > 1$ 時差距越大、越偏離。這正是下一節「極限」的核心。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>用一般解求 $y_t$</div>
+          <div class="ex-body">
+            <p>回到 $y_t = 2y_{t-1} - 5$ 且 $y_0 = 0$。已知 $y^{*} = 5$，代入一般解：</p>
+            <div class="eq">$$y_t = y^{*} + a^{t}\left(y_0 - y^{*}\right) = 5 + 2^{t}(0 - 5) = 5 - 5\left(2^{t}\right)$$</div>
+            <p>驗算 $t = 1$：$5 - 5(2) = -5$ ✓（與 CASE 1 相符）</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 4 ============================ -->
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">04</span><h2>經濟應用：國民所得動態</h2></div>
+        <p class="sec-sub">把封閉經濟體的所得、消費與投資寫成遞迴方程，觀察投資隨時間的演變。</p>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 模型設定</span>
+          <p>假設一個封閉經濟體在第 $t$ 年的<strong>國民所得</strong> $Y_t$ 由<strong>消費</strong> $C_t$ 與<strong>投資</strong> $I_t$ 組成：</p>
+          <div class="eq">$$Y_t = C_t + I_t$$</div>
+          <p>模型假設：</p>
+          <div class="eq">$$C_t = \frac{1}{2}Y_t, \qquad\qquad Y_{t+1} = kI_t$$</div>
+          <p class="eq-note">其中 $k$ 為常數（資本產出比）。第一式表示消費佔所得的一半；第二式表示下一期的所得由本期的投資決定。</p>
+        </div>
+
+        <h3>推導投資的遞迴方程</h3>
+        <p>由 $Y_t = C_t + I_t$ 與 $C_t = \frac{1}{2}Y_t$：</p>
+        <div class="eq">$$Y_t = \frac{1}{2}Y_t + I_t$$</div>
+        <p>移項得到</p>
+        <div class="eq">$$I_t = \frac{1}{2}Y_t$$</div>
+        <p>又因為 $Y_{t+1} = kI_t$，把時間往前移一期可寫成 $Y_t = kI_{t-1}$。代入上式：</p>
+        <div class="eq">$$I_t = \frac{1}{2}Y_t = \frac{k}{2}I_{t-1}$$</div>
+        <p>因此投資遵循一個係數為常數的一階遞迴方程，其中</p>
+        <div class="eq">$$a = \frac{k}{2}, \qquad b = 0$$</div>
+
+        <h3>求定常解</h3>
+        <p>定常解滿足</p>
+        <div class="eq">$$I^{*} = \frac{k}{2}I^{*}$$</div>
+        <p>因此</p>
+        <div class="eq">$$I^{*} = 0 \qquad (\text{provided } k \neq 2)$$</div>
+
+        <h3>用一般解求任意年的投資</h3>
+        <div class="eq">$$I_t = I^{*} + a^{t}\left(I_0 - I^{*}\right) = 0 + \left(\frac{k}{2}\right)^{t} I_0$$</div>
+        <div class="eq">$$\boxed{\,I_t = \left(\frac{k}{2}\right)^{t} I_0\,}$$</div>
+        <p>這給了任意第 $t$ 年的投資水準（給定初始投資 $I_0$）。</p>
+
+        <h3>投資何時逐年成長？</h3>
+        <p>投資逐年成長的條件是 $I_{t+1} > I_t$：</p>
+        <div class="eq">$$\left(\frac{k}{2}\right)^{t+1} I_0 > \left(\frac{k}{2}\right)^{t} I_0$$</div>
+        <p>假設 $I_t > 0$，兩邊同除以 $\left(\frac{k}{2}\right)^{t} I_0$：</p>
+        <div class="eq">$$\frac{k}{2} > 1 \qquad \Longrightarrow \qquad k > 2$$</div>
+        <p>所以<strong>當 $k > 2$ 時，投資逐年成長</strong>；反之若 $k < 2$，投資逐年遞減至 0。</p>
+      </section>
+
+      <!-- ============================ 5 ============================ -->
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">05</span><h2>極限（Limits）</h2></div>
+        <p class="sec-sub">當 $t \to \infty$ 時，$y_t$ 會跑到哪裡？答案完全取決於 $a$。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 數列的極限</span>
+          <p>數列的<strong>極限</strong>是當 $t$ 趨近無限大（$t \to \infty$）時 $y_t$ 所趨近的值，記作：</p>
+          <div class="eq">$$\lim_{t \to \infty} y_t$$</div>
+        </div>
+
+        <p>回顧一般解 $y_t = y^{*} + a^{t}(y_0 - y^{*})$：當 $t$ 增加時，$y_t$ 的長期行為完全由 $a^{t}$ 決定。</p>
+
+        <h3>四種典型情況</h3>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 1</span>收斂到定常解：$0 \le a < 1$</div>
+          <div class="ex-body">
+            <p>取 $y_t = \left(\frac{1}{2}\right)^{t}$，$y_0 = 1$，$y^{*} = 0$。數列是</p>
+            <div class="eq">$$1,\; \frac{1}{2},\; \frac{1}{4},\; \frac{1}{8},\; \frac{1}{16},\; \dots$$</div>
+            <p>各項越來越接近 0：</p>
+            <div class="eq">$$\lim_{t \to \infty} y_t = 0$$</div>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 2</span>趨向無限大：$a > 1$</div>
+          <div class="ex-body">
+            <p>取 $y_t = 2^{t}$，$y_0 = 1$，$y^{*} = 0$。數列是</p>
+            <div class="eq">$$1,\; 2,\; 4,\; 8,\; 16,\; \dots$$</div>
+            <p>各項<strong>無界遞增</strong>：$y_t \to +\infty$。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 3</span>震盪不收斂：$a = -1$ 的情況</div>
+          <div class="ex-body">
+            <p>取 $y_t = 2(-1)^{t}$。數列是</p>
+            <div class="eq">$$2,\; -2,\; 2,\; -2,\; \dots$$</div>
+            <p>數列在 2 與 $-2$ 之間<strong>震盪</strong>，不會趨近單一數值。因此<strong>極限不存在</strong>。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 4</span>震盪且發散：$a < -1$</div>
+          <div class="ex-body">
+            <p>取 $y_t = -3y_{t-1}$，$y_0 = 1$。數列是</p>
+            <div class="eq">$$1,\; -3,\; 9,\; -27,\; \dots$$</div>
+            <p>正負號<strong>交替</strong>，且幅度<strong>不斷擴大</strong>。因此<strong>極限不存在</strong>。</p>
+          </div>
+        </div>
+
+        <h3>完整對照表</h3>
+        <p>考慮 $y_t = y^{*} + a^{t}(y_0 - y^{*})$，並假設 $y_0 > y^{*}$：</p>
+
+        <table class="tbl">
+          <caption>$a$ 的值如何決定長期行為</caption>
+          <thead>
+            <tr><th>$a$ 的範圍</th><th>$t \to +\infty$ 時 $a^{t}$ 的行為</th><th>$y_t$ 的行為</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$a > 1$</td><td>$a^{t} \to +\infty$</td><td>$y_t \to +\infty$</td></tr>
+            <tr><td>$0 \le a < 1$</td><td>$a^{t} \to 0$（遞減）</td><td>$y_t \to y^{*}$</td></tr>
+            <tr><td>$-1 < a < 0$</td><td>$a^{t} \to 0$（震盪）</td><td>$y_t \to y^{*}$（震盪收斂）</td></tr>
+            <tr><td>$a < -1$</td><td>$a^{t}$ 震盪且幅度擴大</td><td>$y_t$ 震盪且幅度擴大</td></tr>
+          </tbody>
+        </table>
+
+        <div class="box box-tint">
+          <span class="box-label">起始點在定常解下方時</span>
+          <p>若 $y_0 < y^{*}$，<strong>長期的收斂條件不變</strong>，只是移動的<strong>方向相反</strong>（例如 $a > 1$ 時 $y_t \to -\infty$）。</p>
+          <p>關鍵結論：<strong>數列是否收斂，只看 $|a|$ 是否小於 1</strong>，與 $b$ 或初始值無關。</p>
+        </div>
+
+        <h3>兩個特殊情況：$a = 1$ 與 $a = -1$</h3>
+
+        <div class="def">
+          <span class="box-label">特例 · $a = 1$</span>
+          <p>遞迴方程退化為</p>
+          <div class="eq">$$y_t = y_{t-1} + b$$</div>
+          <p>代入兩次可得</p>
+          <div class="eq">$$y_t = y_{t-2} + 2b = y_0 + tb$$</div>
+          <p>因此當 $t \to \infty$：若 $b > 0$，$y_t \to +\infty$；若 $b < 0$，$y_t \to -\infty$。（若 $b = 0$，則 $y_t = y_0$ 恆為常數。）</p>
+        </div>
+
+        <div class="def">
+          <span class="box-label">特例 · $a = -1$</span>
+          <p>遞迴方程退化為</p>
+          <div class="eq">$$y_t = -y_{t-1} + b$$</div>
+          <p>數列成為</p>
+          <div class="eq">$$y_0,\; -y_0 + b,\; y_0,\; -y_0 + b,\; \dots$$</div>
+          <p>因此當 $t \to \infty$，數列在兩個值之間<strong>來回震盪</strong>，一般而言<strong>沒有極限</strong>。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 6 ============================ -->
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">06</span><h2>財務應用：資本成長與現值</h2></div>
+        <p class="sec-sub">把複利寫成 $a = 1 + r$、$b = 0$ 的遞迴方程，再用一般解求終值與現值。</p>
+
+        <div class="box box-accent">
+          <span class="box-label">財務應用 · 資本成長</span>
+          <p>假設一筆本金 $P$ 以固定年利率 $r$ 投資 $N$ 年。設 $y_t$ 為第 $t$ 年末的資本價值，且 $y_0 = P$。</p>
+          <p>第 $t$ 年的資本價值為</p>
+          <div class="eq">$$y_t = (1 + r)\,y_{t-1}, \qquad t = 1, 2, \dots, N$$</div>
+          <p>對照標準形式 $y_t = ay_{t-1} + b$，可得</p>
+          <div class="eq">$$a = 1 + r, \qquad b = 0$$</div>
+        </div>
+
+        <h3>用一般解推導複利公式</h3>
+        <p>從一般解出發：</p>
+        <div class="eq">$$y_t = y^{*} + a^{t}\left(y_0 - y^{*}\right) = \frac{b}{1-a} + a^{t}\left(y_0 - \frac{b}{1-a}\right)$$</div>
+        <p>代入 $a = 1 + r$、$b = 0$、$y_0 = P$：</p>
+        <div class="eq">$$y_t = \frac{0}{1 - (1+r)} + (1+r)^{t}\left(P - \frac{0}{1-(1+r)}\right) = (1+r)^{t}P$$</div>
+
+        <div class="def">
+          <span class="box-label">公式 · 資本終值</span>
+          <p>因此 $N$ 年後的資本價值為</p>
+          <div class="eq">$$\boxed{\,C = (1 + r)^{N}P\,}$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>複利計算</div>
+          <div class="ex-body">
+            <p>投資 $10{,}000$，年利率 8%，為期 7 年：</p>
+            <div class="eq">$$C = (1 + 0.08)^{7} \times 10{,}000 = 17{,}138.24$$</div>
+            <p class="eq-note">利息在每年年末加入本金一起生息，這個過程稱為<strong>複利</strong>（compounding）。</p>
+          </div>
+        </div>
+
+        <h3>現值（Present Value）</h3>
+
+        <div class="def">
+          <span class="box-label">公式 · 現值</span>
+          <p>反過來問：若希望在 $N$ 年後得到 $C$，現在應該投入多少本金 $P$？把 $C = (1+r)^{N}P$ 兩邊同除以 $(1+r)^{N}$：</p>
+          <div class="eq">$$\boxed{\,P = \frac{C}{(1 + r)^{N}}\,}$$</div>
+          <p>$P$ 稱為 $C$ 的<strong>現值</strong>（present value）。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>現值計算</div>
+          <div class="ex-body">
+            <p>希望在 7 年後有 $10{,}000$，年利率固定為 8%：</p>
+            <div class="eq">$$P = \frac{10{,}000}{(1 + 0.08)^{7}} \approx 5{,}834.9$$</div>
+            <p>也就是說，<strong>今天投入 &#36;5,834.9，7 年後會成長為 &#36;10,000</strong>。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 7 ============================ -->
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">07</span><h2>財務應用：年金與永續年金</h2></div>
+        <p class="sec-sub">本金不留在裡面長大，而是每年固定提領——推出年金公式，再讓 $N \to \infty$ 得到永續年金。</p>
+
+        <div class="box box-accent">
+          <span class="box-label">財務應用 · 收益產生（Income Generation）</span>
+          <p>假設投資人投入本金 $P$，並在<strong>每年年末</strong>固定提領金額 $I$。設 $y_t$ 為第 $t$ 年末的資本價值，$y_0 = P$。則</p>
+          <div class="eq">$$y_t = (1 + r)\,y_{t-1} - I, \qquad t = 1, 2, \dots, N$$</div>
+          <p>對照標準形式：</p>
+          <div class="eq">$$a = 1 + r, \qquad b = -I$$</div>
+        </div>
+
+        <h3>推導資本價值的顯式公式</h3>
+        <p>由一般解：</p>
+        <div class="eq">$$y_t = \frac{b}{1-a} + a^{t}\left(y_0 - \frac{b}{1-a}\right)$$</div>
+        <p>代入 $a = 1 + r$、$b = -I$、$y_0 = P$：</p>
+        <div class="eq">$$y_t = \frac{-I}{1-(1+r)} + (1+r)^{t}\left(P - \frac{-I}{1-(1+r)}\right)$$</div>
+        <p>化簡（注意 $\frac{-I}{-r} = \frac{I}{r}$）：</p>
+        <div class="eq">$$\boxed{\,y_t = \frac{I}{r} + \left(P - \frac{I}{r}\right)(1+r)^{t}\,}$$</div>
+
+        <h3>資本用盡：求每年可提領的金額</h3>
+        <p>假設 $N$ 年後資本<strong>剛好用盡</strong>，即 $y_N = 0$：</p>
+        <div class="eq">$$\frac{I}{r} + \left(P - \frac{I}{r}\right)(1+r)^{N} = 0$$</div>
+        <p>移項整理，得到</p>
+        <div class="eq">$$\boxed{\,I = P\,\frac{r(1+r)^{N}}{(1+r)^{N} - 1}\,}$$</div>
+        <p>這給出了「投入本金 $P$ 之後，每年最多可以提領多少」。</p>
+
+        <h3>年金現值（Present Value of an Annuity）</h3>
+        <p>若改為對 $P$ 移項：</p>
+        <div class="eq">$$\boxed{\,P = \frac{I}{r}\left[\,1 - \frac{1}{(1+r)^{N}}\,\right]\,}$$</div>
+        <p>這告訴我們：一筆每年支付 $I$、連續 $N$ 年的<strong>年金</strong>（annuity），其<strong>現值</strong>是多少。</p>
+
+        <h3>從年金到永續年金</h3>
+        <p>現在假設這筆收益<strong>永遠</strong>領下去。當 $N \to \infty$ 且 $r > 0$ 時：</p>
+        <div class="eq">$$\frac{1}{(1+r)^{N}} \to 0$$</div>
+        <p>因此年金的現值公式收斂到</p>
+        <div class="eq">$$\boxed{\,P = \frac{I}{r}\,}$$</div>
+        <p>這就是<strong>永續年金</strong>（perpetuity）的現值：每年永遠領 $I$，在利率 $r$ 之下，今天的價值就是 $I / r$。</p>
+
+        <div class="box box-tint">
+          <span class="box-label">這條公式為什麼合理</span>
+          <p>$P = I/r$ 的意思是：本金 $P$ 每年生出 $Pr$ 的利息。若每年領走 $I = Pr$，本金<strong>永遠不會減少</strong>——所以可以一直領下去。這也是「極限」概念在財務裡最漂亮的一次應用：$N \to \infty$ 時，$1/(1+r)^N$ 這一項消失，公式就從年金變成永續年金。</p>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">本課重點</span>
+          <ul class="keypoints" style="border:0;background:none;padding:0;margin:0">
+            <li>一階線性遞迴方程的標準形式：$y_t = ay_{t-1} + b$。</li>
+            <li>定常解 $y^{*} = \dfrac{b}{1-a}$（$a \neq 1$）。</li>
+            <li>一般解 $y_t = y^{*} + a^{t}(y_0 - y^{*})$——長期行為由 $a^{t}$ 決定。</li>
+            <li>收斂條件：$|a| < 1$ 時收斂到 $y^{*}$；$|a| > 1$ 時發散。</li>
+            <li>財務三公式：終值 $C = (1+r)^N P$、現值 $P = \dfrac{C}{(1+r)^N}$、永續年金 $P = \dfrac{I}{r}$。</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="lec-nav">
+        <a class="btn" href="../lesson-1/">← 上一課：數學術語與符號</a>
+        <a class="btn btn-primary" href="../">回數學筆記 →</a>
+      </nav>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Lutszhong · EF2452 學習筆記</span>
+    <span class="footer-links">
+      <a href="../../../index.html">首頁</a>
+      <a href="../">數學筆記</a>
+      <a href="../lesson-1/">Lecture 1</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

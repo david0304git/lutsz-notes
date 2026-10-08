@@ -1,0 +1,429 @@
+/* ==========================================================================
+   EF2452 數學筆記 · 專用樣式
+   沿用全站白色極簡基調，加上「左側目錄 + 右側內容」的講義版面。
+   數學公式由本地 KaTeX 渲染（assets/katex.min.css）。
+   ========================================================================== */
+
+/* ---------- 版面 ---------- */
+
+.lecture{
+  display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  gap:52px;
+  align-items:start;
+}
+
+.lec-toc{
+  position:sticky;
+  top:82px;
+  max-height:calc(100vh - 104px);
+  overflow-y:auto;
+  padding:2px 0 24px;
+  font-size:14px;
+}
+.lec-toc .toc-head{
+  margin:0 0 12px;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+}
+.lec-toc ol{list-style:none;margin:0;padding:0;counter-reset:toc}
+.lec-toc li{margin:0;counter-increment:toc}
+.lec-toc a{
+  display:flex;
+  gap:9px;
+  padding:6px 10px 6px 10px;
+  border-left:2px solid transparent;
+  color:var(--fg-2);
+  font-size:13.5px;
+  line-height:1.5;
+  transition:color .13s ease,border-color .13s ease,background .13s ease;
+}
+.lec-toc a::before{
+  content:counter(toc,decimal-leading-zero);
+  flex:0 0 auto;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--fg-3);
+  padding-top:3px;
+}
+.lec-toc a:hover{color:var(--accent);background:var(--tint);text-decoration:none}
+.lec-toc a:hover::before{color:var(--accent)}
+.lec-toc a.is-active{
+  color:var(--fg);
+  font-weight:600;
+  border-left-color:var(--accent);
+  background:var(--tint);
+}
+.lec-toc a.is-active::before{color:var(--accent)}
+.lec-toc .toc-sub{
+  padding-left:22px;
+  font-size:12.5px;
+  color:var(--fg-3);
+}
+
+.lec-body{min-width:0;max-width:78ch}
+
+/* ---------- 章節 ---------- */
+
+.sec{
+  padding-top:14px;
+  margin-bottom:64px;
+  scroll-margin-top:84px;
+}
+.sec-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  padding-bottom:14px;
+  margin-bottom:26px;
+  border-bottom:1px solid var(--line);
+}
+.sec-num{
+  flex:0 0 auto;
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--fg-3);
+  letter-spacing:.06em;
+  padding-top:4px;
+}
+.sec-head h2{
+  margin:0;
+  font-size:clamp(21px,2.6vw,25px);
+  font-weight:640;
+  letter-spacing:-.015em;
+  line-height:1.35;
+}
+.sec-sub{
+  margin:-14px 0 24px;
+  color:var(--fg-3);
+  font-size:14.5px;
+}
+
+.lec-body h3{
+  margin:38px 0 14px;
+  font-size:17.5px;
+  font-weight:620;
+  letter-spacing:-.01em;
+}
+.lec-body h4{
+  margin:28px 0 12px;
+  font-size:15px;
+  font-weight:620;
+  color:var(--fg-2);
+}
+.lec-body p{margin:0 0 16px;color:var(--fg-2)}
+.lec-body strong{color:var(--fg);font-weight:600}
+.lec-body ul,.lec-body ol{margin:0 0 16px;padding-left:22px;color:var(--fg-2)}
+.lec-body li{margin-bottom:7px}
+.lec-body li::marker{color:var(--fg-3)}
+
+/* ---------- 公式 ---------- */
+
+.eq{
+  margin:20px 0;
+  padding:16px 20px;
+  background:var(--tint);
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  overflow-x:auto;
+  overflow-y:hidden;
+}
+.eq .katex-display{margin:0}
+.eq-note{
+  margin:8px 0 20px;
+  padding-left:20px;
+  border-left:2px solid var(--line-2);
+  font-size:13.5px;
+  color:var(--fg-3);
+}
+/* 行內公式盡量不要撐開行高 */
+.lec-body .katex{font-size:1.02em}
+
+/* 公式對齊：等號左邊說明 + 右邊公式 */
+.eq-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:16px;
+  align-items:center;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+  color:var(--fg-2);
+  font-size:14.5px;
+}
+.eq-row:last-child{border-bottom:0}
+.eq-row .katex{font-size:1.05em}
+
+/* ---------- 區塊元件 ---------- */
+
+.box{
+  margin:22px 0;
+  padding:20px 22px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+}
+.box-tint{background:var(--tint)}
+.box-label{
+  display:block;
+  margin-bottom:12px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+}
+.box p:last-child,.box ul:last-child,.box ol:last-child,.box .eq:last-child{margin-bottom:0}
+.box > .eq{background:#fff}
+.box-tint > .eq{background:#fff}
+
+.box-accent{border-left:3px solid var(--accent)}
+.box-accent .box-label{color:var(--accent)}
+
+/* 定義 / 公式卡 */
+.def{
+  margin:22px 0;
+  padding:20px 22px;
+  border:1px solid var(--line);
+  border-left:3px solid var(--fg);
+  border-radius:var(--rad);
+  background:var(--tint);
+}
+.def .box-label{color:var(--fg-2)}
+
+/* 例題 */
+.ex{
+  margin:26px 0;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  overflow:hidden;
+}
+.ex-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 20px;
+  background:var(--tint);
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--fg-2);
+}
+.ex-head .tag{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.1em;
+  padding:2px 8px;
+  border:1px solid var(--line-2);
+  border-radius:999px;
+  color:var(--fg-3);
+  background:#fff;
+}
+.ex-body{padding:18px 20px 6px}
+.ex-body > :last-child{margin-bottom:0}
+.ex-body .eq{background:#fff}
+
+/* 表格 */
+.tbl{
+  width:100%;
+  margin:22px 0;
+  border-collapse:collapse;
+  font-size:14.5px;
+}
+.tbl caption{
+  caption-side:top;
+  text-align:left;
+  padding-bottom:10px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+}
+.tbl th,.tbl td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:middle;
+}
+.tbl thead th{
+  border-bottom:1px solid var(--line-2);
+  font-weight:600;
+  font-size:13px;
+  color:var(--fg-2);
+  background:var(--tint);
+}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl td .katex{font-size:1.02em}
+
+/* 提示 */
+.callout{
+  display:flex;
+  gap:14px;
+  padding:17px 20px;
+  margin:22px 0;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:var(--tint);
+  font-size:14.5px;
+  color:var(--fg-2);
+}
+.callout .ico{color:var(--accent);font-weight:600;flex:0 0 auto}
+.callout p:last-child{margin-bottom:0}
+
+/* 重點條列 */
+.keypoints{
+  margin:22px 0;
+  padding:20px 22px 20px 40px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:var(--tint);
+  color:var(--fg-2);
+}
+.keypoints li{margin-bottom:9px}
+.keypoints li:last-child{margin-bottom:0}
+.keypoints strong{color:var(--fg)}
+
+/* 頁尾課次切換 */
+.lec-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+  padding-top:32px;
+  border-top:1px solid var(--line);
+}
+
+/* ---------- 課次卡（目錄頁） ---------- */
+
+.lecture-card{
+  display:flex;
+  flex-direction:column;
+  padding:26px 24px 22px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+  margin-bottom:16px;
+  transition:border-color .15s ease;
+}
+.lecture-card:hover{border-color:var(--line-2)}
+.lecture-card .lc-head{display:flex;align-items:flex-start;gap:18px}
+.lecture-card .lc-num{
+  flex:0 0 auto;
+  display:grid;place-items:center;
+  width:52px;height:52px;
+  border:1px solid var(--line-2);
+  border-radius:12px;
+  background:var(--tint);
+  font-family:var(--mono);
+  font-size:12px;
+  line-height:1.1;
+  text-align:center;
+  color:var(--fg-2);
+}
+.lecture-card .lc-main{min-width:0;flex:1}
+.lecture-card h3{margin:0 0 6px;font-size:20px;font-weight:620;letter-spacing:-.012em}
+.lecture-card h3 a{color:var(--fg)}
+.lecture-card h3 a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.lecture-card .lc-sub{margin:0 0 12px;color:var(--fg-3);font-size:14px}
+.lecture-card .lc-meta{
+  display:flex;flex-wrap:wrap;gap:8px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--fg-3);
+}
+.lecture-card .lc-meta span{
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px;background:var(--tint);
+}
+.lecture-card .lc-go{align-self:flex-start;font-size:14px;font-weight:500;white-space:nowrap}
+
+.topic-list{
+  margin-top:18px;padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.topic-list .box-label{margin-bottom:10px}
+.topic-list ol{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:1px 22px;counter-reset:tp;
+}
+.topic-list li{margin:0;counter-increment:tp}
+.topic-list li a{
+  display:flex;gap:10px;padding:7px 0;
+  font-size:14px;color:var(--fg-2);
+  border-bottom:1px solid var(--line);
+}
+.topic-list li a::before{
+  content:counter(tp,decimal-leading-zero);
+  flex:0 0 auto;
+  font-family:var(--mono);font-size:11.5px;color:var(--fg-3);
+  padding-top:4px;
+}
+.topic-list li a:hover{color:var(--accent);text-decoration:none}
+.topic-list li a:hover::before{color:var(--accent)}
+
+/* ---------- 投影片 PDF 下載 ---------- */
+
+.slides{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:14px;
+  margin:22px 0;
+  padding:18px 20px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:var(--tint);
+}
+.slides .s-txt{font-size:14.5px;color:var(--fg-2)}
+.slides .s-txt b{display:block;color:var(--fg);font-weight:600;margin-bottom:3px}
+
+/* ---------- 手機 ---------- */
+
+@media (max-width:960px){
+  .lecture{grid-template-columns:1fr;gap:0}
+  .lec-toc{
+    position:static;
+    max-height:none;
+    margin-bottom:32px;
+    padding:18px 20px;
+    border:1px solid var(--line);
+    border-radius:var(--rad);
+    background:var(--tint);
+  }
+  .lec-toc ol{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:0 18px;
+  }
+  .lec-toc a{padding:6px 8px;border-left:0;border-radius:7px}
+  .lec-toc a.is-active{background:#fff;border-left:0}
+  .lec-body{max-width:none}
+  .sec{margin-bottom:48px}
+}
+
+@media (max-width:620px){
+  .lecture-card{padding:20px 18px}
+  .lecture-card .lc-head{flex-direction:column;gap:14px}
+  .lecture-card .lc-num{width:44px;height:44px;font-size:11px}
+  .lecture-card .lc-go{
+    align-self:stretch;text-align:right;
+    padding-top:12px;border-top:1px solid var(--line);
+  }
+  .topic-list ol{grid-template-columns:1fr}
+  .lec-toc ol{grid-template-columns:1fr}
+  .eq{padding:14px 14px}
+  .eq-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
+  .ex-head{flex-wrap:wrap}
+  .tbl{font-size:13.5px}
+  .tbl th,.tbl td{padding:9px 10px}
+}
+
+/* ---------- 列印 ---------- */
+
+@media print{
+  .site-header,.footer,.lec-toc,.lec-nav,.skip{display:none!important}
+  .lecture{grid-template-columns:1fr}
+  .sec{page-break-inside:avoid;margin-bottom:28px}
+  body{font-size:11.5pt}
+}

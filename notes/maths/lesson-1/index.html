@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 1 · 數學術語與符號 · EF2452</title>
+<meta name="description" content="EF2452 Lecture 1：集合、數系、有序對、函數、二次方程，含經濟應用。">
+<link rel="stylesheet" href="../../../assets/style.css">
+<link rel="stylesheet" href="../assets/katex.min.css">
+<link rel="stylesheet" href="../assets/maths.css">
+<script defer src="../assets/katex.min.js"></script>
+<script defer src="../assets/maths.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="主要導航">
+    <a class="brand" href="../../../index.html">Lutszhong<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">首頁</a></li>
+      <li><a href="../../">筆記專區</a></li>
+      <li><a href="../../../personal/">私人專區</a></li>
+      <li><a href="../../../dev/">開發專區</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="page-head">
+    <p class="crumb"><a href="../../../index.html">首頁</a> ／ <a href="../../">筆記專區</a> ／ <a href="../">數學筆記</a> ／ Lecture 1</p>
+    <h1>數學術語與符號</h1>
+    <p><strong>EF2452 Mathematics for Economics and Finance</strong> · Lecture 1 · Mathematical Terms and Notations<br>
+    集合、數系、有序對、函數與二次方程——後面每一課都會用到的基礎語言。</p>
+  </div>
+
+  <div class="lecture">
+
+    <nav class="lec-toc" aria-label="本課目錄">
+      <p class="toc-head">本課目錄</p>
+      <ol>
+        <li><a href="#s1">為什麼經濟學要用數學</a></li>
+        <li><a href="#s2">集合</a></li>
+        <li><a href="#s3">經濟應用：預算集與賽局</a></li>
+        <li><a href="#s4">數系</a></li>
+        <li><a href="#s5">有序對</a></li>
+        <li><a href="#s6">經濟應用：供需與均衡</a></li>
+        <li><a href="#s7">函數</a></li>
+        <li><a href="#s8">二次方程與方程組</a></li>
+      </ol>
+    </nav>
+
+    <div class="lec-body">
+
+      <!-- ============================ 1 ============================ -->
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">01</span><h2>為什麼經濟學要用數學</h2></div>
+
+        <p>數學是經濟學的<strong>語言</strong>。經濟理論必須把複雜的現實世界簡化，才能討論；而數學提供了一套精確、可操作的方式，把經濟關係寫成可以推導的形式。</p>
+
+        <ul>
+          <li>數學是經濟學重要的表達語言，在各個層級的經濟學研究中都是實用工具。</li>
+          <li>經濟理論是對真實世界的<strong>簡化</strong>（simplification）——數學幫助我們把這些關係寫成易於處理的形式。</li>
+        </ul>
+
+        <h3>數學模型的三個要素</h3>
+
+        <div class="eq-row"><span><strong>變數</strong>（variables）：實數</span><span>$p,\; q,\; K,\; L$</span></div>
+        <div class="eq-row"><span><strong>關係</strong>（relationships）：函數</span><span>$q_D(p) = a - bp$</span></div>
+        <div class="eq-row"><span><strong>例子</strong>：價格與數量</span><span>$p$（物價）、$q$（數量）</span></div>
+
+        <p class="eq-note">$K$、$L$ 分別代表資本（capital）與勞動（labour）等投入要素。</p>
+
+        <p>需求函數 $q_D(p) = a - bp$ 就是一個典型例子：它把「價格」與「需求量」這兩個變數之間的關係，寫成一條簡潔的式子。</p>
+      </section>
+
+      <!-- ============================ 2 ============================ -->
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">02</span><h2>集合（Sets）</h2></div>
+        <p class="sec-sub">從最基本的物件收納開始——後面所有數學概念都建立在集合之上。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 集合</span>
+          <p>一個<strong>集合</strong>（set）是一些物件的<strong>收集</strong>。集合內的物件稱為該集合的<strong>元素</strong>（elements）或<strong>成員</strong>（members）。</p>
+          <p>集合通常用<strong>大寫字母</strong>表示，例如 $A$、$B$、$S$、$D$；集合的元素寫在<strong>大括號</strong> $\{\;\}$ 之內。</p>
+        </div>
+
+        <h3>指定一個集合的兩種方法</h3>
+
+        <h4>方法一：列舉法（by enumeration）</h4>
+        <p>把所有元素列出來，<strong>順序不拘</strong>。</p>
+        <div class="eq">$$A = \{1,\, 2,\, 4,\, 6,\, 7,\, 9\}, \qquad Z = \{1,\, 2,\, 3,\, 4\}$$</div>
+
+        <h4>方法二：描述法（by description）</h4>
+        <p>描述一個性質，指出哪些物件屬於這個集合。</p>
+        <div class="eq">$$B = \{\,x \mid x \text{ is an even integer}\,\}, \qquad Z = \{\,n \mid n \text{ is a positive whole number less than } 5\,\}$$</div>
+        <p class="eq-note">所以 $Z = \{1,2,3,4\}$——兩種寫法指的是同一個集合。</p>
+
+        <h3>屬於與不屬於</h3>
+        <p>若 $x$ 在集合 $A$ 之中（$x$ 是 $A$ 的成員、$x$ 屬於 $A$），寫成 $x \in A$；若不屬於，寫成 $x \notin A$。</p>
+
+        <div class="eq">$$x \in A \qquad \text{（屬於）} \qquad\qquad x \notin A \qquad \text{（不屬於）}$$</div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>判斷元素是否屬於集合</div>
+          <div class="ex-body">
+            <p>設 $X = \{2, 3, 5, 7, 8, 9\}$，$Y = \{1, 4, 5, 7, 9\}$。</p>
+            <div class="eq-row"><span>2 在 $X$ 之中</span><span>$2 \in X$</span></div>
+            <div class="eq-row"><span>3 不在 $Y$ 之中</span><span>$3 \notin Y$</span></div>
+          </div>
+        </div>
+
+        <h3>有限集、無限集與空集</h3>
+
+        <div class="eq-row"><span>$A$ 是<strong>有限集</strong>（finite set）：元素個數有限</span><span>$A = \{1, 2, 4, 6, 7, 9\}$</span></div>
+        <div class="eq-row"><span>$B$ 是<strong>無限集</strong>（infinite set）：元素個數無限</span><span>$B = \{\,x \mid x \text{ is an even integer}\,\}$</span></div>
+        <div class="eq-row"><span><strong>空集</strong>（empty set）$\varnothing$：沒有任何元素</span><span>$\varnothing = \{\;\}$</span></div>
+
+        <h3>子集與相等</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 子集（subset）</span>
+          <p>若 $A$ 的每一個成員都是 $B$ 的成員，稱 $A$ 是 $B$ 的<strong>子集</strong>：</p>
+          <div class="eq">$$A \subseteq B \qquad \text{或} \qquad B \supseteq A$$</div>
+          <p>若 $A \subseteq B$，但 $B$ 之中<strong>至少有一個</strong>成員不屬於 $A$，稱 $A$ 是 $B$ 的<strong>真子集</strong>（proper subset）：</p>
+          <div class="eq">$$A \subset B$$</div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">定義 · 集合相等</span>
+          <p>兩個集合 $A$ 與 $B$ <strong>相等</strong>（$A = B$）若且唯若：</p>
+          <div class="eq">$$A \subseteq B \quad \text{且} \quad A \supseteq B$$</div>
+          <p>也就是說，兩個集合<strong>互相包含</strong>——它們的元素完全相同。注意元素的<strong>順序不重要</strong>。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>子集與相等</div>
+          <div class="ex-body">
+            <p>設 $A = \{1, 2, 3\}$，$B = \{3, 1, 2\}$，$C = \{1, 2, 3, 4, 5, 6\}$。</p>
+            <div class="eq-row"><span>$A$ 的每個元素都在 $C$ 中，且 $C$ 還有其他元素</span><span>$A \subset C$</span></div>
+            <div class="eq-row"><span>$A$ 與 $B$ 元素完全相同（只是順序不同）</span><span>$A = B$</span></div>
+          </div>
+        </div>
+
+        <h3>聯集（Union）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 聯集</span>
+          <p>兩個集合 $A$ 與 $B$ 的<strong>聯集</strong>，是包含所有「屬於 $A$、屬於 $B$、或同時屬於兩者」的成員的集合：</p>
+          <div class="eq">$$A \cup B = \{\,x \mid x \in A \; \text{or} \; x \in B\,\}$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>聯集</div>
+          <div class="ex-body">
+            <p>設 $X = \{2, 3, 5, 7, 8, 9\}$，$Y = \{1, 4, 5, 7, 9\}$，$Z = \{1, 2, 3, 4\}$。</p>
+            <div class="eq-row"><span>$X$ 與 $Y$ 的所有元素合起來</span><span>$X \cup Y = \{1, 2, 3, 4, 5, 7, 8, 9\}$</span></div>
+            <div class="eq-row"><span>$Y$ 與 $Z$ 的所有元素合起來</span><span>$Y \cup Z = \{1, 2, 3, 4, 5, 7, 9\}$</span></div>
+            <div class="eq-row"><span>$Z$ 的元素都在 $X \cup Y$ 之中</span><span>$Z \subseteq X \cup Y$</span></div>
+          </div>
+        </div>
+
+        <h3>交集（Intersection）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 交集</span>
+          <p>兩個集合 $A$ 與 $B$ 的<strong>交集</strong>，是包含所有「同時屬於 $A$ 且屬於 $B$」的成員的集合：</p>
+          <div class="eq">$$A \cap B = \{\,x \mid x \in A \; \text{and} \; x \in B\,\}$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>交集</div>
+          <div class="ex-body">
+            <p>沿用上面的 $X$、$Y$、$Z$。</p>
+            <div class="eq-row"><span>同時在 $X$ 與 $Y$ 的元素</span><span>$X \cap Y = \{5, 7, 9\}$</span></div>
+            <div class="eq-row"><span>$X \cap Y = \{5,7,9\}$ 與 $Z = \{1,2,3,4\}$ 沒有共同元素</span><span>$(X \cap Y) \cap Z = \varnothing$</span></div>
+            <div class="eq-row"><span>同時在 $Y$ 與 $Z$ 的元素</span><span>$Y \cap Z = \{1, 4\}$</span></div>
+            <div class="eq-row"><span>$X$ 與 $\{1,4\}$ 沒有共同元素</span><span>$X \cap (Y \cap Z) = \varnothing$</span></div>
+          </div>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">重點速記</span>
+          <ul>
+            <li>$\in$ / $\notin$：<strong>元素</strong>與集合的關係。</li>
+            <li>$\subseteq$ / $\subset$：<strong>集合</strong>與集合的關係（子集／真子集）。</li>
+            <li>$\cup$ 是「<strong>或</strong>」（or），$\cap$ 是「<strong>且</strong>」（and）——括號可省略時就照這個規則讀。</li>
+            <li>$\varnothing$ 是空集，它同時是「沒有元素」的意思，也是任何集合的子集。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 3 ============================ -->
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">03</span><h2>經濟應用：預算集與策略賽局</h2></div>
+        <p class="sec-sub">集合不只是抽象符號——經濟學裡的「可行選項」本身就是集合。</p>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 個體經濟學：消費者理論</span>
+          <p><strong>預算集</strong>（budget set）是消費者<strong>所有負擔得起的組合</strong>所形成的集合：</p>
+          <div class="eq">$$B = \{\,(x_1, x_2, \dots, x_n) \in X \;\big|\; p_1x_1 + p_2x_2 + \dots + p_nx_n \le m\,\}$$</div>
+          <p class="eq-note">$x_i$ 是第 $i$ 種商品的數量，$p_i$ 是其價格，$m$ 是所得。不等式 $p_1x_1 + \dots + p_nx_n \le m$ 就是「總支出不超過所得」。</p>
+        </div>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 賽局理論／產業組織</span>
+          <p>一個<strong>策略賽局</strong>（strategic game）由三部分組成：</p>
+          <ul>
+            <li><strong>玩家的有限集合</strong>：$\{1, 2, 3, \dots, N\}$</li>
+            <li><strong>每位玩家的策略（行動）集合</strong>：</li>
+          </ul>
+          <div class="eq">$$s_i \in S_i, \qquad S = (S_1, S_2, \dots, S_N)$$</div>
+          <ul>
+            <li><strong>收益函數的集合</strong>：給定每一組策略組合，決定玩家的效用。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 4 ============================ -->
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">04</span><h2>數系（Numbers）</h2></div>
+        <p class="sec-sub">經濟變數取值於哪些數？先把「數的家族」分清楚。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 實數 $\mathbb{R}$</span>
+          <p><strong>實數</strong>（real number）是連續數線（實數線，$\mathbb{R}^1$）上的任何一個數。</p>
+        </div>
+
+        <div class="eq-row"><span><strong>非負實數</strong>：所有大於或等於 0 的實數</span><span>$\mathbb{R}_+ = \{\,x \mid x \ge 0\,\}$</span></div>
+        <div class="eq-row"><span>關係</span><span>$\mathbb{R}_+ \subset \mathbb{R}$</span></div>
+
+        <div class="def">
+          <span class="box-label">定義 · 整數 $\mathbb{Z}$</span>
+          <p><strong>整數</strong>（integers）是可以不用分數或小數表示的數：</p>
+          <div class="eq">$$\mathbb{Z} = \{\dots, -3, -2, -1, 0, 1, 2, 3, \dots\}$$</div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">定義 · 自然數 $\mathbb{N}$</span>
+          <p><strong>自然數</strong>（natural numbers）就是正整數：</p>
+          <div class="eq">$$\mathbb{N} = \{1, 2, 3, \dots\}$$</div>
+        </div>
+
+        <table class="tbl">
+          <caption>數系一覽</caption>
+          <thead>
+            <tr><th>符號</th><th>名稱</th><th>包含</th><th>經濟例子</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$\mathbb{N}$</td><td>自然數</td><td>$1, 2, 3, \dots$</td><td>員工人數</td></tr>
+            <tr><td>$\mathbb{Z}$</td><td>整數</td><td>$\dots, -2, -1, 0, 1, 2, \dots$</td><td>淨出口、損益</td></tr>
+            <tr><td>$\mathbb{R}_+$</td><td>非負實數</td><td>$x \ge 0$</td><td>價格、數量</td></tr>
+            <tr><td>$\mathbb{R}$</td><td>實數</td><td>整條數線</td><td>利率、成長率</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ============================ 5 ============================ -->
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">05</span><h2>有序對（Ordered Pairs）</h2></div>
+        <p class="sec-sub">$(x, y)$ 和 $(y, x)$ 不是同一件事——順序本身就是資訊。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 有序對</span>
+          <p><strong>有序對</strong>（ordered pair）是兩個元素之間帶有特定<strong>次序</strong>關係的一對。一般而言：</p>
+          <div class="eq">$$(x, y) \neq (y, x)$$</div>
+        </div>
+
+        <p>例如第一象限（first quadrant）可以寫成：</p>
+        <div class="eq">$$\mathbb{R}_{++}^{2} = \mathbb{R}_{++} \times \mathbb{R}_{++} = \{\,(x,y) \in \mathbb{R}^2 \mid x > 0,\; y > 0\,\}$$</div>
+
+        <h3>笛卡兒乘積與 $\mathbb{R}^2$、$\mathbb{R}^3$</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 笛卡兒乘積</span>
+          <div class="eq">$$\mathbb{R}^2 = \mathbb{R} \times \mathbb{R} = \{\,(x, y) \mid x \in \mathbb{R},\; y \in \mathbb{R}\,\}$$</div>
+          <div class="eq">$$\mathbb{R}^3 = \mathbb{R} \times \mathbb{R} \times \mathbb{R} = \{\,(x, y, z) \mid x \in \mathbb{R},\; y \in \mathbb{R},\; z \in \mathbb{R}\,\}$$</div>
+          <p>$\mathbb{R}^2$ 就是整個平面（每個點用兩個座標定位）；$\mathbb{R}^3$ 就是三維空間。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求 $A \times B$</div>
+          <div class="ex-body">
+            <p>設 $A = \{1, 2\}$，$B = \{a, b, c\}$。則</p>
+            <div class="eq">$$A \times B = \{\,(x, y) \mid x \in A,\; y \in B\,\}$$</div>
+            <div class="eq">$$A \times B = \{(1,a),\; (1,b),\; (1,c),\; (2,a),\; (2,b),\; (2,c)\}$$</div>
+            <p class="eq-note">注意 $A \times B$ 共有 $2 \times 3 = 6$ 個有序對——每個 $A$ 的元素都要配對每一個 $B$ 的元素。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 6 ============================ -->
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">06</span><h2>經濟應用：供需與市場均衡</h2></div>
+        <p class="sec-sub">需求表、需求函數、供給函數與均衡——全部用有序對與集合的語言寫出來。</p>
+
+        <h3>需求表當作有序對的集合</h3>
+        <p>一張需求表可以表示成 $\mathbb{R}^2$ 中的一組有序對：</p>
+        <div class="eq">$$D = \{\,(q_1, p_1),\; (q_2, p_2),\; \dots,\; (q_n, p_n)\,\}$$</div>
+        <p class="eq-note">其中 $p_i$ 是價格，$q_i$ 是對應的<strong>需求量</strong>（quantity demanded）。</p>
+
+        <h3>需求集與需求函數</h3>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 需求集</span>
+          <p>需求集包含所有在 $\mathbb{R}^2$ 中滿足需求關係的有序對 $(q, p)$：</p>
+          <div class="eq">$$D = \{\,(q, p) \mid 6q + 8p = 125\,\}$$</div>
+          <p class="eq-note">例如 $(7.5,\; 10) \in D$：當價格是 10 的時候，需求量是 7.5。</p>
+        </div>
+
+        <h4>由需求集推導需求函數</h4>
+        <p>把 $6q + 8p = 125$ 對 $q$ 移項：</p>
+        <div class="eq">$$q = \frac{125}{6} - \frac{8p}{6} = \frac{125}{6} - \frac{4p}{3}$$</div>
+        <p>因此需求函數為</p>
+        <div class="eq">$$q_D(p) = \frac{125}{6} - \frac{4p}{3}$$</div>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 供給集與供給函數</span>
+          <p>供給集包含所有滿足供給關係的有序對 $(q, p)$：</p>
+          <div class="eq">$$S = \{\,(q, p) \mid 2q - 5p = -12\,\}$$</div>
+          <p>對 $q$ 移項，得供給函數：</p>
+          <div class="eq">$$q_S(p) = \frac{5p}{2} - 6$$</div>
+        </div>
+
+        <h3>市場均衡</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 均衡集</span>
+          <p>均衡集是需求集與供給集的<strong>交集</strong>：</p>
+          <div class="eq">$$E = S \cap D$$</div>
+          <p>位於均衡集之中的有序對 $(q^{*}, p^{*})$ 必須同時屬於 $S$ 與 $D$，因此 $q^{*}, p^{*}$ 必須同時滿足兩條方程式。</p>
+        </div>
+
+        <p>把兩條方程式並列：</p>
+        <div class="eq">$$q_S(p) = \frac{5p}{2} - 6, \qquad\qquad q_D(p) = \frac{125}{6} - \frac{4p}{3}$$</div>
+        <p>求解得到</p>
+        <div class="eq">$$q^{*} = 11.5, \qquad p^{*} = 7$$</div>
+        <p>換句話說，均衡集 $E$ 包含有序對 $(11.5,\; 7)$。</p>
+
+        <div class="box box-tint">
+          <span class="box-label">為什麼這裡用交集？</span>
+          <p>均衡的意思是「買方想買的量」與「賣方想賣的量」相等，且雙方對價格的接受度一致——也就是同時滿足需求關係與供給關係。用集合語言說，就是<strong>落在兩個集合的交集裡</strong>。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 7 ============================ -->
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">07</span><h2>函數（Functions）</h2></div>
+        <p class="sec-sub">定義域、對應域、值域、反函數與合成函數。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 函數</span>
+          <p>設 $A$ 與 $B$ 為任意集合。一個從 $A$ 到 $B$ 的<strong>函數</strong> $f$，把 $A$ 的<strong>每一個</strong>成員對應到 $B$ 中<strong>恰好一個</strong>成員。</p>
+          <ul>
+            <li>$A$ 稱為<strong>定義域</strong>（domain）。</li>
+            <li>$B$ 稱為<strong>對應域</strong>（codomain）。</li>
+            <li><strong>值域</strong>（range，或稱 image）是函數<strong>實際取到</strong>的所有值所形成的集合。</li>
+          </ul>
+        </div>
+
+        <h3>啞變數（dummy variable）</h3>
+        <p>例如 $f(x) = 2x$ 與 $f(y) = 2y$、$f(t) = 2t$ 是<strong>同一個函數</strong>。函數中使用的變數名稱不影響函數本身——它只是「佔位」用的<strong>啞變數</strong>。</p>
+
+        <div class="eq-row"><span>輸入</span><span>$x$</span></div>
+        <div class="eq-row"><span>函數</span><span>$f$</span></div>
+        <div class="eq-row"><span>輸出</span><span>$f(x)$ 或 $y$</span></div>
+
+        <h3>反函數（inverse function）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 反函數</span>
+          <p><strong>反函數</strong>把輸入與輸出<strong>對調</strong>。若 $f$ 與 $g$ 互為反函數，則</p>
+          <div class="eq">$$y = f(x) \quad \text{if and only if} \quad g(y) = x$$</div>
+          <div class="eq">$$f = g^{-1}$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求反函數</div>
+          <div class="ex-body">
+            <p>設 $f(x) = 2x + 7$。令 $y = 2x + 7$，則</p>
+            <div class="eq">$$2x = y - 7, \qquad x = \frac{y - 7}{2}$$</div>
+            <p>因此</p>
+            <div class="eq">$$f^{-1}(y) = \frac{y - 7}{2}$$</div>
+          </div>
+        </div>
+
+        <h3>合成函數（composite function）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 合成函數</span>
+          <p><strong>合成函數</strong>是「一個函數接在另一個函數之後」：</p>
+          <div class="eq">$$(s \circ r)(x) = s\big(r(x)\big)$$</div>
+          <p>函數的<strong>次序有關係</strong>。一般而言：</p>
+          <div class="eq">$$s \circ r \neq r \circ s$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求合成函數</div>
+          <div class="ex-body">
+            <p>設 $r(x) = x^2 + 2$，$s(x) = x^3$。則合成函數</p>
+            <div class="eq">$$k(x) = (s \circ r)(x) = s\big(r(x)\big) = s\left(x^2 + 2\right) = \left(x^2 + 2\right)^3$$</div>
+          </div>
+        </div>
+
+        <h3>恆等函數（identity function）</h3>
+
+        <div class="def">
+          <span class="box-label">定義 · 恆等函數</span>
+          <p><strong>恆等函數</strong>把每個值對應到它自己：</p>
+          <div class="eq">$$i(x) = x$$</div>
+          <p>函數與其反函數的合成，就是恆等函數：</p>
+          <div class="eq">$$g \circ f = f^{-1} \circ f = i$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>驗證 $f^{-1} \circ f = i$</div>
+          <div class="ex-body">
+            <p>設 $f(x) = 2x$，且 $f^{-1} = g(x) = \dfrac{x}{2}$。則</p>
+            <div class="eq">$$f^{-1} \circ f = (g \circ f)(x) = g\big(f(x)\big) = g(2x) = \frac{2x}{2} = x = i(x)$$</div>
+            <p>同理，合成函數 $f \circ f^{-1}$ 也等於 $i(x)$。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 8 ============================ -->
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">08</span><h2>二次方程與方程組</h2></div>
+        <p class="sec-sub">因式分解、公式解、判別式，以及用集合交集解方程組。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 二次方程</span>
+          <p><strong>二次方程</strong>（quadratic equation）的形式為</p>
+          <div class="eq">$$ax^2 + bx + c = 0, \qquad a \neq 0$$</div>
+          <p>它的<strong>解</strong>（roots）就是滿足該方程式的 $x$ 值。</p>
+        </div>
+
+        <h3>方法一：因式分解（factorization）</h3>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>用因式分解求解</div>
+          <div class="ex-body">
+            <div class="eq">$$x^2 - 5x + 6 = 0$$</div>
+            <p>分解後：</p>
+            <div class="eq">$$(x - 2)(x - 3) = 0$$</div>
+            <p>兩個根分別是</p>
+            <div class="eq">$$x_1 = 2 \qquad \text{和} \qquad x_2 = 3$$</div>
+          </div>
+        </div>
+
+        <h3>方法二：二次公式（quadratic formula）</h3>
+
+        <div class="def">
+          <span class="box-label">公式 · 二次公式</span>
+          <p>對 $ax^2 + bx + c = 0$（$a \neq 0$）：</p>
+          <div class="eq">$$x_{1}, x_{2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+        </div>
+
+        <h4>公式怎麼來的？——配方法（completing the square）</h4>
+        <p>先把整個方程除以 $a$：</p>
+        <div class="eq">$$x^2 + \frac{b}{a}x + \frac{c}{a} = 0$$</div>
+        <p>利用完全平方，把前兩項湊成平方：</p>
+        <div class="eq">$$\left(x + \frac{b}{2a}\right)^2 = x^2 + 2x\cdot\frac{b}{2a} + \left(\frac{b}{2a}\right)^2 = x^2 + \frac{b}{a}x + \frac{b^2}{4a^2}$$</div>
+        <p>所以</p>
+        <div class="eq">$$x^2 + \frac{b}{a}x + \frac{c}{a} = \left(x + \frac{b}{2a}\right)^2 - \frac{b^2}{4a^2} + \frac{c}{a} = 0$$</div>
+        <p>移項整理：</p>
+        <div class="eq">$$\left(x + \frac{b}{2a}\right)^2 = \frac{b^2}{4a^2} - \frac{c}{a} = \frac{b^2 - 4ac}{4a^2}$$</div>
+        <p>兩邊開方：</p>
+        <div class="eq">$$x + \frac{b}{2a} = \pm\frac{\sqrt{b^2 - 4ac}}{2a}$$</div>
+        <p>於是</p>
+        <div class="eq">$$x_1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a}, \qquad x_2 = \frac{-b - \sqrt{b^2 - 4ac}}{2a}$$</div>
+
+        <h3>判別式：根有幾個？</h3>
+
+        <table class="tbl">
+          <caption>判別式 $b^2 - 4ac$ 與根的數目</caption>
+          <thead>
+            <tr><th>情況</th><th>實數解的數目</th><th>解</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$b^2 - 4ac &lt; 0$</td><td>沒有實數解</td><td>—</td></tr>
+            <tr><td>$b^2 - 4ac = 0$</td><td>恰好一個解</td><td>$x = -\dfrac{b}{2a}$</td></tr>
+            <tr><td>$b^2 - 4ac &gt; 0$</td><td>兩個解</td><td>$x_{1,2} = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</td></tr>
+          </tbody>
+        </table>
+
+        <h3>用集合交集解方程組</h3>
+        <p>集合的概念也可以用在函數上。考慮兩個集合：</p>
+        <div class="eq">$$G = \{\,(x, y) \mid y = x^2 - 5x + 6\,\}, \qquad L = \{\,(x, y) \mid y = 2x - 6\,\}$$</div>
+        <p><strong>交集</strong> $G \cap L$ 包含同時滿足兩條方程式的所有有序對——也就是這兩個圖形的<strong>交點</strong>。</p>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求 $G \cap L$</div>
+          <div class="ex-body">
+            <p>先消去 $y$：</p>
+            <div class="eq">$$x^2 - 5x + 6 = 2x - 6$$</div>
+            <div class="eq">$$x^2 - 7x + 12 = 0$$</div>
+            <p>因式分解：</p>
+            <div class="eq">$$(x - 3)(x - 4) = 0$$</div>
+            <p>所以 $x_1 = 3$、$x_2 = 4$。把這兩個值代回 $y = 2x - 6$，得到有序對 $(3, 0)$ 與 $(4, 2)$。因此</p>
+            <div class="eq">$$G \cap L = \{(3, 0),\; (4, 2)\}$$</div>
+          </div>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">本課重點</span>
+          <ul class="keypoints" style="border:0;background:none;padding:0;margin:0">
+            <li>集合是後面所有內容的<strong>基礎語言</strong>：$\in$、$\subseteq$、$\cup$、$\cap$、$\varnothing$。</li>
+            <li>經濟學裡的「可行選項」與「均衡」都可以寫成集合，均衡就是<strong>交集</strong>。</li>
+            <li>函數＝定義域到對應域的對應；反函數把輸出輸入對調；合成函數<strong>次序不能交換</strong>。</li>
+            <li>二次方程的根由<strong>判別式</strong> $b^2 - 4ac$ 決定個數。</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="lec-nav">
+        <a class="btn" href="../">← 回數學筆記</a>
+        <a class="btn btn-primary" href="../lesson-2/">下一課：數列與極限 →</a>
+      </nav>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 Lutszhong · EF2452 學習筆記</span>
+    <span class="footer-links">
+      <a href="../../../index.html">首頁</a>
+      <a href="../">數學筆記</a>
+      <a href="../lesson-2/">Lecture 2</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
