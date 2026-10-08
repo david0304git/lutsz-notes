@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中文字體對照 · 挑一個</title>
+<style>
+  :root{
+    --ink:#1a1a18;
+    --ink-2:#5a5a56;
+    --ink-3:#9a9a94;
+    --line:#e6e4df;
+    --paper:#fffefb;
+    --accent:#a63d1f;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  .top{
+    position:sticky;top:0;z-index:5;
+    background:rgba(255,254,251,.93);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+    padding:18px 30px;
+  }
+  .top h1{margin:0 0 4px;font-size:16px;font-weight:640;letter-spacing:.01em}
+  .top p{margin:0;font-size:13px;color:var(--ink-3)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 30px 70px}
+
+  .row{
+    padding:40px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .row:last-child{border-bottom:0}
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .key{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;
+  }
+  .name{font-size:15px;font-weight:620}
+  .why{font-size:13.5px;color:var(--ink-3);margin:0 0 22px}
+  .css{
+    font-family:var(--mono);font-size:12px;color:var(--ink-2);
+    background:#f6f4ef;border:1px solid var(--line);border-radius:8px;
+    padding:9px 13px;margin:0 0 24px;overflow-x:auto;white-space:nowrap;
+  }
+
+  /* 展示區：大字 + 段落，字體由 .f-* 類別決定 */
+  .spec{padding-left:2px}
+  .spec .h{
+    font-size:clamp(38px,6.4vw,64px);
+    line-height:1.14;letter-spacing:-.02em;font-weight:400;
+    margin:0 0 18px;
+  }
+  .spec .sub{
+    font-size:19px;line-height:1.9;color:var(--ink-2);
+    margin:0 0 14px;max-width:44ch;
+  }
+  .spec .small{font-size:14px;color:var(--ink-3);margin:0}
+
+  /* 各字體 */
+  .f-songti .h,.f-songti .sub{
+    font-family:"Songti TC","STSong","Noto Serif TC","Source Han Serif TC","Source Han Serif SC",Georgia,serif;
+  }
+  .f-songti .h{font-weight:600;letter-spacing:.01em}
+  .f-pingfang .h,.f-pingfang .sub{font-family:var(--sans)}
+  .f-pingfang .h{font-weight:200;letter-spacing:.02em}
+  .f-pingfang-bold .h,.f-pingfang-bold .sub{font-family:var(--sans)}
+  .f-pingfang-bold .h{font-weight:600;letter-spacing:-.02em}
+  .f-heiti .h,.f-heiti .sub{font-family:"Heiti TC","STHeiti","PingFang TC",var(--sans)}
+  .f-heiti .h{font-weight:300;letter-spacing:.03em}
+  .f-hiragino .h,.f-hiragino .sub{font-family:"Hiragino Sans GB","Hiragino Sans TC",var(--sans)}
+  .f-hiragino .h{font-weight:300;letter-spacing:.02em}
+
+  /* 並排比較區 */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:26px}
+  .duo > div{padding:26px 24px}
+  .duo > div:first-child{border-right:1px solid var(--line);background:#fbfaf7}
+  .duo .tagline{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:12px}
+  .duo .t{font-size:26px;line-height:1.5;margin:0 0 8px}
+  .duo .d{font-size:14px;color:var(--ink-2);margin:0;line-height:1.85}
+
+  .note{
+    margin:34px 0 0;padding:18px 20px;border-radius:12px;
+    background:#f6f4ef;border:1px solid var(--line);
+    font-size:14px;color:var(--ink-2);line-height:1.85;
+  }
+  .note b{color:var(--ink)}
+  @media (max-width:760px){.duo{grid-template-columns:1fr}.duo > div:first-child{border-right:0;border-bottom:1px solid var(--line)}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>中文字體對照 · 挑一個</h1>
+  <p>同一段文字，六種字體。告訴我編號就好（例如「用 03，但標題用 01」）。</p>
+</div>
+
+<div class="wrap">
+
+  <div class="row">
+    <div class="meta"><span class="key">01</span><span class="name">宋體 Songti TC</span></div>
+    <p class="why">傳統印刷體，橫細豎粗、有襯線。最「文雅」，適合當大標題。</p>
+    <p class="css">font-family: "Songti TC", "Noto Serif TC", Georgia, serif;　font-weight: 600</p>
+    <div class="spec f-songti">
+      <p class="h">學習筆記，<br>和正在做的事。</p>
+      <p class="sub">課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      <p class="small">小字示意 · 2026-10-09 · 59 個小節 · 515 個公式</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="meta"><span class="key">02</span><span class="name">蘋方 細體 PingFang TC Ultralight</span></div>
+    <p class="why">現代黑體拉到極細。線條乾淨、有留白感，偏「性冷淡風」。</p>
+    <p class="css">font-family: "PingFang TC", sans-serif;　font-weight: 200</p>
+    <div class="spec f-pingfang">
+      <p class="h">學習筆記，<br>和正在做的事。</p>
+      <p class="sub">課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      <p class="small">小字示意 · 2026-10-09 · 59 個小節 · 515 個公式</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="meta"><span class="key">03</span><span class="name">蘋方 中黑 PingFang TC Semibold</span></div>
+    <p class="why">目前網站用的。清楚有力，但比較偏「工具」而不是「氣質」。</p>
+    <p class="css">font-family: "PingFang TC", sans-serif;　font-weight: 600</p>
+    <div class="spec f-pingfang-bold">
+      <p class="h">學習筆記，<br>和正在做的事。</p>
+      <p class="sub">課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      <p class="small">小字示意 · 2026-10-09 · 59 個小節 · 515 個公式</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="meta"><span class="key">04</span><span class="name">黑體 細 Heiti TC Light</span></div>
+    <p class="why">比蘋方再秀氣一點，筆畫末端略帶圓潤。介於宋體與蘋方之間。</p>
+    <p class="css">font-family: "Heiti TC", "STHeiti", sans-serif;　font-weight: 300</p>
+    <div class="spec f-heiti">
+      <p class="h">學習筆記，<br>和正在做的事。</p>
+      <p class="sub">課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      <p class="small">小字示意 · 2026-10-09 · 59 個小節 · 515 個公式</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="meta"><span class="key">05</span><span class="name">冬青黑體 Hiragino Sans</span></div>
+    <p class="why">日系字體，繁體字覆蓋較少（部分字會退回蘋方）。字腔較開、清秀。</p>
+    <p class="css">font-family: "Hiragino Sans GB", "Hiragino Sans TC", sans-serif;　font-weight: 300</p>
+    <div class="spec f-hiragino">
+      <p class="h">學習筆記，<br>和正在做的事。</p>
+      <p class="sub">課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      <p class="small">小字示意 · 2026-10-09 · 59 個小節 · 515 個公式</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="meta"><span class="key">推薦組合</span><span class="name">標題宋體 01 ＋ 內文蘋方</span></div>
+    <p class="why">雜誌常用的搭配：大字用有襯線的宋體撐氣質，內文用黑體確保好讀。</p>
+    <p class="css">標題 font-family: "Songti TC", serif;　／　內文 font-family: "PingFang TC", sans-serif;</p>
+
+    <div class="duo">
+      <div>
+        <span class="tagline">標題 宋體 ＋ 內文蘋方（推薦）</span>
+        <p class="t" style='font-family:"Songti TC","Noto Serif TC",Georgia,serif;font-weight:600;letter-spacing:.01em'>學習筆記，和正在做的事。</p>
+        <p class="d" style='font-family:var(--sans)'>課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      </div>
+      <div>
+        <span class="tagline">全部蘋方（目前）</span>
+        <p class="t" style='font-family:var(--sans);font-weight:600;letter-spacing:-.02em'>學習筆記，和正在做的事。</p>
+        <p class="d" style='font-family:var(--sans)'>課堂筆記、個人整理，以及開發相關的紀錄。三個專區各自獨立，內容持續更新。</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">
+    <b>兩件要注意的事：</b><br>
+    ① 這些都是 <b>macOS 系統內建字體</b>，你自己看會很準；但<b>別人的手機或 Windows 電腦不一定有</b>，會退回預設字體。
+    要用「所有人看到都一樣」的字體，得下載網頁字型（Noto Serif TC 全字集約 10 MB 以上，可只載入標題用的常用字，約 100–300 KB）。<br>
+    ② 小字（14px 以下）用宋體會偏細、易疲勞，所以<b>內文建議還是黑體</b>，只把大標題換宋體。
+  </p>
+
+</div>
+</body>
+</html>

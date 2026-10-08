@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>主頁改版提案 · 4 個方向</title>
+<title>主頁改版提案 · 5 個方向</title>
 <style>
   *{box-sizing:border-box}
   body{
@@ -25,6 +25,11 @@
   .top h1{margin:0;font-size:16px;font-weight:640;letter-spacing:-.01em}
   .top .hint{font-size:13px;color:#71717a}
   .top .hint b{color:#18181b;font-weight:600}
+  .fontlink{
+    font-size:13px;color:#a63d1f;text-decoration:none;white-space:nowrap;
+    border:1px solid #e8e4dc;border-radius:999px;padding:7px 16px;background:#fff;
+  }
+  .fontlink:hover{background:#faf8f3}
   .switch{display:flex;gap:6px;background:#f4f4f2;padding:4px;border-radius:10px;border:1px solid #e8e8e6}
   .switch button{
     font:inherit;font-size:13px;padding:6px 14px;border:0;border-radius:7px;
@@ -78,8 +83,9 @@
 <body>
 
 <div class="top">
-  <h1>主頁改版提案 · 4 個方向</h1>
+  <h1>主頁改版提案 · 5 個方向</h1>
   <span class="hint">下面每個框都是<b>真的網頁</b>（不是圖片），可以捲動</span>
+  <a class="fontlink" href="fonts.html">中文字體對照 · 先挑字體 ↗</a>
   <div class="switch">
     <button class="on" data-w="1440" data-h="1020">桌機</button>
     <button data-w="820" data-h="1020">平板</button>
@@ -127,6 +133,16 @@
     </div>
     <div class="frame-wrap"><iframe src="d-refined.html" title="提案 D" loading="lazy"></iframe></div>
     <p class="note"><b>特色</b>　改動最小、最安全。現在的網站往前一步，不會讓人有「換了一個站」的感覺。</p>
+  </div>
+
+  <div class="panel">
+    <div class="p-head">
+      <div class="t"><span class="k">E</span><h2>雅緻（A 的加強版）</h2></div>
+      <a href="e-refined-a.html" target="_blank">開新視窗 ↗</a>
+      <p class="d">以 A 為底：宋體大標題、紙張質感、朱色墨線，以及多層 hover 動效。</p>
+    </div>
+    <div class="frame-wrap"><iframe src="e-refined-a.html" title="提案 E" loading="lazy"></iframe></div>
+    <p class="note"><b>特色</b>　hover 時：頂線被朱色畫過、左側色帶滲入、整列右推、序號浮起變朱色、標題長出底線、箭頭右移。進場時標題逐行浮現（尊重 reduced-motion）。</p>
   </div>
 
 </div>

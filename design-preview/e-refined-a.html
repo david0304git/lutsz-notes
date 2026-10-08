@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提案 E · 雅緻（A 的加強版）</title>
+<style>
+/* ==========================================================================
+   提案 E · 雅緻
+   以提案 A 的編輯排版為底，加入：
+   · 宋體大標題（文雅感）
+   · 紙張質感、墨色系配色、單色調間距
+   · 多層 hover 動效（底線展開、色帶滲入、標題位移變色、序號浮起）
+   · 進場動畫（標題逐行浮現），並尊重 prefers-reduced-motion
+   ========================================================================== */
+
+.mock{
+  --ink:#1c1a17;          /* 墨 */
+  --ink-2:#44403a;        /* 次（加深，黑體細字才夠清楚） */
+  --ink-3:#9c968a;        /* 淡 */
+  --line:#e8e4dc;
+  --line-2:#d5cfc3;
+  --paper:#fffefb;        /* 紙 */
+  --paper-2:#faf8f3;
+  --accent:#a63d1f;       /* 朱 */
+  --accent-soft:rgba(166,61,31,.07);
+
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;
+  --serif:"Songti TC","STSong","Noto Serif TC","Source Han Serif TC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.22,.68,.32,1);
+
+  background:
+    radial-gradient(1200px 700px at 88% -6%, rgba(166,61,31,.035), transparent 60%),
+    radial-gradient(900px 600px at 4% 8%, rgba(120,110,90,.035), transparent 62%),
+    var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.85;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.mock *,.mock *::before,.mock *::after{box-sizing:border-box}
+
+/* 全頁淡入（0.7s，之後不再干擾） */
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+.mock{animation:pageIn .7s ease both}
+.mock a{color:inherit;text-decoration:none}
+.mock p{margin:0}
+.mock h1,.mock h3{margin:0}
+
+/* 紙張細紋 */
+.mock::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+
+.mock-wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 44px;position:relative;z-index:2}
+
+/* ---------- 導航 ---------- */
+
+.mock-nav{display:flex;align-items:center;justify-content:space-between;gap:28px;height:72px}
+.mock-brand{
+  font-family:var(--serif);
+  font-weight:600;font-size:17px;letter-spacing:.02em;white-space:nowrap;
+  position:relative;
+}
+.mock-brand .dot{
+  display:inline-block;color:var(--accent);
+  transition:transform .5s var(--ease);
+}
+.mock-brand:hover .dot{transform:translateY(-3px) scale(1.25)}
+.mock-nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
+.mock-nav ul a{
+  display:block;position:relative;padding:8px 14px;
+  font-size:14.5px;color:var(--ink-2);
+  transition:color .3s var(--ease);
+}
+.mock-nav ul a::after{           /* 底線由中間展開 */
+  content:"";position:absolute;left:14px;right:14px;bottom:4px;height:1px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:center;
+  transition:transform .38s var(--ease);
+}
+.mock-nav ul a:hover{color:var(--ink)}
+.mock-nav ul a:hover::after{transform:scaleX(1)}
+.mock-nav ul a[aria-current]{color:var(--ink);font-weight:600}
+.mock-nav ul a[aria-current]::after{transform:scaleX(1);opacity:.35}
+
+.mock-head{border-bottom:1px solid var(--line)}
+
+/* ---------- 進場動畫 ---------- */
+
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:none}
+}
+.rise{animation:riseIn .92s var(--ease) both}
+.rise-1{animation-delay:.05s}
+.rise-2{animation-delay:.16s}
+.rise-3{animation-delay:.27s}
+.rise-4{animation-delay:.34s}
+
+/* ---------- 主視覺 ---------- */
+
+.hero{padding:112px 0 66px}
+.hero .eyebrow{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-3);
+  margin-bottom:30px;
+}
+.hero .eyebrow b{color:var(--accent);font-weight:600}
+.hero .eyebrow .rule{
+  flex:0 0 42px;height:1px;background:var(--line-2);
+  transform-origin:left;animation:ruleGrow 1.1s var(--ease) .3s both;
+}
+@keyframes ruleGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+.hero h1{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:clamp(40px,6.6vw,72px);
+  line-height:1.2;
+  letter-spacing:.004em;
+  max-width:17ch;
+}
+.hero h1 .punc{color:var(--ink-3);font-weight:400}
+.hero h1 .nowrap{white-space:nowrap}
+.hero h1 em{
+  font-style:normal;
+  position:relative;
+  display:inline-block;
+}
+.hero h1 em::after{            /* 墨線：hover 時自左展開（極細，維持文雅） */
+  content:"";position:absolute;left:.04em;right:.04em;bottom:-.12em;height:1px;
+  background:linear-gradient(90deg,var(--accent),rgba(166,61,31,.25));
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .78s var(--ease);
+}
+.hero h1:hover em::after{transform:scaleX(1)}
+
+.hero .lede{
+  margin-top:32px;max-width:50ch;
+  font-size:17px;line-height:2.05;color:var(--ink-2);
+  letter-spacing:.012em;
+}
+.hero .lede .mark{
+  background:linear-gradient(transparent 62%, var(--accent-soft) 62%);
+  padding-bottom:1px;
+  transition:background-size .4s var(--ease);
+}
+
+.hero-rule{
+  height:1px;margin:0 0 8px;
+  background:linear-gradient(90deg,var(--line-2),rgba(213,207,195,.15) 72%,transparent);
+  transform-origin:left;
+  animation:ruleGrow 1.3s var(--ease) .34s both;
+}
+
+/* ---------- 條目 ---------- */
+
+.entries{margin-bottom:48px}
+.entry{
+  position:relative;
+  display:grid;
+  grid-template-columns:104px minmax(0,1fr) auto;
+  gap:36px;align-items:start;
+  padding:38px 0;
+  border-top:1px solid var(--line);
+  transition:padding-left .5s var(--ease);
+}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.entry:nth-child(even){padding-left:34px}
+.entry:nth-child(even):hover{padding-left:50px}
+
+/* 頂部細線：hover 時被朱色「畫過」 */
+.entry::before{
+  content:"";position:absolute;top:-1px;left:0;right:0;height:1px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .62s var(--ease);
+}
+.entry:hover::before{transform:scaleX(1)}
+
+/* 左側色帶：hover 時由左滲入 */
+.entry::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--accent-soft),transparent 42%);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.entry:hover::after{opacity:1}
+
+.entry:hover{padding-left:16px;background:rgba(166,61,31,.014)}
+
+.entry .no{
+  font-family:var(--serif);
+  font-size:30px;line-height:1;font-weight:400;
+  color:var(--ink-3);
+  letter-spacing:.06em;
+  padding-top:6px;
+  font-variant-numeric:lining-nums tabular-nums;
+  transition:color .45s var(--ease),transform .5s var(--ease);
+}
+.entry .no::after{               /* 序號下的短裝飾線 */
+  content:"";display:block;width:16px;height:1px;margin-top:10px;
+  background:var(--line-2);
+  transition:width .5s var(--ease),background .45s var(--ease);
+}
+.entry:hover .no{color:var(--accent);transform:translateY(-3px)}
+.entry:hover .no::after{width:34px;background:var(--accent)}
+
+.entry h3{
+  font-family:var(--serif);
+  font-size:clamp(24px,2.8vw,31px);
+  font-weight:600;line-height:1.4;letter-spacing:.02em;
+  margin-bottom:10px;
+  display:inline-block;position:relative;
+  transition:color .4s var(--ease),letter-spacing .55s var(--ease);
+}
+.entry h3::after{               /* 標題底線：滑鼠移上去才長出來 */
+  content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;
+  background:currentColor;opacity:.35;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .6s var(--ease);
+}
+.entry:hover h3{color:var(--accent);letter-spacing:.045em}
+.entry:hover h3::after{transform:scaleX(1)}
+
+.entry .desc{
+  color:var(--ink-2);font-size:15.5px;line-height:2;
+  max-width:54ch;letter-spacing:.015em;
+  transition:color .4s var(--ease);
+}
+.entry:hover .desc{color:var(--ink)}
+
+.entry .facts{
+  display:flex;flex-wrap:wrap;gap:20px;margin-top:16px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;
+  color:var(--ink-3);
+}
+.entry .facts b{color:var(--ink-2);font-weight:600}
+.entry .facts span{transition:color .4s var(--ease)}
+.entry .facts span + span{
+  padding-left:20px;
+  border-left:1px solid var(--line);
+  transition:border-color .45s var(--ease),color .4s var(--ease);
+}
+.entry:hover .facts span + span{border-left-color:rgba(166,61,31,.32)}
+
+.entry .go{
+  font-size:14.5px;color:var(--ink-3);white-space:nowrap;padding-top:10px;
+  letter-spacing:.05em;
+  transition:color .4s var(--ease),transform .5s var(--ease);
+}
+.entry:hover .go{color:var(--accent);transform:translateX(6px)}
+
+/* ---------- 頁尾 ---------- */
+
+.foot{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  padding:38px 0 62px;
+  font-size:13px;color:var(--ink-3);letter-spacing:.03em;
+}
+.foot a{position:relative;transition:color .3s var(--ease)}
+.foot a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .42s var(--ease);
+}
+.foot a:hover{color:var(--accent)}
+.foot a:hover::after{transform:scaleX(1)}
+
+/* ---------- 手機 ---------- */
+
+@media (max-width:900px){
+  .mock-wrap{padding:0 24px}
+  .hero{padding:76px 0 44px}
+  .hero .lede{font-size:16px;line-height:1.95}
+  .entry{grid-template-columns:58px minmax(0,1fr);gap:20px;padding:30px 0}
+  .entry .go{grid-column:2;padding-top:4px}
+  .entry:hover{padding-left:8px}
+  .entry .no{font-size:26px}
+  .mock-nav{height:auto;flex-direction:column;align-items:flex-start;gap:2px;padding:14px 0}
+  .mock-nav ul{margin-left:-14px;flex-wrap:wrap}
+  /* 窄螢幕時標籤會換行，左側直線看起來會像斷掉 → 改回單純間距 */
+  .entry .facts{gap:8px 22px}
+  .entry .facts span + span{padding-left:0;border-left:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mock *,.mock *::before,.mock *::after{
+    animation-duration:.001ms!important;animation-delay:0s!important;
+    transition-duration:.001ms!important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="mock">
+
+  <div class="mock-head">
+    <div class="mock-wrap">
+      <nav class="mock-nav">
+        <a class="mock-brand" href="#">Lutszhong<span class="dot">.</span></a>
+        <ul>
+          <li><a href="#" aria-current="page">首頁</a></li>
+          <li><a href="#">筆記專區</a></li>
+          <li><a href="#">私人專區</a></li>
+          <li><a href="#">開發專區</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="mock-wrap">
+
+    <section class="hero">
+      <div class="eyebrow rise rise-1"><b>墨</b><span class="rule"></span>Notes · Personal · Dev</div>
+      <h1 class="rise rise-2">學習筆記<span class="punc">，</span><br><span class="nowrap">和<em>正在做的事</em>。</span></h1>
+      <p class="lede rise rise-3">課堂筆記、個人整理，以及開發相關的紀錄。<span class="mark">三個專區各自獨立</span>，內容持續更新。</p>
+    </section>
+
+    <div class="hero-rule" aria-hidden="true"></div>
+
+    <section class="entries">
+
+      <a class="entry rise rise-4" href="#">
+        <span class="no">01</span>
+        <div>
+          <h3>筆記專區</h3>
+          <p class="desc">課堂與自學的筆記整理，每科各自一頁。公式重新排版，每個小節都能直接跳過去。</p>
+          <div class="facts">
+            <span><b>2</b> 個科目</span>
+            <span>Python <b>44</b> 小節</span>
+            <span>數學 <b>15</b> 小節</span>
+          </div>
+        </div>
+        <span class="go">閱讀 →</span>
+      </a>
+
+      <a class="entry" href="#">
+        <span class="no">02</span>
+        <div>
+          <h3>私人專區</h3>
+          <p class="desc">不對外的個人整理與紀錄，跟課程筆記分開放。</p>
+          <div class="facts"><span>準備中</span></div>
+        </div>
+        <span class="go">前往 →</span>
+      </a>
+
+      <a class="entry" href="#">
+        <span class="no">03</span>
+        <div>
+          <h3>開發專區</h3>
+          <p class="desc">環境設定、工具用法、專案筆記，以及踩過的坑。</p>
+          <div class="facts"><span>準備中</span></div>
+        </div>
+        <span class="go">前往 →</span>
+      </a>
+
+    </section>
+
+    <div class="foot">
+      <span>© 2026 Lutszhong</span>
+      <span>Plain HTML · GitHub Pages</span>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
