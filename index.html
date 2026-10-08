@@ -25,17 +25,11 @@
   }
   .hero-text{min-width:0}
   .hero-mascot{justify-self:end;width:100%;max-width:228px}
-  .hero-mascot svg{display:block;width:100%;height:auto;overflow:visible}
+  .hero-mascot img{display:block;width:100%;height:auto}
 
-  /* 吉祥物：輕微呼吸 + 眨眼 + 光暈（尊重 reduced-motion） */
-  @keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-  @keyframes mascotBlink{0%,93%,100%{transform:scaleY(1)}96%,97%{transform:scaleY(.08)}}
-  @keyframes mascotGlow{0%,100%{opacity:.18;transform:scale(1)}50%{opacity:.42;transform:scale(1.14)}}
-  .hero-mascot .m-bob{animation:mascotBob 4s var(--ease-soft) infinite}
-  .hero-mascot .m-eye{transform-box:fill-box;transform-origin:center;animation:mascotBlink 5.4s ease-in-out infinite}
-  .hero-mascot .m-glow{transform-box:fill-box;transform-origin:center;animation:mascotGlow 3.4s ease-in-out infinite}
-  .hero-mascot .m-arm{transform-box:fill-box;transform-origin:bottom left;animation:mascotWave 2.8s var(--ease-soft) infinite}
-  @keyframes mascotWave{0%,100%{transform:rotate(0)}50%{transform:rotate(-11deg)}}
+  /* 吉祥物：輕微浮動（動畫本身已包含揮手與呼吸） */
+  @keyframes mascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .hero-mascot img{animation:mascotFloat 5s var(--ease-soft) infinite}
 
   .home-hero .eyebrow{
     display:flex;align-items:center;gap:12px;
@@ -227,7 +221,7 @@
     .entry,.entry::before,.entry::after,.entry .no,.entry .no::after,
     .entry h3,.entry .desc,.entry .facts span + span,.entry .go,
     .home-hero h1 em{transition-duration:.001ms!important}
-    .hero-mascot .m-bob,.hero-mascot .m-eye,.hero-mascot .m-glow,.hero-mascot .m-arm{animation:none!important}
+    .hero-mascot img{animation:none!important}
   }
 
   /* 平板：吉祥物縮小，仍與文字並排 */
@@ -275,74 +269,8 @@
     </div>
 
     <div class="hero-mascot rise rise-4" aria-hidden="true">
-      <svg viewBox="0 0 200 380">
-        <defs>
-          <linearGradient id="mBody" x1="0" y1="0" x2=".85" y2="1">
-            <stop offset="0" stop-color="#FFC94F"/>
-            <stop offset="1" stop-color="#F5A81F"/>
-          </linearGradient>
-          <linearGradient id="mFold" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#FF9440"/>
-            <stop offset="1" stop-color="#EE741B"/>
-          </linearGradient>
-        </defs>
-
-        <ellipse cx="100" cy="352" rx="58" ry="10" fill="#DFE6E9" opacity=".9"/>
-
-        <g class="m-bob">
-          <!-- 腿 -->
-          <g fill="#404A68">
-            <rect x="66" y="260" width="19" height="58" rx="9.5"/>
-            <rect x="115" y="260" width="19" height="58" rx="9.5"/>
-            <ellipse cx="75" cy="329" rx="19" ry="14"/>
-            <ellipse cx="125" cy="329" rx="19" ry="14"/>
-          </g>
-
-          <!-- 尾巴橘 V：收在身體輪廓內 -->
-          <path d="M 100 270 L 121 305 L 121 317 L 100 283 L 79 317 L 79 305 Z" fill="#EE741B"/>
-
-          <!-- 身體 -->
-          <path d="M 53 30 H 165 V 292 Q 165 310 147 310 H 121 L 100 273 L 79 310 H 53 Q 35 310 35 292 V 48 Q 35 30 53 30 Z" fill="url(#mBody)"/>
-
-          <!-- 折角 -->
-          <path d="M 114 30 H 157 Q 165 30 165 38 V 78 Z" fill="url(#mFold)"/>
-          <path d="M 114 30 L 165 78" stroke="#D9660F" stroke-width="2.5" opacity=".45" stroke-linecap="round"/>
-
-          <!-- 左臂（垂放） -->
-          <path d="M 46 198 Q 22 216 24 246" stroke="#404A68" stroke-width="25" stroke-linecap="round" fill="none"/>
-
-          <!-- 右臂（揮手） -->
-          <g class="m-arm">
-            <path d="M 154 200 Q 184 192 182 146" stroke="#404A68" stroke-width="25" stroke-linecap="round" fill="none"/>
-          </g>
-          <g stroke="#FFBD37" stroke-width="6" stroke-linecap="round">
-            <line x1="172" y1="104" x2="172" y2="90"/>
-            <line x1="192" y1="118" x2="202" y2="107"/>
-          </g>
-
-          <!-- 眉毛 -->
-          <g stroke="#404A68" stroke-width="5.5" stroke-linecap="round" fill="none">
-            <path d="M 55 122 Q 68 111 83 118"/>
-            <path d="M 117 118 Q 132 111 145 122"/>
-          </g>
-
-          <!-- 眼睛 -->
-          <ellipse cx="67" cy="156" rx="20" ry="21.5" fill="#FFFFFF"/>
-          <ellipse cx="133" cy="156" rx="20" ry="21.5" fill="#FFFFFF"/>
-          <g class="m-eye">
-            <circle cx="72" cy="159" r="14.5" fill="#25304A"/>
-            <circle cx="128" cy="159" r="14.5" fill="#25304A"/>
-            <circle cx="66" cy="151" r="5.6" fill="#FFFFFF"/>
-            <circle cx="122" cy="151" r="5.6" fill="#FFFFFF"/>
-            <circle cx="79" cy="166" r="2.6" fill="#FFFFFF"/>
-            <circle cx="135" cy="166" r="2.6" fill="#FFFFFF"/>
-          </g>
-
-          <!-- 嘴巴 -->
-          <path d="M 87 180 Q 100 177 113 180 Q 113 199 100 199 Q 87 199 87 180 Z" fill="#25304A"/>
-          <path d="M 92 188 Q 100 186 108 188 Q 108 197 100 197 Q 92 197 92 188 Z" fill="#FA812F"/>
-        </g>
-      </svg>
+<img src="assets/mascot/welcome.webp" width="300" height="365"
+             alt="" aria-hidden="true" decoding="async" fetchpriority="high">
     </div>
   </section>
 

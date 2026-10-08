@@ -245,6 +245,32 @@ main.wrap{
 }
 .page-head p{margin:0;color:var(--fg-2);max-width:64ch}
 
+/* ---------- 頁首吉祥物（內頁用） ---------- */
+
+.page-head.has-mascot{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 150px;
+  gap:44px;
+  align-items:center;
+}
+.page-head.has-mascot > div:first-child{min-width:0}
+.page-mascot{justify-self:end;width:100%;max-width:150px}
+.page-mascot img{display:block;width:100%;height:auto}
+@keyframes pageMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.page-mascot img{animation:pageMascotFloat 5.2s var(--ease-soft) infinite}
+
+@media (min-width:768px) and (max-width:1139px){
+  .page-head.has-mascot{grid-template-columns:minmax(0,1fr) 122px;gap:30px}
+  .page-mascot{max-width:122px}
+}
+@media (max-width:767px){
+  .page-head.has-mascot{grid-template-columns:1fr;gap:20px}
+  .page-mascot{justify-self:start;max-width:104px}
+}
+@media (prefers-reduced-motion:reduce){
+  .page-mascot img{animation:none!important}
+}
+
 /* ---------- 區塊 ---------- */
 
 .section{margin-bottom:52px}
