@@ -1,20 +1,24 @@
 /* ==========================================================================
    Lutszhong 的學習筆記 · 全站樣式
-   白色極簡：純白底、細邊框、一點暖橙作為互動色，不用陰影與漸層。
+   紙感極簡：紙白底、墨色字、朱紅作互動色。
+   標題用宋體撐氣質，內文用黑體保清晰（雜誌式搭配）。
    ========================================================================== */
 
 :root{
-  --bg:#ffffff;
-  --fg:#18181b;
-  --fg-2:#52525b;
-  --fg-3:#a1a1aa;
-  --line:#e8e8e6;
-  --line-2:#d4d4d1;
-  --accent:#b45309;
-  --accent-dim:#92400e;
-  --tint:#fafaf9;
+  --bg:#fffefb;              /* 紙白 */
+  --bg-warm:#faf8f3;
+  --fg:#1c1a17;              /* 墨 */
+  --fg-2:#44403a;            /* 次（已加深，確保對比 ≥ 4.5:1） */
+  --fg-3:#71717a;            /* 淡（原 #a1a1aa 僅 2.56:1，不合 WCAG AA） */
+  --line:#e8e4dc;
+  --line-2:#d5cfc3;
+  --accent:#a63d1f;          /* 朱 */
+  --accent-dim:#8a3116;
+  --tint:#faf8f3;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+  --serif:"Songti TC","STSong","Noto Serif TC","Source Han Serif TC","Source Han Serif SC",Georgia,"Times New Roman",serif;
   --mono:"SF Mono",ui-monospace,Menlo,Consolas,"DejaVu Sans Mono",monospace;
+  --ease:cubic-bezier(.22,.68,.32,1);
   --wrap:1060px;
   --rad:12px;
 }
@@ -40,12 +44,28 @@ body{
   min-height:100vh;
 }
 
-::selection{background:rgba(180,83,9,.14)}
+::selection{background:rgba(166,61,31,.14)}
 
 a{color:var(--accent);text-decoration:none}
 a:hover{color:var(--accent-dim);text-decoration:underline;text-underline-offset:3px}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+/* 紙張細紋：疊在最上層，脫離純數位的塑膠感 */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}
 
 .skip{
   position:absolute;left:-9999px;
@@ -76,7 +96,7 @@ main.wrap{
   position:sticky;
   top:0;
   z-index:50;
-  background:rgba(255,255,255,.9);
+  background:rgba(255,254,251,.9);
   -webkit-backdrop-filter:saturate(180%) blur(12px);
   backdrop-filter:saturate(180%) blur(12px);
   border-bottom:1px solid var(--line);
@@ -87,18 +107,23 @@ main.wrap{
   align-items:center;
   justify-content:space-between;
   gap:28px;
-  height:62px;
+  height:68px;
 }
 
 .brand{
+  font-family:var(--serif);
   font-weight:600;
-  font-size:15px;
-  letter-spacing:.2px;
+  font-size:17px;
+  letter-spacing:.02em;
   color:var(--fg);
   white-space:nowrap;
 }
 .brand:hover{color:var(--fg);text-decoration:none}
-.brand .dot{color:var(--accent)}
+.brand .dot{
+  display:inline-block;color:var(--accent);
+  transition:transform .5s var(--ease);
+}
+.brand:hover .dot{transform:translateY(-3px) scale(1.25)}
 
 .nav-links{
   display:flex;
@@ -111,16 +136,24 @@ main.wrap{
 
 .nav-links a{
   display:inline-block;
-  padding:7px 13px;
-  border-radius:8px;
+  position:relative;
+  padding:8px 14px;
   font-size:14.5px;
   line-height:1.5;
   color:var(--fg-2);
   white-space:nowrap;
-  transition:background .14s ease,color .14s ease;
+  transition:color .3s var(--ease);
 }
-.nav-links a:hover{background:var(--tint);color:var(--fg);text-decoration:none}
+.nav-links a::after{                 /* 底線由中間展開 */
+  content:"";position:absolute;left:14px;right:14px;bottom:5px;height:1px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:center;
+  transition:transform .38s var(--ease);
+}
+.nav-links a:hover{color:var(--fg);text-decoration:none}
+.nav-links a:hover::after{transform:scaleX(1)}
 .nav-links a[aria-current="page"]{color:var(--fg);font-weight:600}
+.nav-links a[aria-current="page"]::after{transform:scaleX(1);opacity:.35}
 
 /* ---------- 標題區 ---------- */
 
@@ -131,10 +164,11 @@ main.wrap{
 }
 .hero h1{
   margin:0 0 14px;
+  font-family:var(--serif);
   font-size:clamp(30px,4.4vw,42px);
-  font-weight:650;
-  letter-spacing:-.02em;
-  line-height:1.24;
+  font-weight:600;
+  letter-spacing:.008em;
+  line-height:1.4;
 }
 .hero h1 .thin{color:var(--fg-3);font-weight:400}
 .hero p{
@@ -158,10 +192,11 @@ main.wrap{
 .page-head .crumb a:hover{color:var(--accent)}
 .page-head h1{
   margin:0 0 12px;
+  font-family:var(--serif);
   font-size:clamp(26px,3.6vw,34px);
-  font-weight:640;
-  letter-spacing:-.018em;
-  line-height:1.3;
+  font-weight:600;
+  letter-spacing:.008em;
+  line-height:1.4;
 }
 .page-head p{margin:0;color:var(--fg-2);max-width:64ch}
 
@@ -197,40 +232,55 @@ main.wrap{
 .card{
   display:flex;
   flex-direction:column;
+  position:relative;
   padding:24px 22px 22px;
   border:1px solid var(--line);
   border-radius:var(--rad);
-  background:#fff;
+  background:var(--bg);
   color:inherit;
-  transition:border-color .15s ease,background .15s ease,transform .15s ease;
+  transition:border-color .3s var(--ease),box-shadow .35s var(--ease),transform .3s var(--ease);
+}
+.card::before{                       /* 頂線：hover 時被朱色畫過 */
+  content:"";position:absolute;top:-1px;left:12px;right:12px;height:1px;
+  background:var(--accent);border-radius:1px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .55s var(--ease);
 }
 .card:hover{
   border-color:var(--line-2);
-  background:var(--tint);
+  box-shadow:0 12px 30px rgba(28,26,23,.06);
+  transform:translateY(-3px);
   text-decoration:none;
   color:inherit;
 }
+.card:hover::before{transform:scaleX(1)}
 
 .card-tag{
   display:block;
   margin-bottom:12px;
   font-family:var(--mono);
   font-size:11.5px;
-  letter-spacing:.08em;
+  letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--fg-3);
+  transition:color .3s var(--ease);
 }
+.card:hover .card-tag{color:var(--accent)}
 .card h3{
   margin:0 0 8px;
-  font-size:18.5px;
-  font-weight:620;
-  letter-spacing:-.01em;
+  font-family:var(--serif);
+  font-size:20px;
+  font-weight:600;
+  letter-spacing:.01em;
+  line-height:1.4;
   color:var(--fg);
+  transition:color .3s var(--ease);
 }
+.card:hover h3{color:var(--accent)}
 .card p{
   margin:0;
   font-size:14.5px;
-  line-height:1.68;
+  line-height:1.75;
   color:var(--fg-2);
 }
 
@@ -238,7 +288,9 @@ main.wrap{
   border-style:dashed;
   background:var(--tint);
 }
-.card.is-empty:hover{border-color:var(--line-2);background:#f6f6f4;transform:none}
+.card.is-empty:hover{border-color:var(--line-2);background:var(--bg-warm);transform:none;box-shadow:none}
+.card.is-empty:hover::before{transform:scaleX(0)}
+.card.is-empty:hover h3{color:var(--fg-2)}
 .card.is-empty h3{color:var(--fg-2)}
 
 .card .meta{
@@ -382,9 +434,9 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
   font-family:var(--sans);
   font-size:13.5px;
   line-height:1;
-  color:#18181b;
-  background:rgba(255,255,255,.94);
-  border:1px solid #d4d4d1;
+  color:var(--fg);
+  background:rgba(255,254,251,.94);
+  border:1px solid var(--line-2);
   border-radius:999px;
   text-decoration:none;
   -webkit-backdrop-filter:blur(8px);
@@ -392,7 +444,7 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
   box-shadow:0 1px 3px rgba(0,0,0,.06);
   transition:background .14s ease,border-color .14s ease;
 }
-.gn-back:hover{background:#fff;border-color:#a1a1aa;color:#18181b;text-decoration:none}
+.gn-back:hover{background:#fff;border-color:var(--fg-3);color:var(--fg);text-decoration:none}
 
 /* ---------- 響應式 ---------- */
 
