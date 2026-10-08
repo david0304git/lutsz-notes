@@ -49,6 +49,11 @@
   --t-mid:.45s;
   --t-slow:.85s;
   --wrap:1060px;
+
+  /* 響應式斷點（全站統一，只有三個）
+     ─ 手機   : ≤ 767px
+     ─ 平板   : 768px ~ 1139px
+     ─ 電腦   : ≥ 1140px   */
   --rad:12px;
 }
 
@@ -492,7 +497,7 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
 
 /* ---------- 響應式 ---------- */
 
-@media (max-width:860px){
+@media (max-width:767px){
   .wrap{padding:0 20px}
   .nav{height:auto;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 0}
   .nav-links{margin-left:-11px;flex-wrap:wrap}

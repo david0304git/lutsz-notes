@@ -7258,5 +7258,18 @@ document.addEventListener("click", e => {
 </script>
 <style id="gn-back-style">.gn-back{position:fixed;left:18px;bottom:18px;z-index:2147483000;display:inline-flex;align-items:center;gap:6px;padding:9px 15px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:13.5px;line-height:1;color:#18181b;background:rgba(255,255,255,.94);border:1px solid #d4d4d1;border-radius:999px;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 1px 3px rgba(0,0,0,.06);transition:background .14s ease,border-color .14s ease}.gn-back:hover{background:#fff;border-color:#a1a1aa;color:#18181b;text-decoration:none}</style>
 <a class="gn-back" href="../" title="回筆記專區">← 筆記專區</a>
+<style id="responsive-patch">
+/* ============================================================
+   響應式修正（由網站維護者注入，未改動原檔樣式）
+   問題：行內 <code> 設了 white-space:nowrap，長片段在 375px 手機上
+        會把頁面撐到 503px 寬（實測），造成整頁橫向捲動。
+   範圍：只影響行內 code；程式碼區塊用的是 <pre>（已有 overflow-x:auto），
+        表格包在 .tbl-wrap（亦有 overflow-x:auto），都不受影響。
+   ============================================================ */
+@media (max-width:767px){
+  code{white-space:normal;overflow-wrap:anywhere}
+  td code{white-space:normal}
+}
+</style>
 </body>
 </html>

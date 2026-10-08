@@ -381,7 +381,7 @@
 
 /* ---------- 手機 ---------- */
 
-@media (max-width:960px){
+@media (max-width:1139px){   /* 手機 + 平板：目錄改為上方卡片 */
   .lecture{grid-template-columns:1fr;gap:0}
   .lec-toc{
     position:static;
@@ -402,7 +402,7 @@
   .sec{margin-bottom:48px}
 }
 
-@media (max-width:620px){
+@media (max-width:767px){
   .lecture-card{padding:20px 18px}
   .lecture-card .lc-head{flex-direction:column;gap:14px}
   .lecture-card .lc-num{width:44px;height:44px;font-size:11px}

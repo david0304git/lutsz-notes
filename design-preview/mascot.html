@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>吉祥物草稿 · 筆記生物</title>
+<style>
+  body{margin:0;background:#fffefb;font-family:-apple-system,"PingFang TC",sans-serif;color:#1c1a17}
+  .wrap{max-width:1000px;margin:0 auto;padding:40px}
+  h1{font-family:"Songti TC",serif;font-weight:600;font-size:26px;margin:0 0 8px}
+  p.note{color:#71717a;font-size:14px;margin:0 0 36px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+  .cell{border:1px solid #e8e4dc;border-radius:14px;padding:20px;background:#fff}
+  .cell h2{font-size:14px;font-family:"SF Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:#a63d1f;margin:0 0 14px}
+  .cell svg{display:block;width:100%;height:auto;max-width:230px;margin:0 auto}
+  .cell p{font-size:13px;color:#71717a;margin:14px 0 0;line-height:1.7}
+
+  /* ---- 共用動態 ---- */
+  @keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-16deg)}}
+  @keyframes swing{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+  @keyframes pulse{0%,100%{opacity:.25;transform:scale(1)}50%{opacity:.5;transform:scale(1.15)}}
+  @keyframes draw{0%{stroke-dashoffset:60}100%{stroke-dashoffset:0}}
+  .eye{transform-origin:center;animation:blink 5.2s ease-in-out infinite}
+  .bob{animation:bob 3.6s ease-in-out infinite}
+  .bob-slow{animation:bob 4.4s ease-in-out infinite}
+  .wave{transform-origin:bottom left;animation:wave 2.8s ease-in-out infinite}
+  .swing{transform-origin:top center;animation:swing 3.4s ease-in-out infinite}
+  .glow{animation:pulse 3s ease-in-out infinite}
+  .penline{stroke-dasharray:60;animation:draw 2.6s ease-in-out infinite alternate}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>吉祥物草稿</h1>
+  <p class="note">四個方向，都是純 SVG（沒有外部圖檔）。告訴我喜歡哪個、或要怎麼改（顏色、表情、動作）。</p>
+
+  <div class="grid">
+
+    <!-- ============ 1. 筆記本 ============ -->
+    <div class="cell">
+      <h2>01 筆記本</h2>
+      <svg viewBox="0 0 200 200" role="img" aria-label="筆記本吉祥物">
+        <g class="bob">
+          <ellipse cx="100" cy="180" rx="46" ry="6" fill="#1c1a17" opacity=".07"/>
+          <!-- 書背 -->
+          <rect x="46" y="42" width="12" height="118" rx="5" fill="#a63d1f"/>
+          <!-- 內頁 -->
+          <rect x="54" y="42" width="100" height="118" rx="9" fill="#fffdf8" stroke="#e0d9cc" stroke-width="2"/>
+          <rect x="54" y="72" width="100" height="2" fill="#e8e4dc"/>
+          <rect x="54" y="130" width="100" height="2" fill="#e8e4dc"/>
+          <!-- 右上角折頁 -->
+          <path d="M132 42 L154 64 L132 64 Z" fill="#f4efe6" stroke="#e0d9cc" stroke-width="2" stroke-linejoin="round"/>
+          <!-- 螺旋環 -->
+          <g stroke="#b9b2a4" stroke-width="4.5" stroke-linecap="round">
+            <line x1="40" y1="58" x2="58" y2="58"/>
+            <line x1="40" y1="80" x2="58" y2="80"/>
+            <line x1="40" y1="102" x2="58" y2="102"/>
+            <line x1="40" y1="124" x2="58" y2="124"/>
+            <line x1="40" y1="146" x2="58" y2="146"/>
+          </g>
+          <!-- 臉 -->
+          <g class="eye">
+            <ellipse cx="83" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
+            <ellipse cx="118" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
+          </g>
+          <circle cx="84.6" cy="97.6" r="1.9" fill="#fff"/>
+          <circle cx="119.6" cy="97.6" r="1.9" fill="#fff"/>
+          <ellipse cx="68" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
+          <ellipse cx="133" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
+          <path d="M92 110 Q100.5 119 109 110" fill="none" stroke="#2b2723" stroke-width="3" stroke-linecap="round"/>
+          <!-- 手 -->
+          <path d="M154 116 q12 -4 16 6" fill="none" stroke="#2b2723" stroke-width="3.4" stroke-linecap="round"/>
+          <!-- 筆 -->
+          <g transform="rotate(-24 172 108)">
+            <rect x="168" y="76" width="7" height="52" rx="3" fill="#f0b429"/>
+            <path d="M168 128 L171.5 138 L175 128 Z" fill="#2b2723"/>
+          </g>
+        </g>
+      </svg>
+      <p>最基本款。螺旋裝訂、右上折角、一手鉛筆。</p>
+    </div>
+
+    <!-- ============ 2. 翻開的書 ============ -->
+    <div class="cell">
+      <h2>02 翻開的書</h2>
+      <svg viewBox="0 0 200 200" role="img" aria-label="翻開的書吉祥物">
+        <g class="bob-slow">
+          <ellipse cx="100" cy="180" rx="50" ry="6" fill="#1c1a17" opacity=".07"/>
+          <!-- 兩頁 -->
+          <path d="M100 58 Q74 44 42 50 L42 148 Q74 142 100 156 Z" fill="#fffdf8" stroke="#e0d9cc" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M100 58 Q126 44 158 50 L158 148 Q126 142 100 156 Z" fill="#fffdf8" stroke="#e0d9cc" stroke-width="2.4" stroke-linejoin="round"/>
+          <!-- 書頁線 -->
+          <g stroke="#ece7dd" stroke-width="2" stroke-linecap="round">
+            <line x1="54" y1="74" x2="88" y2="80"/><line x1="54" y1="92" x2="88" y2="98"/>
+            <line x1="54" y1="110" x2="88" y2="116"/>
+            <line x1="112" y1="80" x2="146" y2="74"/><line x1="112" y1="98" x2="146" y2="92"/>
+            <line x1="112" y1="116" x2="146" y2="110"/>
+          </g>
+          <path d="M100 58 L100 156" stroke="#ddd6c8" stroke-width="2.4"/>
+          <!-- 臉：長在右頁 -->
+          <g class="eye">
+            <ellipse cx="118" cy="86" rx="4.6" ry="5.6" fill="#2b2723"/>
+            <ellipse cx="140" cy="86" rx="4.6" ry="5.6" fill="#2b2723"/>
+          </g>
+          <circle cx="119.4" cy="83.8" r="1.6" fill="#fff"/>
+          <circle cx="141.4" cy="83.8" r="1.6" fill="#fff"/>
+          <path d="M124 96 Q129 102 134 96" fill="none" stroke="#2b2723" stroke-width="2.6" stroke-linecap="round"/>
+          <ellipse cx="108" cy="97" rx="5.5" ry="3.4" fill="#e8896b" opacity=".5"/>
+          <ellipse cx="150" cy="97" rx="5.5" ry="3.4" fill="#e8896b" opacity=".5"/>
+          <!-- 左頁寫字 -->
+          <path class="penline" d="M54 132 Q70 126 88 132" fill="none" stroke="#a63d1f" stroke-width="2.6" stroke-linecap="round"/>
+        </g>
+        <!-- 螢火蟲：知識 -->
+        <g transform="translate(168 40)">
+          <circle class="glow" r="12" fill="#f0b429"/>
+          <circle r="5" fill="#f0b429"/>
+        </g>
+      </svg>
+      <p>臉長在書頁上，旁邊有顆小光點（呼應「知識」）。</p>
+    </div>
+
+    <!-- ============ 3. 便條紙 ============ -->
+    <div class="cell">
+      <h2>03 便條紙</h2>
+      <svg viewBox="0 0 200 200" role="img" aria-label="便條紙吉祥物">
+        <g class="bob">
+          <ellipse cx="100" cy="178" rx="44" ry="6" fill="#1c1a17" opacity=".07"/>
+          <!-- 便利貼本體 -->
+          <rect x="50" y="48" width="100" height="112" rx="10" fill="#fff6d8" stroke="#e8d9a8" stroke-width="2.2"/>
+          <!-- 上緣膠條 -->
+          <rect x="50" y="48" width="100" height="16" rx="10" fill="#f7e7b0"/>
+          <rect x="50" y="56" width="100" height="8" fill="#f7e7b0"/>
+          <!-- 臉 -->
+          <g class="eye">
+            <ellipse cx="82" cy="96" rx="5.6" ry="6.6" fill="#2b2723"/>
+            <ellipse cx="118" cy="96" rx="5.6" ry="6.6" fill="#2b2723"/>
+          </g>
+          <circle cx="83.8" cy="93.4" r="2" fill="#fff"/>
+          <circle cx="119.8" cy="93.4" r="2" fill="#fff"/>
+          <ellipse cx="66" cy="110" rx="7.5" ry="4.6" fill="#eda07f" opacity=".6"/>
+          <ellipse cx="134" cy="110" rx="7.5" ry="4.6" fill="#eda07f" opacity=".6"/>
+          <path d="M91 107 Q100 117 109 107" fill="none" stroke="#2b2723" stroke-width="3" stroke-linecap="round"/>
+          <!-- 手：揮手 -->
+          <g class="wave">
+            <path d="M150 112 q10 -8 16 -16" fill="none" stroke="#2b2723" stroke-width="3.4" stroke-linecap="round"/>
+            <circle cx="168" cy="94" r="5" fill="#fffdf8" stroke="#2b2723" stroke-width="2.6"/>
+          </g>
+          <path d="M50 128 q-9 4 -10 12" fill="none" stroke="#2b2723" stroke-width="3.4" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <p>便條紙造型，手會揮。色調最暖，跟紙張主題最搭。</p>
+    </div>
+
+    <!-- ============ 4. 書籤小靈 ============ -->
+    <div class="cell">
+      <h2>04 書籤小靈</h2>
+      <svg viewBox="0 0 200 200" role="img" aria-label="書籤吉祥物">
+        <g class="bob-slow">
+          <ellipse cx="100" cy="180" rx="34" ry="5" fill="#1c1a17" opacity=".07"/>
+          <!-- 書籤尾端 -->
+          <path d="M72 42 L128 42 L128 168 L100 146 L72 168 Z" fill="#a63d1f"/>
+          <path d="M80 50 L120 50 L120 156 L100 140 L80 156 Z" fill="#b8482a"/>
+          <!-- 臉 -->
+          <g class="eye">
+            <ellipse cx="90" cy="86" rx="5" ry="6" fill="#fffdf8"/>
+            <ellipse cx="110" cy="86" rx="5" ry="6" fill="#fffdf8"/>
+          </g>
+          <circle cx="91.4" cy="83.8" r="1.8" fill="#a63d1f"/>
+          <circle cx="111.4" cy="83.8" r="1.8" fill="#a63d1f"/>
+          <path d="M92 100 Q100 109 108 100" fill="none" stroke="#fffdf8" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="79" cy="99" rx="6" ry="3.8" fill="#f2a487" opacity=".75"/>
+          <ellipse cx="121" cy="99" rx="6" ry="3.8" fill="#f2a487" opacity=".75"/>
+          <!-- 手 -->
+          <g class="wave">
+            <path d="M128 104 q9 -6 12 -14" fill="none" stroke="#a63d1f" stroke-width="3.2" stroke-linecap="round"/>
+          </g>
+          <path d="M72 104 q-9 -6 -12 -14" fill="none" stroke="#a63d1f" stroke-width="3.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <p>最簡潔、最像「角色」。紅色在白色頁面上很跳。</p>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

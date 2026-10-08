@@ -16,7 +16,25 @@
        4) 尊重 prefers-reduced-motion
      ========================================================================== */
 
-  .home-hero{padding:104px 0 62px}
+  .home-hero{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 236px;
+    gap:56px;
+    align-items:center;
+    padding:104px 0 62px;
+  }
+  .hero-text{min-width:0}
+  .hero-mascot{justify-self:end;width:100%;max-width:236px}
+  .hero-mascot svg{display:block;width:100%;height:auto;overflow:visible}
+
+  /* 吉祥物：輕微呼吸 + 眨眼 + 光暈（尊重 reduced-motion） */
+  @keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes mascotBlink{0%,93%,100%{transform:scaleY(1)}96%,97%{transform:scaleY(.08)}}
+  @keyframes mascotGlow{0%,100%{opacity:.18;transform:scale(1)}50%{opacity:.42;transform:scale(1.14)}}
+  .hero-mascot .m-bob{animation:mascotBob 4s var(--ease-soft) infinite}
+  .hero-mascot .m-eye{transform-box:fill-box;transform-origin:center;animation:mascotBlink 5.4s ease-in-out infinite}
+  .hero-mascot .m-glow{transform-box:fill-box;transform-origin:center;animation:mascotGlow 3.4s ease-in-out infinite}
+
   .home-hero .eyebrow{
     display:flex;align-items:center;gap:12px;
     font-family:var(--mono);font-size:11px;letter-spacing:.22em;
@@ -207,10 +225,19 @@
     .entry,.entry::before,.entry::after,.entry .no,.entry .no::after,
     .entry h3,.entry .desc,.entry .facts span + span,.entry .go,
     .home-hero h1 em{transition-duration:.001ms!important}
+    .hero-mascot .m-bob,.hero-mascot .m-eye,.hero-mascot .m-glow{animation:none!important}
   }
 
-  @media (max-width:900px){
-    .home-hero{padding:74px 0 42px}
+  /* 平板：吉祥物縮小，仍與文字並排 */
+  @media (min-width:768px) and (max-width:1139px){
+    .home-hero{grid-template-columns:minmax(0,1fr) 178px;gap:34px;padding:86px 0 54px}
+    .hero-mascot{max-width:178px}
+  }
+
+  /* 手機：單欄，吉祥物縮小放到文字下方 */
+  @media (max-width:767px){
+    .home-hero{grid-template-columns:1fr;gap:18px;padding:56px 0 34px}
+    .hero-mascot{justify-self:start;max-width:122px}
     .home-hero .lede{font-size:16px;line-height:1.95}
     .entry{grid-template-columns:58px minmax(0,1fr);gap:20px;padding:30px 0}
     .entry .go{grid-column:2;padding-top:4px}
@@ -239,9 +266,47 @@
 <main class="wrap" id="main">
 
   <section class="home-hero">
-    <div class="eyebrow rise rise-1"><b>墨</b><span class="rule"></span>Notes · Personal · Dev</div>
-    <h1 class="rise rise-2">學習筆記<span class="punc">，</span><br><span class="nowrap">和<em>正在做的事</em>。</span></h1>
-    <p class="lede rise rise-3">課堂筆記、個人整理，以及開發相關的紀錄。<span class="mark">三個專區各自獨立</span>，內容持續更新。</p>
+    <div class="hero-text">
+      <div class="eyebrow rise rise-1"><b>墨</b><span class="rule"></span>Notes · Personal · Dev</div>
+      <h1 class="rise rise-2">學習筆記<span class="punc">，</span><br><span class="nowrap">和<em>正在做的事</em>。</span></h1>
+      <p class="lede rise rise-3">課堂筆記、個人整理，以及開發相關的紀錄。<span class="mark">三個專區各自獨立</span>，內容持續更新。</p>
+    </div>
+
+    <div class="hero-mascot rise rise-4" aria-hidden="true">
+      <svg viewBox="0 0 200 210">
+        <circle cx="176" cy="30" r="5" fill="#f0b429" class="m-glow"/>
+        <circle cx="188" cy="50" r="3" fill="#f0b429" class="m-glow" style="animation-delay:.7s"/>
+        <g class="m-bob">
+          <ellipse cx="100" cy="180" rx="46" ry="6" fill="#1c1a17" opacity=".07"/>
+          <rect x="46" y="42" width="12" height="118" rx="5" fill="#a63d1f"/>
+          <rect x="54" y="42" width="100" height="118" rx="9" fill="#fffdf8" stroke="#e0d9cc" stroke-width="2"/>
+          <rect x="54" y="72" width="100" height="2" fill="#e8e4dc"/>
+          <rect x="54" y="130" width="100" height="2" fill="#e8e4dc"/>
+          <path d="M132 42 L154 64 L132 64 Z" fill="#f4efe6" stroke="#e0d9cc" stroke-width="2" stroke-linejoin="round"/>
+          <g stroke="#b9b2a4" stroke-width="4.5" stroke-linecap="round">
+            <line x1="40" y1="58" x2="58" y2="58"/>
+            <line x1="40" y1="80" x2="58" y2="80"/>
+            <line x1="40" y1="102" x2="58" y2="102"/>
+            <line x1="40" y1="124" x2="58" y2="124"/>
+            <line x1="40" y1="146" x2="58" y2="146"/>
+          </g>
+          <g class="m-eye">
+            <ellipse cx="83" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
+            <ellipse cx="118" cy="100" rx="5.4" ry="6.4" fill="#2b2723"/>
+          </g>
+          <circle cx="84.8" cy="97.4" r="2" fill="#fff"/>
+          <circle cx="119.8" cy="97.4" r="2" fill="#fff"/>
+          <ellipse cx="68" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
+          <ellipse cx="133" cy="113" rx="7" ry="4.4" fill="#e8896b" opacity=".55"/>
+          <path d="M92 110 Q100.5 119 109 110" fill="none" stroke="#2b2723" stroke-width="3" stroke-linecap="round"/>
+          <path d="M154 116 q12 -4 16 6" fill="none" stroke="#2b2723" stroke-width="3.4" stroke-linecap="round"/>
+          <g transform="rotate(-24 172 108)">
+            <rect x="168" y="76" width="7" height="52" rx="3" fill="#f0b429"/>
+            <path d="M168 128 L171.5 138 L175 128 Z" fill="#2b2723"/>
+          </g>
+        </g>
+      </svg>
+    </div>
   </section>
 
   <div class="home-rule" aria-hidden="true"></div>
@@ -252,7 +317,7 @@
       <span class="no">01</span>
       <div>
         <h3>筆記專區</h3>
-        <p class="desc">課堂與自學的筆記整理，每科各自一頁。公式重新排版，每個小節都能直接跳過去。</p>
+        <p class="desc">課堂與自學的筆記整理，每科各自一頁，公式重新排版。</p>
         <div class="facts">
           <span><b>2</b> 個科目</span>
           <span>Python <b>44</b> 小節</span>
