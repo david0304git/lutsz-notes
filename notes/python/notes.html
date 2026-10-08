@@ -7191,16 +7191,31 @@ function go(i, anchor){
   initPicker(art);
   $("#mbTitle").textContent = "Lesson " + LESSONS[i].num + " · " + LESSONS[i].short;
   try { localStorage.setItem("py-notes-last", String(i)); } catch(e){}
+  try {
+    const target = "#lesson-" + i;
+    if (location.hash !== target) history.replaceState(null, "", target);
+  } catch(e){}
   closeSidebar();
   if (anchor){
     const t = $("#" + anchor);
-    if (t) { t.scrollIntoView({ behavior:"smooth", block:"start" }); return; }
+    if (t) { scrollToAnchor(t); return; }
   }
   window.scrollTo({ top:0, behavior:"auto" });
 }
 
 /* 側欄開合（手機） */
 function openSidebar(){ $("#sidebar").classList.add("open"); $("#scrim").classList.add("show"); }
+/* 可靠的錨點捲動：先瞬間定位，再平滑修正（smooth 在部分環境不會真的捲動） */
+function scrollToAnchor(t){
+  const se = document.scrollingElement || document.documentElement;
+  const y = se.scrollTop + t.getBoundingClientRect().top - 12;
+  window.scrollTo({ top: y, behavior:"auto" });
+  requestAnimationFrame(() => {
+    const y2 = se.scrollTop + t.getBoundingClientRect().top - 12;
+    if (Math.abs(y2 - se.scrollTop) > 2) window.scrollTo({ top: y2, behavior:"smooth" });
+  });
+}
+
 function closeSidebar(){ $("#sidebar").classList.remove("open"); $("#scrim").classList.remove("show"); }
 
 document.addEventListener("click", e => {
@@ -7219,7 +7234,19 @@ document.addEventListener("click", e => {
   let start = 0;
   try { start = Number(localStorage.getItem("py-notes-last") || 0) || 0; } catch(e){}
   if (start < 0 || start >= LESSONS.length) start = 0;
-  go(start);
+  /* 深層連結：支援 #l4-s1（小節）與 #lesson-2（課） */
+  const raw = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+  if (raw){
+    const lm = raw.match(/^lesson-(\d+)$/);
+    if (lm){
+      const i = Number(lm[1]);
+      if (i >= 0 && i < LESSONS.length) start = i;
+    } else {
+      const hit = LESSONS.find(L => (L.body || "").includes('id="' + raw + '"'));
+      if (hit) start = LESSONS.indexOf(hit);
+    }
+  }
+  go(start, raw && !/^lesson-\d+$/.test(raw) ? raw : undefined);
   $("#burger").addEventListener("click", openSidebar);
   $("#scrim").addEventListener("click", closeSidebar);
   document.addEventListener("keydown", e => {
