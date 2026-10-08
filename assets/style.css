@@ -15,14 +15,14 @@
 
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-400.ttf") format("truetype");
+  src:url("fonts/noto-serif-tc-400.ttf?v=2") format("truetype");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-600.ttf") format("truetype");
+  src:url("fonts/noto-serif-tc-600.ttf?v=2") format("truetype");
   font-weight:600;
   font-style:normal;
   font-display:swap;
@@ -87,12 +87,16 @@ body::after{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
 }
 
+/* 減少動態效果：關掉位移與進場動畫，但保留極短的顏色過場，
+   否則會變成「完全沒回饋」，反而不易察覺滑鼠在哪 */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{
     animation-duration:.001ms!important;
     animation-iteration-count:1!important;
-    transition-duration:.001ms!important;
+    transition-property:color,background-color,border-color,opacity!important;
+    transition-duration:.08s!important;
+    transition-timing-function:linear!important;
   }
 }
 
