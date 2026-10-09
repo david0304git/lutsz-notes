@@ -15,14 +15,14 @@
 
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-400.woff2?v=4") format("woff2");
+  src:url("fonts/noto-serif-tc-400.woff2?v=5") format("woff2");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-600.woff2?v=4") format("woff2");
+  src:url("fonts/noto-serif-tc-600.woff2?v=5") format("woff2");
   font-weight:600;
   font-style:normal;
   font-display:swap;
