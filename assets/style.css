@@ -15,14 +15,14 @@
 
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-400.woff2?v=6") format("woff2");
+  src:url("fonts/noto-serif-tc-400.woff2?v=7") format("woff2");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
 @font-face{
   font-family:"Noto Serif TC Site";
-  src:url("fonts/noto-serif-tc-600.woff2?v=6") format("woff2");
+  src:url("fonts/noto-serif-tc-600.woff2?v=7") format("woff2");
   font-weight:600;
   font-style:normal;
   font-display:swap;
@@ -436,6 +436,72 @@ a.list-row:hover{background:var(--tint);text-decoration:none;color:inherit}
   border-left:2px solid var(--line-2);
   color:var(--fg-3);
 }
+
+/* ---------- .prose 補充：Notion 同步內容會用到的元素 ---------- */
+
+.prose pre{
+  margin:0 0 18px;
+  padding:15px 17px;
+  background:var(--bg-warm);
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  overflow-x:auto;
+  font-family:var(--mono);
+  font-size:13.2px;
+  line-height:1.85;
+  color:var(--fg);
+}
+.prose pre code{background:none;border:0;padding:0;font-size:inherit;color:inherit}
+.prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:14.5px}
+.prose th,.prose td{
+  padding:9px 13px;text-align:left;vertical-align:top;
+  border-bottom:1px solid var(--line);
+}
+.prose th{
+  background:var(--bg-warm);font-weight:600;font-size:13.5px;
+  color:var(--fg-2);border-bottom-color:var(--line-2);white-space:nowrap;
+}
+.prose td{color:var(--fg-2)}
+.prose img{
+  display:block;max-width:100%;height:auto;margin:0 0 18px;
+  border:1px solid var(--line);border-radius:var(--rad);
+}
+.prose hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+.prose a{
+  color:var(--accent);text-decoration:underline;
+  text-underline-offset:3px;text-decoration-thickness:1px;
+}
+.prose details{
+  margin:0 0 18px;padding:14px 18px;
+  background:var(--bg-warm);
+  border:1px solid var(--line);border-radius:var(--rad);
+}
+.prose summary{cursor:pointer;font-weight:600;font-size:15px;color:var(--fg);list-style:none}
+.prose summary::-webkit-details-marker{display:none}
+.prose summary::before{
+  content:"▸";display:inline-block;margin-right:9px;
+  color:var(--fg-3);font-size:11px;transition:transform .15s ease;
+}
+.prose details[open] summary::before{transform:rotate(90deg)}
+.prose details > *:last-child{margin-bottom:0}
+.prose details > *:first-of-type{margin-top:14px}
+.prose .callout{margin:0 0 18px}
+.prose ul.todo{list-style:none;padding-left:0}
+.prose ul.todo li{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.prose ul.todo li::before{
+  content:"";flex:0 0 auto;width:15px;height:15px;margin-top:5px;
+  border:1.5px solid var(--line-2);border-radius:4px;
+}
+.prose ul.todo li.done::before{background:var(--accent);border-color:var(--accent)}
+.prose ul.todo li.done{color:var(--fg-3);text-decoration:line-through}
+.prose .eq{
+  margin:0 0 18px;padding:14px 18px;
+  background:var(--bg-warm);
+  border:1px solid var(--line);border-radius:var(--rad);
+  overflow-x:auto;text-align:center;
+}
+.prose figure{margin:0 0 18px}
+.prose figcaption{font-size:13px;color:var(--fg-3);margin-top:8px}
 
 /* ---------- 提示框 ---------- */
 
