@@ -673,6 +673,350 @@ details.hint .h-body p:first-child{margin-top:0}
 </style>
 </head>
 <body>
+<header class="lp-header">
+  <div class="lp-inner">
+    <a class="lp-brand" href="../../index.html">LuTsz<span class="lp-apo">’</span>s <b>Notes</b></a>
+    <nav class="lp-nav" aria-label="主要導觴">
+      <a href="../../index.html">首頁</a>
+      <a href="../" aria-current="page">筆記專區</a>
+      <a href="../../personal/">私人專區</a>
+      <a href="../../dev/">開発專區</a>
+    </nav>
+  </div>
+</header>
+<style id="lp-theme">
+/* ==========================================================================
+   介面統一：改成與「數學筆記」相同的紙白編輯風
+   （由網站維護者注入。只覆蓋樣式，未改動原檔內容與互動邏輯）
+   ========================================================================== */
+
+/* ---------- 1. 站台頁首（類名加 lp- 前綴，避免與原檔衝突） ---------- */
+.lp-header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(255,254,251,.92);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid #e8e4dc;
+}
+.lp-inner{
+  max-width:1180px;margin:0 auto;padding:0 24px;height:66px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+}
+.lp-brand{
+  font-family:"Noto Serif TC Site","Songti TC","STSong",serif;
+  font-weight:600;font-size:17px;letter-spacing:.02em;color:#1c1a17;
+  text-decoration:none;white-space:nowrap;
+}
+.lp-brand b{color:#a63d1f;font-weight:600}
+.lp-brand .lp-apo{font-family:"Times New Roman",Georgia,serif;font-style:italic}
+.lp-nav{display:flex;gap:4px}
+.lp-nav a{
+  position:relative;padding:8px 14px;font-size:14.5px;color:#44403a;
+  text-decoration:none;white-space:nowrap;
+  transition:color .3s cubic-bezier(.16,.84,.44,1);
+}
+.lp-nav a::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:5px;height:1px;
+  background:#a63d1f;transform:scaleX(0);transform-origin:left;
+  transition:transform .45s cubic-bezier(.16,.84,.44,1);
+}
+.lp-nav a:hover{color:#1c1a17}
+.lp-nav a:hover::after{transform:scaleX(1)}
+.lp-nav a[aria-current]{color:#1c1a17;font-weight:600}
+.lp-nav a[aria-current]::after{transform:scaleX(1);opacity:.35}
+
+/* ---------- 2. 配色：暖色 → 紙白墨色 ---------- */
+:root{
+  --bg:#fffefb; --bg-2:#faf8f3; --bg-3:#f5f2ea;
+  --panel:#fffefb; --panel-2:#faf8f3;
+  --line:#e8e4dc; --line-soft:#f0ece4;
+  --txt:#1c1a17; --txt-2:#44403a; --txt-3:#71717a;
+  --brand:#a63d1f; --brand-dim:#8a3116;
+  --blue:#2f6fb5; --blue-l:#265f9e; --violet:#6d5bd0;
+  --amber:#a16207; --rose:#b91c1c; --green:#15803d;
+  --code-bg:#faf8f3; --code-fg:#3b3730;
+  --radius:12px; --radius-s:10px;
+  --shadow:none;
+  --line-2:#d5cfc3;
+  --serif:"Noto Serif TC Site","Songti TC","STSong","Noto Serif TC",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Hiragino Sans TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+}
+html,body{background:#fffefb!important;background-image:none!important;color:var(--txt)}
+body{background:var(--bg)!important;font-family:var(--sans)}
+::selection{background:rgba(166,61,31,.14)}
+
+/* ---------- 3. 版面 ---------- */
+.layout{min-height:calc(100vh - 66px)}
+.sidebar{
+  top:66px!important;height:calc(100vh - 66px)!important;
+  width:266px!important;flex:0 0 266px!important;
+  background:#fffefb!important;background-color:#fffefb!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  border-right:1px solid var(--line)!important;
+  padding:24px 20px 40px!important;
+}
+.main{padding:0 clamp(16px,3.4vw,54px) 110px!important}
+.wrap{max-width:840px!important}
+
+/* ---------- 4. 側欄 ---------- */
+.brand{margin-bottom:18px!important;gap:0!important}
+.brand-logo{display:none!important}
+.brand-txt b{font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.02em;color:var(--txt)}
+.brand-txt span{color:var(--txt-3);font-size:11.5px;letter-spacing:.04em}
+.sidebar-note{
+  background:transparent!important;border:0!important;
+  border-left:2px solid var(--line-2)!important;border-radius:0!important;
+  padding:0 0 0 12px!important;margin:16px 0 24px!important;
+  color:var(--txt-3)!important;font-size:12.8px;line-height:1.75;
+}
+.sidebar-note b{color:var(--txt-2)!important}
+.nav-group-title{
+  font-family:var(--mono)!important;font-size:11px!important;
+  letter-spacing:.14em!important;text-transform:uppercase;
+  color:var(--txt-3)!important;font-weight:600!important;
+}
+.toc-box{background:transparent!important;border:0!important;padding:0!important}
+
+.nav-item{
+  background:transparent!important;border:0!important;
+  border-left:2px solid transparent!important;border-radius:0!important;
+  padding:8px 10px!important;margin-bottom:0!important;
+  transition:background .3s cubic-bezier(.16,.84,.44,1),
+             border-color .3s cubic-bezier(.16,.84,.44,1),
+             color .3s cubic-bezier(.16,.84,.44,1)!important;
+}
+.nav-item:hover{background:#faf8f3!important;border-left-color:var(--line-2)!important;color:var(--txt)!important}
+.nav-item.active{background:#faf8f3!important;border-left-color:var(--brand)!important}
+.nav-item .n-num{
+  background:none!important;background-color:transparent!important;
+  box-shadow:none!important;border-radius:0!important;
+  width:auto!important;height:auto!important;flex:0 0 auto!important;
+  min-width:1.7em;text-align:left;padding:2px 0 0!important;
+  color:var(--txt-3)!important;
+  font-family:var(--mono)!important;font-size:11.5px!important;font-weight:600!important;
+}
+.nav-item.active .n-num{color:var(--brand)!important}
+.nav-item .n-title{font-family:var(--serif);font-weight:600;font-size:14.8px;letter-spacing:.01em}
+.nav-item .n-sub{font-size:11.8px;color:var(--txt-3);margin-top:2px}
+.nav-item .n-check{color:var(--green)}
+.toc-link{
+  border-radius:0!important;border-left:2px solid transparent!important;
+  padding:6px 10px!important;font-size:13px!important;color:var(--txt-2)!important;
+  transition:background .3s,border-color .3s,color .3s!important;
+}
+.toc-link:hover{background:#faf8f3!important;border-left-color:var(--brand)!important;color:var(--brand)!important}
+
+/* ---------- 5. 課次標題 ---------- */
+.lesson-head{padding:58px 0 30px!important;border-bottom:1px solid var(--line);margin-bottom:38px}
+.lesson-head h1{
+  font-family:var(--serif)!important;
+  font-size:clamp(26px,3.6vw,34px)!important;
+  font-weight:600!important;letter-spacing:.008em!important;line-height:1.45!important;
+}
+.lesson-head h1 em{
+  background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;
+  -webkit-text-fill-color:currentColor!important;color:var(--brand)!important;font-style:normal;
+}
+.lesson-head p.lead{font-size:16.5px;color:var(--txt-2);max-width:64ch;line-height:1.9}
+.kicker{
+  background:none!important;border:0!important;border-radius:0!important;padding:0!important;
+  color:var(--txt-3)!important;font-family:var(--mono)!important;
+  font-size:11px!important;letter-spacing:.16em!important;font-weight:600!important;
+  margin-bottom:18px!important;display:inline-flex;align-items:center;gap:10px;
+}
+.kicker::before{content:"";width:26px;height:1px;background:var(--line-2);display:inline-block}
+.chip{
+  background:transparent!important;border:1px solid var(--line)!important;
+  border-radius:999px!important;color:var(--txt-3)!important;font-size:12px!important;
+}
+.goals{
+  background:transparent!important;border:1px solid var(--line)!important;
+  border-radius:12px!important;padding:20px 22px!important;margin:28px 0 10px!important;
+}
+.goals h4{color:var(--txt-2)!important;font-size:13.5px!important;letter-spacing:.02em}
+.goals ol{color:var(--txt-2);font-size:15px}
+
+/* ---------- 6. 小節標題 ---------- */
+.sec{padding-top:58px!important}
+.s-title{
+  font-family:var(--serif)!important;
+  font-size:clamp(20px,2.5vw,24px)!important;
+  font-weight:600!important;letter-spacing:-.008em!important;line-height:1.45!important;
+  display:flex!important;align-items:baseline!important;gap:14px!important;
+  padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:24px!important;
+}
+.s-idx,.s-title .s-idx{
+  background:none!important;background-color:transparent!important;
+  border:0!important;box-shadow:none!important;border-radius:0!important;
+  padding:0!important;color:var(--brand)!important;
+  font-family:var(--mono)!important;font-size:12.5px!important;font-weight:600!important;
+  flex:0 0 auto;
+}
+h3,h4{font-family:var(--serif);letter-spacing:.005em}
+
+/* ---------- 7. 內容元件：統一為細邊框紙白 ---------- */
+.code{background:var(--code-bg)!important;border:1px solid var(--line)!important;border-radius:12px!important;box-shadow:none!important}
+.code-top{background:transparent!important;border-bottom:1px solid var(--line)!important;color:var(--txt-3)!important}
+.code-top .dots i{opacity:.35}
+.anim-explain{background:var(--bg-2)!important;border-top:1px solid var(--line)!important;color:var(--txt-2)}
+.out{
+  background:var(--bg-2)!important;border:1px solid var(--line)!important;
+  border-left:3px solid var(--line-2)!important;border-radius:10px!important;color:var(--txt-2)!important;
+}
+.out .out-label{color:var(--txt-3)!important}
+.quiz{background:transparent!important;border:1px solid var(--line)!important;border-radius:12px!important}
+.quiz .q-tag{color:var(--brand)!important;font-weight:700}
+.quiz .q-prompt{color:var(--txt)!important;font-weight:600!important;font-family:var(--serif)}
+.quiz-opt{background:transparent!important;border:1px solid var(--line)!important;border-radius:10px!important;color:var(--txt)!important}
+.quiz-opt:hover{background:var(--bg-2)!important;border-color:var(--line-2)!important;color:var(--txt)!important;transform:translateX(3px)}
+.quiz-opt .o-key{background:var(--bg-3)!important;color:var(--txt-3)!important}
+.quiz-opt.right{border-color:#86c79a!important;background:#f2faf4!important;color:#15803d!important}
+.quiz-opt.right .o-key{background:#15803d!important;color:#fff!important}
+.quiz-opt.wrong{border-color:#e6a3a3!important;background:#fdf4f4!important;color:#b91c1c!important}
+.quiz-opt.wrong .o-key{background:#b91c1c!important;color:#fff!important}
+.quiz-fb{border-top:1px dashed var(--line)!important;color:var(--txt-2)}
+.quiz-fb b{color:var(--brand)!important}
+.task{
+  background:transparent!important;border:1px solid var(--line)!important;
+  border-left:3px solid var(--line-2)!important;border-radius:12px!important;
+}
+.task .t-head b{color:var(--txt)!important;font-family:var(--serif)}
+.task .t-lv{background:var(--bg-3)!important;color:var(--txt-2)!important}
+.callout{background:var(--bg-2)!important;border:1px solid var(--line)!important;border-radius:12px!important}
+.callout.tip{border-left:3px solid var(--brand)!important}
+.callout.warn{border-left:3px solid var(--amber)!important}
+.callout.danger{border-left:3px solid var(--rose)!important}
+.callout.info{border-left:3px solid var(--blue)!important}
+.callout.analogy{border-left:3px solid var(--violet)!important}
+.callout.tip .c-title{color:var(--brand)!important}
+.callout.warn .c-title{color:var(--amber)!important}
+.callout.danger .c-title{color:var(--rose)!important}
+.callout.info .c-title{color:var(--blue-l)!important}
+.callout.analogy .c-title{color:var(--violet)!important}
+.tbl-wrap{border:1px solid var(--line)!important;border-radius:12px!important}
+.ch{background:var(--bg-2)!important;border:1px solid var(--line)!important;border-radius:8px!important}
+.ch .c-val{color:var(--txt)!important}
+.ch.hl-brand,.ch.hl-blue{background:var(--bg-3)!important}
+.pager button{
+  background:transparent!important;border:1px solid var(--line)!important;
+  border-radius:12px!important;color:var(--txt-2)!important;
+}
+.pager button:hover{background:var(--bg-2)!important;border-color:var(--line-2)!important;transform:translateY(-2px)}
+.pager button .p-name{color:var(--txt)!important;font-family:var(--serif)}
+.pager button .p-dir{color:var(--txt-3)!important}
+details.hint{background:var(--bg-2)!important;border:1px solid var(--line)!important;border-radius:10px!important}
+
+/* 浮動返回鈕：改用站台導覽，移除 */
+.gn-back{display:none!important}
+
+/* ---------- 8. 手機 ---------- */
+@media (max-width:960px){
+  .lp-inner{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding:12px 20px}
+  .lp-nav{margin-left:-14px;flex-wrap:wrap}
+  .lp-header{position:static}
+  .layout{min-height:0}
+  .sidebar{top:0!important;height:100vh!important;width:280px!important;flex:none!important}
+  .mobile-bar{
+    background:rgba(255,254,251,.96)!important;border-bottom:1px solid var(--line)!important;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  }
+  .mobile-bar .mb-title{font-family:var(--serif);font-weight:600;color:var(--txt)}
+  .burger{background:transparent!important;border:1px solid var(--line)!important;border-radius:8px!important;color:var(--txt)!important}
+  .scrim{background:rgba(28,26,23,.55)!important}
+  .main{padding:0 20px 90px!important}
+  .wrap{max-width:none!important}
+  .lesson-head{padding:34px 0 22px!important}
+  .sec{padding-top:40px!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .lp-nav a::after,.nav-item,.toc-link,.quiz-opt,.pager button{transition-duration:.001ms!important}
+}
+
+/* ---------- 9. 平面化：清掉所有漸層 ---------- */
+.brand-logo,.nav-item.active,.nav-item.active .n-num,h2.s-title .s-idx,
+.anim-head .a-name .badge,.btn.primary,input[type=range],.recap,.goals{
+  background-image:none!important;
+}
+.nav-item.active .n-num{background:transparent!important;color:var(--brand)!important}
+h2.s-title .s-idx{background:transparent!important;box-shadow:none!important;color:var(--brand)!important}
+.anim-head .a-name .badge{
+  background:transparent!important;border:1px solid var(--line)!important;
+  color:var(--txt-3)!important;box-shadow:none!important;
+}
+.recap{background:var(--bg-2)!important;border:1px solid var(--line)!important;border-radius:12px!important}
+.btn{
+  background:transparent!important;border:1px solid var(--line)!important;
+  border-radius:10px!important;box-shadow:none!important;color:var(--txt)!important;
+  transition:background .3s cubic-bezier(.16,.84,.44,1),border-color .3s cubic-bezier(.16,.84,.44,1)!important;
+}
+.btn:hover{background:var(--bg-2)!important;border-color:var(--line-2)!important;transform:translateY(-1px)}
+.btn.primary{background:var(--txt)!important;border:1px solid var(--txt)!important;color:#fff!important;box-shadow:none!important}
+.btn.primary:hover{background:#000!important;border-color:#000!important}
+input[type=range]{background:var(--line)!important;box-shadow:none!important;border-radius:99px!important}
+input[type=range]::-webkit-slider-thumb{background:var(--brand)!important;box-shadow:none!important;border:0!important}
+input[type=text],input[type=number],select{
+  background:var(--bg-2)!important;color:var(--txt)!important;
+  border:1px solid var(--line)!important;border-radius:9px!important;box-shadow:none!important;
+}
+input[type=text]:focus,input[type=number]:focus,select:focus{
+  border-color:var(--brand)!important;box-shadow:none!important;
+}
+
+/* ---------- 10. 平面化：清掉所有卡片陰影 ---------- */
+.code,.anim,.mem-var.hl,.fbox.hl,.fbox.hit,.fbox.cond.hl,.farrow.hl,.tt-card.on,
+.ch,.mem-obj .o-cell,.fbox,.vpill,.tt-card,.tl,.farrow,.goals{box-shadow:none!important}
+
+/* ---------- 11. 行內程式碼與程式碼區塊 ---------- */
+code{
+  background:#faf8f3!important;color:#8a3116!important;
+  border:1px solid var(--line)!important;border-radius:5px!important;
+}
+.code-top{background:transparent!important;color:var(--txt-3)!important;border-bottom:1px solid var(--line)!important}
+.code-top .dots i{background:var(--line-2)!important}
+.code pre .ln{color:var(--txt-3)!important;opacity:.55}
+.anim-explain{background:var(--bg-2)!important;border-top:1px solid var(--line)!important}
+
+/* ---------- 12. 動畫元件（互動示範區） ---------- */
+.anim{background:transparent!important;border:1px solid var(--line)!important;border-radius:12px!important}
+.anim-head{background:transparent!important;border-bottom:1px solid var(--line)!important}
+.anim-head .a-name{font-family:var(--serif);font-weight:600;color:var(--txt)!important}
+.anim-body,.anim-stage{background:var(--bg-2)!important}
+.anim-foot{background:transparent!important;border-top:1px solid var(--line)!important;color:var(--txt-3)!important}
+
+/* ---------- 13. 表格 ---------- */
+th{
+  background:var(--bg-2)!important;color:var(--txt-2)!important;
+  font-weight:600!important;font-size:13px!important;
+  border-bottom:1px solid var(--line-2)!important;
+}
+td{color:var(--txt-2)!important}
+tbody tr:nth-child(even){background:transparent!important}
+tbody tr:hover{background:var(--bg-2)!important}
+.tbl-hl td{color:var(--txt)!important}
+th,td{border-bottom:1px solid var(--line)!important}
+.tbl-wrap table{min-width:0}
+
+/* ---------- 14. 文字與捲軸 ---------- */
+strong{color:var(--txt)!important}
+.anim-explain .ex-key b,.anim-explain .ex-key strong{color:var(--brand)!important}
+*::-webkit-scrollbar-thumb{background:var(--line-2)!important;border-radius:99px!important}
+*::-webkit-scrollbar-thumb:hover{background:var(--txt-3)!important}
+.trace-code,.trace-panel{background:var(--bg-2)!important;border:1px solid var(--line)!important}
+.trace-panel h5{color:var(--txt-3)!important}
+/* ---------- 0. 載入站台網頁字型（與其他頁面一致） ---------- */
+@font-face{
+  font-family:"Noto Serif TC Site";
+  src:url("../../assets/fonts/noto-serif-tc-400.woff2?v=6") format("woff2");
+  font-weight:400;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:"Noto Serif TC Site";
+  src:url("../../assets/fonts/noto-serif-tc-600.woff2?v=6") format("woff2");
+  font-weight:600;font-style:normal;font-display:swap;
+}
+</style>
+
 
 <div class="mobile-bar">
   <button class="burger" id="burger" aria-label="開啟導覽">☰</button>
