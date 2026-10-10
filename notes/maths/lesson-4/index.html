@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 4 · 單變數最佳化 · EF2452</title>
+<meta name="description" content="EF2452 Lecture 4：臨界點、凹凸性、二階導數檢定，含獨占利潤極大、稅收極大、完全競爭與區間最佳化。">
+<link rel="stylesheet" href="../../../assets/style.css?v=6">
+<link rel="stylesheet" href="../assets/katex.min.css?v=6">
+<link rel="stylesheet" href="../assets/maths.css?v=6">
+<script defer src="../assets/katex.min.js"></script>
+<script defer src="../assets/maths.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="主要導航">
+    <a class="brand" href="../../../index.html">LuTsz<span class="apo">’</span>s <span class="dot">Notes</span></a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">首頁</a></li>
+      <li><a href="../../">筆記專區</a></li>
+      <li><a href="../../../personal/">私人專區</a></li>
+      <li><a href="../../../dev/">開發專區</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="page-head">
+    <p class="crumb"><a href="../../../index.html">首頁</a> ／ <a href="../../">筆記專區</a> ／ <a href="../">數學筆記</a> ／ Lecture 4</p>
+    <h1>單變數最佳化</h1>
+    <p><strong>EF2452 Mathematics for Economics and Finance</strong> · Lecture 4 · Calculus II (Univariate Optimization)<br>
+    把上一課的導數用來找極值：一階條件找候選點，二階條件判斷誰是極大、誰是極小。</p>
+  </div>
+
+  <div class="lecture">
+
+    <nav class="lec-toc" aria-label="本課目錄">
+      <p class="toc-head">本課目錄</p>
+      <ol>
+        <li><a href="#s1">什麼是最佳化</a></li>
+        <li><a href="#s2">導數即斜率</a></li>
+        <li><a href="#s3">臨界點（駐點）</a></li>
+        <li><a href="#s4">局部與全域極值</a></li>
+        <li><a href="#s5">臨界點的三種類型</a></li>
+        <li><a href="#s6">二階導數的意義</a></li>
+        <li><a href="#s7">凹凸性與經濟例子</a></li>
+        <li><a href="#s8">二階導數與最佳化</a></li>
+        <li><a href="#s9">一階與二階條件</a></li>
+        <li><a href="#s10">經濟應用：邊際成本與平均成本</a></li>
+        <li><a href="#s11">經濟應用：獨占廠商的利潤極大</a></li>
+        <li><a href="#s12">經濟應用：政府的稅收極大</a></li>
+        <li><a href="#s13">經濟應用：完全競爭廠商</a></li>
+        <li><a href="#s14">區間上的最佳化</a></li>
+      </ol>
+    </nav>
+
+    <div class="lec-body">
+
+      <!-- ============================ 1 ============================ -->
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">01</span><h2>什麼是最佳化</h2></div>
+        <p class="sec-sub">經濟學幾乎所有問題都可以寫成「在某個限制下讓某個東西最大或最小」。</p>
+
+        <p>經濟學裡我們經常處理兩類問題：</p>
+
+        <ul>
+          <li><strong>極大化</strong>（maximization）：廠商的利潤、消費者的效用、廠商或國家的成長率。</li>
+          <li><strong>極小化</strong>（minimization）：廠商的成本、消費者的支出。</li>
+        </ul>
+
+        <p>在數學上，這意味著我們要找一組<strong>選擇變數</strong>（choice variables）的值，使<strong>目標函數</strong>（objective function）達到極值。</p>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>廠商的利潤極大問題</div>
+          <div class="ex-body">
+            <p>假設廠商有成本函數 $C$，生產 $q$ 單位必須支付 $C(q)$。</p>
+            <p>產品可以每單位 $P(q)$ 的價格賣出，因此廠商的收入為</p>
+            <div class="eq">$$R(q) = qP(q)$$</div>
+            <p>顯然廠商的目標是<strong>選擇產量水準</strong>來極大化利潤：</p>
+            <div class="eq">$$\Pi(q) = R(q) - C(q)$$</div>
+            <div class="eq-row"><span>目標函數（objective function）</span><span>$\Pi(q)$</span></div>
+            <div class="eq-row"><span>選擇變數（choice variable）</span><span>$q$</span></div>
+          </div>
+        </div>
+
+        <p class="eq-note">「目標函數／選擇變數」這個區分很重要：先把哪個是目標、哪個是你能調的變數分清楚，後面的微分才有對象。</p>
+      </section>
+
+      <!-- ============================ 2 ============================ -->
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">02</span><h2>導數即斜率</h2></div>
+        <p class="sec-sub">幾何上，微分就是曲線在某一點切線的斜率。</p>
+
+        <ul>
+          <li>若 $f'(c) > 0$，切線在 $x = c$ 有<strong>正斜率</strong>。</li>
+          <li>若 $f'(c) < 0$，切線在 $x = c$ 有<strong>負斜率</strong>。</li>
+          <li>若 $f'(c) = 0$，切線是<strong>水平</strong>的。</li>
+        </ul>
+
+        <p>切線近似了「$x$ 從 $c$ 小幅變動時，$y$ 的變化」。換句話說：$f'(c)$ 的正負，直接告訴我們函數在該點是上升還是下降。</p>
+
+        <div class="eq-row"><span>$f'(c) = 0$：切線水平</span><span>$\Longrightarrow$ 極值候選點</span></div>
+        <div class="eq-row"><span>$f'(c) > 0$：切線正斜率</span><span>$\Delta x > 0 \Rightarrow \Delta y > 0$；$\Delta x < 0 \Rightarrow \Delta y < 0$</span></div>
+        <div class="eq-row"><span>$f'(c) < 0$：切線負斜率</span><span>$\Delta x > 0 \Rightarrow \Delta y < 0$；$\Delta x < 0 \Rightarrow \Delta y > 0$</span></div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>從導數走向最佳化</div>
+          <div class="ex-body">
+            <p>假設某廠商的成本函數為 $C(q) = 9 + 5q$，價格函數（反需求函數）為 $P(q) = 6 - 0.01q$。</p>
+            <p>廠商的目標是選擇產量水準來極大化利潤：</p>
+            <div class="eq">$$\Pi(q) = R(q) - C(q) = q(6 - 0.01q) - (9 + 5q)$$</div>
+            <div class="eq">$$\Pi(q) = -9 + q - 0.01q^{2}$$</div>
+            <p>在利潤函數的<strong>最高點</strong>，切線與水平軸平行，因此斜率為零：</p>
+            <div class="eq">$$\Pi'(q_m) = 0$$</div>
+            <p>這給了我們利潤函數的<strong>駐點</strong>（stationary point）。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 3 ============================ -->
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">03</span><h2>臨界點（駐點）</h2></div>
+        <p class="sec-sub">找極值的第一步永遠一樣：令一階導數為零。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 臨界點／駐點</span>
+          <p>一般而言，當我們要找極大值或極小值時，<strong>首先找斜率為零的點</strong>：</p>
+          <div class="eq">$$f' = 0$$</div>
+          <p>這些點稱為<strong>駐點</strong>（stationary points）或<strong>臨界點</strong>（critical points），是極值的<strong>候選點</strong>。</p>
+          <p class="eq-note">注意「候選」兩個字：$f' = 0$ 只保證切線水平，<strong>不保證</strong>那裡是極大或極小——下面就要從圖形看各種可能。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 4 ============================ -->
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">04</span><h2>局部與全域極值</h2></div>
+        <p class="sec-sub">「附近最高」和「全場最高」是兩件事。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 嚴格遞增／嚴格遞減</span>
+          <p>函數<strong>嚴格遞增</strong>（strictly increasing）：若 $x_2 > x_1$，則 $f(x_2) > f(x_1)$。</p>
+          <p>函數<strong>嚴格遞減</strong>（strictly decreasing）：若 $x_2 > x_1$，則 $f(x_2) < f(x_1)$。</p>
+        </div>
+
+        <div class="eq-row"><span>嚴格遞增函數</span><span>有<strong>全域最小值</strong>，但<strong>沒有有限的最大值</strong></span></div>
+        <div class="eq-row"><span>嚴格遞減函數</span><span>有<strong>全域最大值</strong>，但<strong>沒有有限的最小值</strong></span></div>
+
+        <p>當定義域限制在閉區間 $x \in [a, b]$ 上時，函數可能同時具有：</p>
+
+        <ul>
+          <li><strong>全域最大值</strong>（global maximum）與<strong>全域最小值</strong>（global minimum）</li>
+          <li>若干個<strong>局部最大值</strong>（local maximum）與<strong>局部最小值</strong>（local minimum）</li>
+          <li>以及既非極大也非極小的<strong>反曲點</strong>（inflection point）</li>
+        </ul>
+
+        <p class="eq-note">局部極值只看「附近的鄰居」，全域極值看整個定義域。同一個函數可以有很多局部極大，但全域最大只有一個（值唯一）。</p>
+      </section>
+
+      <!-- ============================ 5 ============================ -->
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">05</span><h2>臨界點的三種類型</h2></div>
+        <p class="sec-sub">關鍵在一階導數通過該點時「正負號有沒有換、怎麼換」。</p>
+
+        <div class="def">
+          <span class="box-label">類型一 · 局部極大（local maximum）</span>
+          <p>若函數 $f(x)$ 在 $x = c$ 的一階導數為零（$f'(c) = 0$），且 $f'(x)$ 從 $c$ 的左側到右側<strong>由正轉負</strong>，則 $f(c)$ 是一個局部極大值。</p>
+          <div class="eq-row"><span>$c$ 的左側</span><span>$f'(x) > 0$（上升）</span></div>
+          <div class="eq-row"><span>$c$ 的右側</span><span>$f'(x) < 0$（下降）</span></div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">類型二 · 局部極小（local minimum）</span>
+          <p>若 $f'(c) = 0$，且 $f'(x)$ 從 $c$ 的左側到右側<strong>由負轉正</strong>，則 $f(c)$ 是一個局部極小值。</p>
+          <div class="eq-row"><span>$c$ 的左側</span><span>$f'(x) < 0$（下降）</span></div>
+          <div class="eq-row"><span>$c$ 的右側</span><span>$f'(x) > 0$（上升）</span></div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">類型三 · 反曲點（inflection point）</span>
+          <p>若 $f'(c) = 0$，且 $f'(x)$ 在 $c$ 的<strong>兩側同號</strong>，則該點既不是局部極大也不是局部極小。若<strong>凹凸性</strong>也在 $c$ 改變，它就是一個反曲點。</p>
+          <div class="eq-row"><span>$c$ 的左側</span><span>$f'(x) > 0$</span></div>
+          <div class="eq-row"><span>$c$ 的右側</span><span>$f'(x) > 0$（兩側同為正）</span></div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>找臨界點並判斷類型（用符號變化）</div>
+          <div class="ex-body">
+            <p>求函數 $f(x) = x^{3} - 12x^{2} + 21x + 100$ 的臨界點。</p>
+            <p>先求 $f'(x)$，並令 $f'(x) = 0$ 得到臨界值（駐點）：</p>
+            <div class="eq">$$f'(x) = 3x^{2} - 24x + 21 = 0$$</div>
+            <div class="eq">$$3(x - 1)(x - 7) = 0$$</div>
+            <div class="eq">$$x_1 = 1 \quad \text{and} \quad x_2 = 7$$</div>
+            <p>代入原函數求對應的函數值：當 $x_1 = 1$ 時 $f'(1) = 0$ 且 $f(1) = 110$；當 $x_2 = 7$ 時 $f'(7) = 0$ 且 $f(7) = 2$。</p>
+            <p>再看一階導數的符號分布：</p>
+            <div class="eq-row"><span>$x < 1$</span><span>$f'(x) > 0$</span></div>
+            <div class="eq-row"><span>$1 < x < 7$</span><span>$f'(x) < 0$</span></div>
+            <div class="eq-row"><span>$x > 7$</span><span>$f'(x) > 0$</span></div>
+            <p>因此：</p>
+            <div class="eq">$$f(1) = 110 \text{ 是局部極大}, \qquad f(7) = 2 \text{ 是局部極小}$$</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 6 ============================ -->
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">06</span><h2>二階導數的意義</h2></div>
+        <p class="sec-sub">一階導數是變化率；二階導數是<strong>變化率的變化率</strong>。</p>
+
+        <p>上一課介紹了高階導數，現在討論它的含義。</p>
+        <p>我們已知微分給出變化率，$f'(x)$ 衡量 $f(x)$ 的變化率。而 $f''(x)$ 衡量 $f'(x)$ 的變化率——換句話說，<strong>$f''(x)$ 衡量 $f(x)$ 變化率的變化率</strong>。</p>
+
+        <div class="def">
+          <span class="box-label">二階導數的符號</span>
+          <p>二階導數在 $c$ 的符號，告訴我們曲線的<strong>斜率如何變化</strong>：</p>
+          <div class="eq-row"><span>$f''(c) > 0$</span><span>斜率在 $c$ 正在<strong>遞增</strong></span></div>
+          <div class="eq-row"><span>$f''(c) < 0$</span><span>斜率在 $c$ 正在<strong>遞減</strong></span></div>
+        </div>
+
+        <div class="eq-note">注意 $f''$ 講的不是「函數在上升還是下降」，而是「斜率本身在變大還是變小」。下降中的函數也可以有 $f'' > 0$——只要它下降得越來越慢。</div>
+      </section>
+
+      <!-- ============================ 7 ============================ -->
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">07</span><h2>凹凸性與經濟例子</h2></div>
+        <p class="sec-sub">在曲線上任取兩點連一條直線，這條線在曲線上方還是下方，決定了凹凸。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 凸函數（convex function）</span>
+          <p>在曲線上任取兩點並用直線連接：</p>
+          <ul>
+            <li>若這條線段<strong>完全在曲線上方</strong>（除了那兩點），稱 $f$ 為<strong>嚴格凸函數</strong>（strictly convex）：$f''(x) > 0$。</li>
+            <li>若這條線段完全在曲線上方<strong>或沿著曲線</strong>，稱 $f$ 為<strong>凸函數</strong>（convex）：$f''(x) \geq 0$。</li>
+          </ul>
+        </div>
+
+        <div class="def">
+          <span class="box-label">定義 · 凹函數（concave function）</span>
+          <p>同樣取兩點連線：</p>
+          <ul>
+            <li>若線段<strong>完全在曲線下方</strong>（除了那兩點），稱 $f$ 為<strong>嚴格凹函數</strong>（strictly concave）：$f''(x) < 0$。</li>
+            <li>若線段完全在曲線下方<strong>或沿著曲線</strong>，稱 $f$ 為<strong>凹函數</strong>（concave）：$f''(x) \leq 0$。</li>
+          </ul>
+        </div>
+
+        <table class="tbl">
+          <caption>四種組合的經濟意義</caption>
+          <thead>
+            <tr><th>符號</th><th>圖形意義</th><th>經濟例子</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$f' > 0$、$f'' > 0$</td>
+              <td>切線斜率隨 $x$ 遞增（$\Delta x$ 固定時，$y$ 的增量變大）</td>
+              <td><strong>總成本函數</strong>：成本以<strong>遞增的速度</strong>上升，因為邊際成本為正（$C'(q) > 0$）且在上升（$C''(q) > 0$）</td>
+            </tr>
+            <tr>
+              <td>$f' < 0$、$f'' > 0$</td>
+              <td>切線斜率隨 $x$ 遞增（$\Delta x$ 固定時，$y$ 的減量變小）</td>
+              <td><strong>平均成本函數</strong>（U 形 AC 曲線下降段）：平均成本遞減（$AC'(q) < 0$），但以<strong>遞減的速度</strong>下降（$AC''(q) > 0$），逐漸逼近最低點</td>
+            </tr>
+            <tr>
+              <td>$f' > 0$、$f'' < 0$</td>
+              <td>切線斜率隨 $x$ 遞減（$\Delta x$ 固定時，$y$ 的增量變小）</td>
+              <td><strong>總產量函數</strong>：產出以<strong>遞減的速度</strong>上升，因為邊際產量為正（$TP'(L) = MP_L > 0$）且在下降（$TP''(L) = MP_L'(L) < 0$）——這就是<strong>邊際產量遞減</strong></td>
+            </tr>
+            <tr>
+              <td>$f' < 0$、$f'' < 0$</td>
+              <td>切線斜率隨 $x$ 遞減（$\Delta x$ 固定時，$y$ 的減量變大）</td>
+              <td><strong>利潤函數</strong>（凹的利潤函數、超過利潤極大產量之後）：利潤遞減（$\Pi'(q) < 0$），而且以<strong>遞增的速度</strong>遞減（$\Pi''(q) < 0$）</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="eq-note">記法：凹（concave）＝像山丘、$f'' < 0$，適合找極大；凸（convex）＝像山谷、$f'' > 0$，適合找極小。</p>
+      </section>
+
+      <!-- ============================ 8 ============================ -->
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">08</span><h2>二階導數與最佳化</h2></div>
+        <p class="sec-sub">把 $f'$ 與 $f''$ 的符號放在同一張圖上，極值的位置就很清楚了。</p>
+
+        <h3>局部極大附近</h3>
+        <p>在極大點的左邊函數上升、右邊下降，而整段斜率都在遞減，所以：</p>
+
+        <div class="eq-row"><span>極大點<strong>左側</strong>（例如 $a$）</span><span>$f'(a) > 0$，$f''(a) < 0$</span></div>
+        <div class="eq-row"><span>極大點<strong>本身</strong>（例如 $b$）</span><span>$f'(b) = 0$，$f''(b) < 0$</span></div>
+        <div class="eq-row"><span>極大點<strong>右側</strong>（例如 $c$）</span><span>$f'(c) < 0$，$f''(c) < 0$</span></div>
+
+        <h3>局部極小附近</h3>
+        <p>在極小點的左邊函數下降、右邊上升，整段斜率都在遞增，所以：</p>
+
+        <div class="eq-row"><span>極小點<strong>左側</strong>（例如 $d$）</span><span>$f'(d) < 0$，$f''(d) > 0$</span></div>
+        <div class="eq-row"><span>極小點<strong>本身</strong>（例如 $e$）</span><span>$f'(e) = 0$，$f''(e) > 0$</span></div>
+        <div class="eq-row"><span>極小點<strong>右側</strong>（例如 $f$）</span><span>$f'(f) > 0$，$f''(f) > 0$</span></div>
+
+        <div class="box box-tint">
+          <span class="box-label">看出來了嗎</span>
+          <p>關鍵組合只有兩種：</p>
+          <div class="eq-row"><span>$f'(c) = 0$ 且 $f''(c) < 0$</span><span>$\Longrightarrow$ 局部極大</span></div>
+          <div class="eq-row"><span>$f'(c) = 0$ 且 $f''(c) > 0$</span><span>$\Longrightarrow$ 局部極小</span></div>
+        </div>
+      </section>
+
+      <!-- ============================ 9 ============================ -->
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">09</span><h2>一階與二階條件</h2></div>
+        <p class="sec-sub">「必要」與「充分」的分工：一階條件找候選人，二階條件做決定。</p>
+
+        <div class="def">
+          <span class="box-label">一階條件（First-Order Condition）</span>
+          <p>$f'(c) = 0$ 確保函數的斜率為零。這是二階導數檢定中的<strong>必要條件</strong>。</p>
+          <div class="eq">$$f'(c) = 0$$</div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">二階條件（Second-Order Condition）</span>
+          <p>找到滿足 $f'(c) = 0$ 的臨界點（駐點）之後，$f''(c)$ 的<strong>負號（正號）足以</strong>確立該駐點是局部極大（極小）。</p>
+          <div class="eq">$$f''(c) < 0 \Rightarrow \text{局部極大}, \qquad f''(c) > 0 \Rightarrow \text{局部極小}$$</div>
+          <p class="eq-note">一個滿足一階條件的駐點，可能既不是局部極大也不是局部極小——它可能是<strong>反曲點</strong>。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>完整跑一次二階導數檢定</div>
+          <div class="ex-body">
+            <p>求函數 $f(x) = x^{3} - 12x^{2} + 21x + 100$ 的臨界點。</p>
+            <p><strong>一階條件</strong>：令 $f'(x) = 0$，得到臨界值（駐點）</p>
+            <div class="eq">$$f'(x) = 3x^{2} - 24x + 21 = 0 \quad\Longrightarrow\quad x_1 = 1 \text{ and } x_2 = 7$$</div>
+            <p><strong>二階條件</strong>：求 $f''(x)$，判斷駐點是極大、極小，或檢定無結論</p>
+            <div class="eq">$$f''(x) = 6x - 24$$</div>
+            <p>當 $x_1 = 1$：$f''(1) = 6(1) - 24 = -18 < 0$，是<strong>極大</strong>。</p>
+            <p>當 $x_2 = 7$：$f''(7) = 6(7) - 24 = 18 > 0$，是<strong>極小</strong>。</p>
+            <p class="eq-note">與前面「看一階導數符號變化」得到相同的結論——但這次只要代兩個數字。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 10 ============================ -->
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><h2>經濟應用：邊際成本與平均成本</h2></div>
+        <p class="sec-sub">為什麼 MC 曲線一定會穿過 AC 曲線的最低點？用商法則就能證明。</p>
+
+        <p>設 $C = C(q)$ 是生產 $q$ 單位產出的總成本。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 平均成本與邊際成本</span>
+          <p><strong>平均成本</strong>（Average Cost, $AC$）是每單位產出的成本：</p>
+          <div class="eq">$$AC = \frac{C(q)}{q}$$</div>
+          <p><strong>邊際成本</strong>（Marginal Cost, $MC$）可解釋為多生產一單位產出時總成本的近似變化：</p>
+          <div class="eq">$$MC = \frac{dC(q)}{dq} = C'(q)$$</div>
+        </div>
+
+        <p>回想一個直覺：如果多生產一單位的邊際成本<strong>低於</strong>目前平均成本（$MC < AC$），這一單位會把平均成本<strong>拉低</strong>。</p>
+
+        <div class="eq-row"><span>$MC < AC$</span><span>$AC$ 下降</span></div>
+        <div class="eq-row"><span>$MC > AC$</span><span>$AC$ 上升</span></div>
+
+        <h3>用商法則把它導出來</h3>
+        <p>由於 $AC = \dfrac{C(q)}{q}$，對 $q$ 微分（用商法則）：</p>
+
+        <div class="eq">$$AC' = \frac{C'(q)\,q - C(q)}{q^{2}}$$</div>
+
+        <p>代入 $MC = C'(q)$，並注意 $C(q) = AC \times q$：</p>
+
+        <div class="eq">$$AC' = \frac{MC \times q - C(q)}{q^{2}} = \frac{MC \times q - AC \times q}{q^{2}} = \frac{MC - AC}{q}$$</div>
+
+        <div class="def">
+          <span class="box-label">關鍵結果</span>
+          <div class="eq">$$AC' = \frac{MC - AC}{q}$$</div>
+          <p>因為產量為正（$q > 0$），$AC'$ 的符號完全取決於 $MC$ 是否大於 $AC$（也就是 $MC$ 曲線在 $AC$ 曲線上方還是下方）：</p>
+          <ul>
+            <li>若 $MC < AC$，則 $AC' < 0$，$AC$ 遞減。</li>
+            <li>若 $MC > AC$，則 $AC' > 0$，$AC$ 遞增。</li>
+            <li>若 $MC = AC$，則 $AC' = 0$，$q^{*}$ 是 $AC$ 的極小點。</li>
+          </ul>
+        </div>
+
+        <h3>確認它真的是極小</h3>
+        <p>再微分一次：</p>
+
+        <div class="eq">$$AC'' = \frac{(MC' - AC')\,q - (MC - AC)}{q^{2}}$$</div>
+
+        <p>在 $MC = AC$ 且 $AC' = 0$ 的駐點上：</p>
+
+        <div class="eq">$$AC'' = \frac{MC'}{q} > 0 \quad \text{if } MC' > 0$$</div>
+
+        <p>所以 $AC$ 在該點是<strong>局部極小</strong>。這也解釋了圖形上的標準結果：<strong>MC 曲線由下往上穿過 AC 曲線的最低點</strong>。</p>
+      </section>
+
+      <!-- ============================ 11 ============================ -->
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><h2>經濟應用：獨占廠商的利潤極大</h2></div>
+        <p class="sec-sub">把「最大化利潤」完整寫成<strong>一階條件 $\to$ 二階條件</strong>兩步來跑。</p>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 1</span>獨占：利潤極大（單一臨界點）</div>
+          <div class="ex-body">
+            <p>某獨占廠商面對需求集 $D = \{(q, p) \mid q + 5p = 850\}$，成本函數為 $C(q) = 300 - 10q + q^{2}$。</p>
+            <p>由 $q + 5p = 850$ 解出 $p$：</p>
+            <div class="eq">$$p = \frac{850}{5} - \frac{q}{5}$$</div>
+            <p>反需求函數為</p>
+            <div class="eq">$$p^{D}(q) = 170 - 0.2q$$</div>
+            <p>總收入為 $R(q) = q\,p^{D}(q) = 170q - 0.2q^{2}$。利潤 $\Pi(q)$ 為</p>
+            <div class="eq">$$\Pi(q) = R(q) - C(q) = 170q - 0.2q^{2} - (300 - 10q + q^{2})$$</div>
+            <div class="eq">$$\Pi(q) = -300 + 180q - 1.2q^{2}$$</div>
+            <p>獨占廠商的利潤極大問題：</p>
+            <div class="eq">$$\max_{q}\; \Pi(q) = -300 + 180q - 1.2q^{2}$$</div>
+            <p><strong>一階條件</strong>：令 $\Pi'(q) = 0$</p>
+            <div class="eq">$$\Pi'(q) = 180 - 2.4q = 0 \quad\Longrightarrow\quad q_m = 75$$</div>
+            <p><strong>二階條件</strong>：求 $\Pi''(q)$</p>
+            <div class="eq">$$\Pi''(q) = -2.4 < 0 \quad \text{for all } q$$</div>
+            <p>因為二階導數處處為負，$q_m = 75$ 確定是極大。最大利潤為</p>
+            <div class="eq">$$\Pi(75) = -300 + 180(75) - 1.2(75)^{2} = 6450$$</div>
+            <p>所以獨占廠商每週生產 <strong>75 單位</strong>時利潤最大。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">CASE 2</span>獨占：兩個臨界點，該選哪一個？</div>
+          <div class="ex-body">
+            <p>某獨占廠商面對線性反需求函數 $p^{D}(q) = 500 - 5q$，成本函數為</p>
+            <div class="eq">$$C(q) = 500 + 2q^{3} - 80q^{2} + 1100q$$</div>
+            <p>總收入為 $R(q) = q\,p^{D}(q) = 500q - 5q^{2}$。利潤為</p>
+            <div class="eq">$$\Pi(q) = R(q) - C(q) = 500q - 5q^{2} - (500 + 2q^{3} - 80q^{2} + 1100q)$$</div>
+            <div class="eq">$$\Pi(q) = -500 - 600q + 75q^{2} - 2q^{3}$$</div>
+            <p>極大化問題：</p>
+            <div class="eq">$$\max_{q}\; \Pi(q) = -500 - 600q + 75q^{2} - 2q^{3}$$</div>
+            <p><strong>一階條件</strong>：令 $\Pi'(q) = 0$</p>
+            <div class="eq">$$\Pi'(q) = -600 + 150q - 6q^{2} = 0$$</div>
+            <div class="eq">$$\Pi'(q) = -6(q - 5)(q - 20) = 0 \quad\Longrightarrow\quad q_1 = 5,\; q_2 = 20$$</div>
+            <p>兩個候選點——哪一個使利潤極大？</p>
+            <p><strong>二階條件</strong>：求 $\Pi''(q)$</p>
+            <div class="eq">$$\Pi''(q) = 150 - 12q$$</div>
+            <div class="eq-row"><span>當 $q_1 = 5$</span><span>$\Pi''(q_1) = 150 - 12(5) = 90 > 0$（<strong>局部極小</strong>）</span></div>
+            <div class="eq-row"><span>當 $q_2 = 20$</span><span>$\Pi''(q_2) = 150 - 12(20) = -90 < 0$（<strong>局部極大</strong>）</span></div>
+            <p>所以獨占廠商在生產 <strong>20 單位</strong>時利潤最大，最大利潤為</p>
+            <div class="eq">$$\Pi(20) = -500 - 600(20) + 75(20)^{2} - 2(20)^{3} = 1500$$</div>
+            <p class="eq-note">這題的重點：$\Pi'(q) = 0$ 給了兩個答案，<strong>必須靠二階條件挑出正確的那個</strong>。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 12 ============================ -->
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><h2>經濟應用：政府的稅收極大</h2></div>
+        <p class="sec-sub">稅率不是越高越好——拉佛曲線的兩邊。</p>
+
+        <p>考慮需求與供給函數：</p>
+
+        <div class="eq">$$q^{D}(p) = 40 - 5p, \qquad q^{S}(p) = \frac{15}{2}p - 10$$</div>
+
+        <p>均衡時 $q^{D}(p) = q^{S}(p)$：</p>
+
+        <div class="eq">$$40 - 5p = \frac{15}{2}p - 10 \quad\Longrightarrow\quad p^{*} = 4$$</div>
+
+        <p>初始均衡為 $p^{*} = 4$、$q^{*} = 20$。</p>
+
+        <h3>課徵從量稅</h3>
+        <p>假設政府對生產者課徵每單位 $T$ 的稅。消費者支付價格 $p$，但生產者實收 $p - T$。因此供給函數變成</p>
+
+        <div class="eq">$$q^{ST}(p^{T}) = \frac{15}{2}(p^{T} - T) - 10$$</div>
+
+        <p>新的均衡滿足</p>
+
+        <div class="eq">$$40 - 5p^{T} = \frac{15}{2}(p^{T} - T) - 10 \quad\Longrightarrow\quad p^{T} = 4 + \frac{3}{5}T$$</div>
+
+        <p>均衡數量則是</p>
+
+        <div class="eq">$$q^{T} = 40 - 5\left(4 + \frac{3}{5}T\right) = 20 - 3T$$</div>
+
+        <p>數量要非負，因此 $0 \leq T \leq \dfrac{20}{3}$。</p>
+
+        <div class="eq-note">所以均衡價格隨 $T$ 上升，均衡數量隨 $T$ 下降——稅會同時推高價格、壓低交易量。</div>
+
+        <p>政府的稅收為</p>
+
+        <div class="eq">$$R(T) = q^{T} \cdot T = (20 - 3T)T = 20T - 3T^{2}$$</div>
+
+        <h3>稅收極大化</h3>
+        <p>政府的稅收極大問題：</p>
+
+        <div class="eq">$$\max_{T}\; R(T) = 20T - 3T^{2}$$</div>
+
+        <p><strong>一階條件</strong>：令 $R'(T) = 0$</p>
+
+        <div class="eq">$$R'(T) = 20 - 6T = 0 \quad\Longrightarrow\quad T_m = \frac{10}{3}$$</div>
+
+        <p><strong>二階條件</strong>：求 $R''(T)$</p>
+
+        <div class="eq">$$R''(T) = -6 < 0 \quad \text{for all } T$$</div>
+
+        <p>因此稅收在 $T_m = \dfrac{10}{3}$ 時達到極大。在這個稅率下，均衡數量為</p>
+
+        <div class="eq">$$q^{T} = 20 - 3\left(\frac{10}{3}\right) = 10$$</div>
+
+        <p>政府最大稅收為</p>
+
+        <div class="eq">$$R(T_m) = T_m\,q^{T} = \left(\frac{10}{3}\right)(10) = \frac{100}{3}$$</div>
+
+        <p class="eq-note">稅率再往上加，交易量掉得比稅率漲得更多，總稅收反而減少。</p>
+      </section>
+
+      <!-- ============================ 13 ============================ -->
+      <section class="sec" id="s13">
+        <div class="sec-head"><span class="sec-num">13</span><h2>經濟應用：完全競爭廠商</h2></div>
+        <p class="sec-sub">價格是給定的，廠商只能選數量——而「要不要留在市場」是另一個問題。</p>
+
+        <p>假設市場價格由外部決定為 $p_0$。若完全競爭廠商生產數量 $q$，其收入為</p>
+
+        <div class="eq">$$R(q) = qp_0$$</div>
+
+        <p>利潤為 $\Pi(q) = R(q) - C(q) = qp_0 - C(q)$。</p>
+
+        <p>有效率的完全競爭廠商選擇 $q_0$ 來極大化利潤：</p>
+
+        <div class="eq">$$\max_{q}\; \Pi(q) = qp_0 - C(q)$$</div>
+
+        <p><strong>一階條件</strong>：令 $\Pi'(q) = 0$</p>
+
+        <div class="def">
+          <span class="box-label">完全競爭的關鍵條件</span>
+          <div class="eq">$$\Pi'(q) = p_0 - C'(q) = 0 \quad\Longrightarrow\quad MC(q) = C'(q) = p_0$$</div>
+          <p class="eq-note">$p_0$ 是常數，因為廠商是價格接受者，無法影響市場價格。廠商增產直到「多一單位的成本」等於「多一單位的收入」。</p>
+        </div>
+
+        <h3>開業點（start-up point）</h3>
+        <p>在開業點上，有效率的完全競爭廠商對於「生產」與「短期內停業」<strong>無差異</strong>：虧損等於固定成本。廠商選擇 $q_s$，使得</p>
+
+        <div class="eq">$$\Pi(q_s) = q_s p_0 - C(q_s) = -C(0)$$</div>
+
+        <p>由於一階條件給出 $C'(q) = p_0$，代入得</p>
+
+        <div class="eq">$$\Pi(q_s) = C'(q_s)\,q_s - C(q_s) = -C(0)$$</div>
+
+        <div class="eq">$$p_0 = C'(q_s) = \frac{C(q_s) - C(0)}{q_s}$$</div>
+
+        <p>其中 $C(q_s) - C(0)$ 是 $q = q_s$ 時的<strong>總變動成本</strong>（總成本扣掉固定成本），所以</p>
+
+        <div class="eq">$$p_0 = MC(q_s) = AVC(q_s)$$</div>
+
+        <h3>損益兩平點（breakeven point）</h3>
+        <p>下一個問題是：廠商留在市場的條件是什麼？也就是損益兩平點：</p>
+
+        <div class="eq">$$\Pi(q_b) = q_b p_0 - C(q_b) = 0$$</div>
+
+        <p>同樣代入 $C'(q) = p_0$：</p>
+
+        <div class="eq">$$\Pi(q_b) = C'(q_b)\,q_b - C(q_b) = 0$$</div>
+
+        <div class="eq">$$p_0 = C'(q_b) = \frac{C(q_b)}{q_b} \quad\Longrightarrow\quad p_0 = MC(q_b) = AC(q_b)$$</div>
+
+        <div class="box box-tint">
+          <span class="box-label">兩個點的對照</span>
+          <div class="eq-row"><span><strong>開業點</strong></span><span>$MC = AVC$，且平均變動成本的導數為零</span></div>
+          <div class="eq-row"><span><strong>損益兩平點</strong></span><span>$MC = AC$，且平均成本的導數為零</span></div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>算出兩個點</div>
+          <div class="ex-body">
+            <p>考慮一家有效率的完全競爭廠商，成本函數為</p>
+            <div class="eq">$$C(q) = 800 + 70q - 12q^{2} + q^{3}$$</div>
+            <p>廠商的利潤函數為 $\Pi(q) = qp_0 - (800 + 70q - 12q^{2} + q^{3})$。由於一階條件給出 $C'(q) = p_0$，可把利潤改寫成 $\Pi(q) = C'(q)\,q - C(q)$：</p>
+            <div class="eq">$$\Pi(q) = q(70 - 24q + 3q^{2}) - (800 + 70q - 12q^{2} + q^{3}) = -800 - 12q^{2} + 2q^{3}$$</div>
+            <p><strong>求開業點</strong>：解 $\Pi(q) = -800$（也就是虧損等於固定成本 $C(0)$）</p>
+            <div class="eq">$$-800 - 12q^{2} + 2q^{3} = -800$$</div>
+            <div class="eq">$$2q^{2}(q - 6) = 0 \quad\Longrightarrow\quad q_s = 6$$</div>
+            <p>此時的價格為</p>
+            <div class="eq">$$p_0 = C'(6) = 70 - 24(6) + 3(6)^{2} = 34$$</div>
+            <p><strong>求損益兩平點</strong>：解 $\Pi(q) = 0$</p>
+            <div class="eq">$$-800 - 12q^{2} + 2q^{3} = 0$$</div>
+            <div class="eq">$$2(10 - q)(40 + 4q + q^{2}) = 0 \quad\Longrightarrow\quad q_b = 10$$</div>
+            <p class="eq-note">因為 $q \geq 0$，$40 + 4q + q^{2}$ 必定為正，所以只有 $q = 10$ 這個解。</p>
+            <p>此時的價格為</p>
+            <div class="eq">$$p_0 = C'(10) = 70 - 24(10) + 3(10)^{2} = 130$$</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 14 ============================ -->
+      <section class="sec" id="s14">
+        <div class="sec-head"><span class="sec-num">14</span><h2>區間上的最佳化</h2></div>
+        <p class="sec-sub">真實世界有容量限制——別忘了檢查端點。</p>
+
+        <p>到目前為止我們找的都是<strong>局部</strong>極大或極小。但在實務上，我們經常面對<strong>全域</strong>最佳化問題。</p>
+        <p>例如，若廠商受到產能限制，一個實際的利潤極大問題會是在某個區間上找 $\Pi(q)$ 的最大值，例如 $q \in [0, L]$，其中 $L$ 是廠商能生產的最大數量。</p>
+
+        <div class="def">
+          <span class="box-label">定理 · 有限區間上的極值</span>
+          <p>設 $f$ 是閉區間 $[u, v]$ 上的連續函數，且 $f'$ 與 $f''$ 在 $[u, v]$ 內都存在。則 $f$ 在 $[u, v]$ 上有全域極大點 $m$，且必為下列之一：</p>
+          <ul>
+            <li>(i) $u < m < v$，$f'(m) = 0$ 且 $f''(m) \leq 0$；或</li>
+            <li>(ii) $m$ 是端點 $u$ 或 $v$ 之一。</li>
+          </ul>
+          <p>同樣地，$f$ 有全域極小點 $n$，且必為下列之一：</p>
+          <ul>
+            <li>(i) $u < n < v$，$f'(n) = 0$ 且 $f''(n) \geq 0$；或</li>
+            <li>(ii) $n$ 是端點 $u$ 或 $v$ 之一。</li>
+          </ul>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>在 $[0, 2]$ 上找最大值與最小值</div>
+          <div class="ex-body">
+            <p>求函數 $f(x) = x^{3} - 8x^{2} + 16x - 1$ 在區間 $[0, 2]$ 上的最大值與最小值。</p>
+            <p>先對 $x$ 微分找臨界點。</p>
+            <p><strong>一階條件</strong>：令 $f'(x) = 0$</p>
+            <div class="eq">$$f'(x) = 3x^{2} - 16x + 16 = 0$$</div>
+            <div class="eq">$$(3x - 4)(x - 4) = 0 \quad\Longrightarrow\quad x_1 = \frac{4}{3}, \; x_2 = 4$$</div>
+            <p class="eq-note">$x_2 = 4$ 落在區間 $[0, 2]$ 之外，<strong>與本題無關</strong>，直接捨去。</p>
+            <p><strong>二階條件</strong>：求 $f''(x)$ 判斷極大或極小</p>
+            <div class="eq">$$f''(x) = 6x - 16$$</div>
+            <p>當 $x = \dfrac{4}{3}$：$f''\!\left(\dfrac{4}{3}\right) = 6\left(\dfrac{4}{3}\right) - 16 = -\dfrac{24}{3} < 0$，是<strong>極大</strong>。</p>
+            <p>最後<strong>與端點比較</strong>：</p>
+            <div class="eq-row"><span>$x = 0$</span><span>$f(x) = -1$（<strong>全域最小</strong>）</span></div>
+            <div class="eq-row"><span>$x = \dfrac{4}{3}$</span><span>$f(x) = \dfrac{229}{27}$（<strong>全域最大</strong>）</span></div>
+            <div class="eq-row"><span>$x = 2$</span><span>$f(x) = 7$</span></div>
+          </div>
+        </div>
+
+        <h3>無限區間</h3>
+        <p>考慮無限區間，例如 $x \in [u, +\infty)$。</p>
+        <p>與封閉有界區間不同，連續函數在<strong>無限區間上不保證</strong>能取到全域最大值或最小值。例如 $f(x) = x$ 在 $[u, +\infty)$ 上有全域最小值在 $u$，但<strong>沒有全域最大值</strong>。</p>
+
+        <div class="def">
+          <span class="box-label">無限區間上的極值（若存在）</span>
+          <p>若全域最大值 $m$ 存在，則必為下列之一：</p>
+          <ul>
+            <li>(i) $m > u$，$f'(m) = 0$ 且 $f''(m) \leq 0$；或</li>
+            <li>(ii) $m = u$。</li>
+          </ul>
+          <p>若全域最小值 $m$ 存在，則必為下列之一：</p>
+          <ul>
+            <li>(i) $m > u$，$f'(m) = 0$ 且 $f''(m) \geq 0$；或</li>
+            <li>(ii) $m = u$。</li>
+          </ul>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">本課重點</span>
+          <ul class="keypoints" style="border:0;padding:0;margin:0">
+            <li>最佳化＝選擇變數讓目標函數取極值；利潤 $\Pi(q) = R(q) - C(q)$ 是最典型的例子。</li>
+            <li><strong>一階條件</strong> $f'(c) = 0$ 是必要條件，只給出<strong>候選點</strong>（駐點）。</li>
+            <li><strong>二階條件</strong>：$f''(c) < 0$ 為局部極大，$f''(c) > 0$ 為局部極小；兩側同號則是反曲點。</li>
+            <li>凹函數（$f'' < 0$）適合找極大，凸函數（$f'' > 0$）適合找極小；$f''$ 描述的是「斜率」的變化。</li>
+            <li>$AC' = \dfrac{MC - AC}{q}$：$MC < AC$ 時 $AC$ 下降，$MC = AC$ 時 $AC$ 達極小——MC 由下往上穿過 AC 最低點。</li>
+            <li>獨占廠商：$MR = MC$ 決定產量，再用二階條件確認是極大（$\Pi'' < 0$）。</li>
+            <li>稅收極大 $\max R(T) = 20T - 3T^{2}$ 得 $T_m = \dfrac{10}{3}$，最大稅收 $\dfrac{100}{3}$。</li>
+            <li>完全競爭：<strong>開業點</strong> $MC = AVC$、<strong>損益兩平點</strong> $MC = AC$。</li>
+            <li>在有限區間 $[u, v]$ 上求全域極值，<strong>務必與端點比較</strong>；無限區間則不保證極值存在。</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="lec-nav">
+        <a class="btn" href="../lesson-3/">← 上一課：微分法則</a>
+        <a class="btn btn-primary" href="../">回數學筆記 →</a>
+      </nav>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 LuTsz’s Notes · EF2452 學習筆記</span>
+    <span class="footer-links">
+      <a href="../../../index.html">首頁</a>
+      <a href="../">數學筆記</a>
+      <a href="../lesson-3/">Lecture 3</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>

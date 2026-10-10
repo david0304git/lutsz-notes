@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture 3 · 微分法則 · EF2452</title>
+<meta name="description" content="EF2452 Lecture 3：極限、變化率、微分法則、連鎖法則、反函數微分、高階導數，含邊際分析與需求彈性。">
+<link rel="stylesheet" href="../../../assets/style.css?v=6">
+<link rel="stylesheet" href="../assets/katex.min.css?v=6">
+<link rel="stylesheet" href="../assets/maths.css?v=6">
+<script defer src="../assets/katex.min.js"></script>
+<script defer src="../assets/maths.js"></script>
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="主要導航">
+    <a class="brand" href="../../../index.html">LuTsz<span class="apo">’</span>s <span class="dot">Notes</span></a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">首頁</a></li>
+      <li><a href="../../">筆記專區</a></li>
+      <li><a href="../../../personal/">私人專區</a></li>
+      <li><a href="../../../dev/">開發專區</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="page-head">
+    <p class="crumb"><a href="../../../index.html">首頁</a> ／ <a href="../../">筆記專區</a> ／ <a href="../">數學筆記</a> ／ Lecture 3</p>
+    <h1>微分法則</h1>
+    <p><strong>EF2452 Mathematics for Economics and Finance</strong> · Lecture 3 · Calculus I (Rules of Differentiation)<br>
+    從極限定義導數，把微分法則一條一條推出來，最後接到經濟學的邊際概念與需求彈性。</p>
+  </div>
+
+  <div class="lecture">
+
+    <nav class="lec-toc" aria-label="本課目錄">
+      <p class="toc-head">本課目錄</p>
+      <ol>
+        <li><a href="#s1">極限與導數</a></li>
+        <li><a href="#s2">冪函數法則</a></li>
+        <li><a href="#s3">和法則與常數法則</a></li>
+        <li><a href="#s4">乘積法則</a></li>
+        <li><a href="#s5">商法則</a></li>
+        <li><a href="#s6">連鎖法則（複合函數）</a></li>
+        <li><a href="#s7">反函數的導數</a></li>
+        <li><a href="#s8">高階導數與邊際概念</a></li>
+        <li><a href="#s9">邊際成本與邊際收入</a></li>
+        <li><a href="#s10">需求彈性</a></li>
+        <li><a href="#s11">指數函數</a></li>
+        <li><a href="#s12">對數函數</a></li>
+      </ol>
+    </nav>
+
+    <div class="lec-body">
+
+      <!-- ============================ 1 ============================ -->
+      <section class="sec" id="s1">
+        <div class="sec-head"><span class="sec-num">01</span><h2>極限與導數</h2></div>
+        <p class="sec-sub">微分是「變化率」，而變化率要講清楚，得先有極限。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 極限（limit）</span>
+          <p><strong>極限</strong>描述當 $x$ 趨近某個值時，函數所趨近的值。寫成</p>
+          <div class="eq">$$\lim_{x \to a} f(x) = L$$</div>
+          <p>意思是：當 $x$ 趨近 $a$ 時，$f(x)$ 趨近 $L$。</p>
+          <p>例如 $\lim\limits_{x \to 2} (x + 3) = 5$。</p>
+        </div>
+
+        <h3>從平均變化率到瞬時變化率</h3>
+        <p>函數 $f$ 的<strong>斜率</strong>（gradient），也就是我們說的<strong>變化率</strong>（rate of change）：</p>
+
+        <div class="eq">$$\frac{\Delta y}{\Delta x} = \frac{\Delta f}{\Delta x} = \frac{f(x + h) - f(x)}{h}$$</div>
+
+        <p>這是「走一小段」的平均變化率。想知道「某一點的變化率」，就讓這一段縮到 $0$。</p>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>從定義求 $f(x) = x^3$ 的導數</div>
+          <div class="ex-body">
+            <p>設 $f(x) = x^3$，則 $f(x + h) = (x + h)^3$。先算變化率：</p>
+            <div class="eq">$$\frac{\Delta f}{\Delta x} = \frac{(x + h)^3 - x^3}{h}$$</div>
+            <p>展開分子：$(x + h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$，於是</p>
+            <div class="eq">$$\frac{\Delta f}{\Delta x} = \frac{x^3 + 3x^2h + 3xh^2 + h^3 - x^3}{h} = 3x^2 + h(3x + h)$$</div>
+            <p class="eq-note">分子分母同除以 $h$ 之後，$h$ 只出現在第二項——這正是等一下能讓 $h \to 0$ 的關鍵。</p>
+          </div>
+        </div>
+
+        <h3>讓 $h \to 0$</h3>
+        <p>現在假設 $h$ 很小，並且讓 $h \to 0$（此時 $x + h \to x$）：</p>
+
+        <div class="eq">$$\lim_{h \to 0} \frac{\Delta f}{\Delta x} = \lim_{h \to 0}\bigl(3x^2 + h(3x + h)\bigr)$$</div>
+        <div class="eq">$$\lim_{h \to 0} \frac{\Delta f}{\Delta x} = \lim_{h \to 0} 3x^2 + \lim_{h \to 0} \bigl(h(3x + h)\bigr)$$</div>
+        <div class="eq">$$\lim_{h \to 0} \frac{\Delta f}{\Delta x} = 3x^2$$</div>
+
+        <p class="eq-note">$3x^2$ 與 $h$ 無關，直接留下；$h(3x + h)$ 在 $h \to 0$ 時整項消失。這就是 $x^3$ 的導數是 $3x^2$ 的由來。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 導數（derivative）</span>
+          <p>函數 $f$ 的導數定義為</p>
+          <div class="eq">$$f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h} = \lim_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}$$</div>
+          <p>而且當 $\Delta x$ 很小時，</p>
+          <div class="eq">$$f'(x) \approx \frac{\Delta f}{\Delta x}$$</div>
+          <p class="eq-note">注意：<strong>不是每個函數在每一點都可微</strong>。本課只處理在討論範圍內可微的函數。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 2 ============================ -->
+      <section class="sec" id="s2">
+        <div class="sec-head"><span class="sec-num">02</span><h2>冪函數法則</h2></div>
+        <p class="sec-sub">最常用的一條法則——只要會降次，就能微分一大堆東西。</p>
+
+        <div class="def">
+          <span class="box-label">法則 · 冪函數（power function rule）</span>
+          <p>若 $f(x) = x^{k}$，則</p>
+          <div class="eq">$$f'(x) = kx^{k-1}$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>最基本的一次</div>
+          <div class="ex-body">
+            <p>設 $f(x) = x$，也就是 $f(x) = x^{1}$，套用法則（$k = 1$）：</p>
+            <div class="eq">$$f'(x) = 1 \cdot x^{1-1} = x^{0} = 1$$</div>
+            <p class="eq-note">斜率處處是 $1$——和直線 $y = x$ 的圖形一致。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>負次方：$f(x) = 8000x^{-3}$</div>
+          <div class="ex-body">
+            <p>$$f'(x) = 8000(-3)x^{-3-1} = -24000x^{-4} = -\frac{24000}{x^{4}}$$</p>
+            <p class="eq-note">負次方照樣「降次」：$-3$ 乘下去，次方變成 $-4$。</p>
+          </div>
+        </div>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 價格變動對銷售量的影響</span>
+          <p>假設需求函數為</p>
+          <div class="eq">$$q_D(p) = 8000p^{-3}$$</div>
+          <p>其中數量 $q$ 以<strong>千單位</strong>計。若價格由 20 漲到 21，預期銷售量會掉多少？</p>
+          <p>先微分（冪函數法則）：</p>
+          <div class="eq">$$q_D'(p) = 8000(-3)p^{-3-1} = -24000p^{-4} = -\frac{24000}{p^{4}}$$</div>
+          <p>再用 $\Delta q \approx q_D'(p)\,\Delta p$，取 $p = 20$、$\Delta p = 1$：</p>
+          <div class="eq">$$\Delta q \approx -\frac{24000}{p^{4}}\,\Delta p = -\frac{24000}{20^{4}}(1) = -0.15$$</div>
+          <p>所以預期會少賣 $0.15 \times 1000 = \mathbf{150}$ 單位。</p>
+        </div>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 增產對價格的影響（反需求函數）</span>
+          <p>反過來問：若產量由 1,000 單位增加到 1,100 單位，價格會跌多少？</p>
+          <p>這就要把函數改寫，把 $p$ 看成 $q$ 的函數：</p>
+          <div class="eq">$$p^{D}(q) = \left(\frac{8000}{q}\right)^{1/3} = \frac{8000^{1/3}}{q^{1/3}} = 20q^{-1/3}$$</div>
+          <p>微分（冪次 $-1/3$ 降成 $-4/3$）：</p>
+          <div class="eq">$$p^{D\prime}(q) = 20\left(-\frac{1}{3}\right)q^{-\frac{1}{3}-1} = -\frac{20}{3}q^{-4/3}$$</div>
+          <p>取 $q = 1$、$\Delta q = 0.1$（單位是千），得</p>
+          <div class="eq">$$\Delta p \approx -\frac{20}{3}q^{-4/3}\Delta q = -\frac{20}{3}(1)^{-4/3}(0.1) = -\frac{2}{3}$$</div>
+          <p>預期價格下跌約 <strong>67 分</strong>。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 3 ============================ -->
+      <section class="sec" id="s3">
+        <div class="sec-head"><span class="sec-num">03</span><h2>和法則與常數法則</h2></div>
+        <p class="sec-sub">多項式之所以好微分，就是靠這兩條。</p>
+
+        <div class="def">
+          <span class="box-label">法則 · 和法則（sum rule）</span>
+          <p>若 $h(x) = f(x) + g(x)$，則</p>
+          <div class="eq">$$h'(x) = f'(x) + g'(x)$$</div>
+          <p>逐項微分即可，減法同理。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>三項多項式</div>
+          <div class="ex-body">
+            <p>$$h(x) = 6x^{3} + 3x^{2} + x$$</p>
+            <div class="eq">$$h'(x) = 6(3)x^{3-1} + 3(2)x^{2-1} + x^{1-1} = 18x^{2} + 6x + 1$$</div>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>兩項多項式</div>
+          <div class="ex-body">
+            <p>$$h(x) = 2x^{8} - 3x^{6}$$</p>
+            <div class="eq">$$h'(x) = 2(8)x^{8-1} - 3(6)x^{6-1} = 16x^{7} - 18x^{5}$$</div>
+          </div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">法則 · 常數法則（constant rule）</span>
+          <p>若 $f(x) = k$ 且 $k \in \mathbb{R}$（常數），則</p>
+          <div class="eq">$$f'(x) = 0$$</div>
+          <p class="eq-note">常數的圖形是水平線，斜率當然是 $0$。推論：加上常數不影響導數，因為 $k' = 0$。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>分數次方＋常數</div>
+          <div class="ex-body">
+            <p>$$f(x) = 8x^{1/4} + 6$$</p>
+            <div class="eq">$$f'(x) = 8\left(\frac{1}{4}\right)x^{\frac{1}{4}-1} + 0 = 2x^{-3/4} = \frac{2}{\sqrt[4]{x^{3}}}$$</div>
+            <p class="eq-note">常數 $6$ 微分成 $0$；係數 $8$ 乘上冪次 $\frac{1}{4}$ 得 $2$。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 4 ============================ -->
+      <section class="sec" id="s4">
+        <div class="sec-head"><span class="sec-num">04</span><h2>乘積法則</h2></div>
+        <p class="sec-sub">兩個函數相乘，不能「各自微分再相乘」——要先輪流微分。</p>
+
+        <div class="def">
+          <span class="box-label">法則 · 乘積法則（product rule）</span>
+          <p>若 $h(x) = f(x)\,g(x)$，則</p>
+          <div class="eq">$$h'(x) = f(x)g'(x) + g(x)f'(x)$$</div>
+          <p class="eq-note">口訣：<strong>第一個不動、微分第二個；第二個不動、微分第一個</strong>，兩項相加。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>兩次方的乘積</div>
+          <div class="ex-body">
+            <p>$$h(x) = x^{2}\,(x^{6})$$</p>
+            <div class="eq">$$h'(x) = x^{2}\,(6x^{5}) + x^{6}\,(2x) = 6x^{7} + 2x^{7} = 8x^{7}$$</div>
+            <p class="eq-note">檢查：$x^{2} \cdot x^{6} = x^{8}$，直接微分也是 $8x^{7}$，答案一致。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>兩個括號相乘</div>
+          <div class="ex-body">
+            <p>$$h(x) = (x^{3} + 1)(x^{2} + 5x)$$</p>
+            <div class="eq">$$h'(x) = (x^{3} + 1)(2x + 5) + (x^{2} + 5x)(3x^{2})$$</div>
+            <div class="eq">$$h'(x) = 5x^{4} + 20x^{3} + 2x + 5$$</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · 乘積法則</span>
+          <p>從導數定義出發：</p>
+          <div class="eq">$$(fg)'(x) = \lim_{h \to 0} \frac{f(x + h)g(x + h) - f(x)g(x)}{h}$$</div>
+          <p>關鍵技巧是<strong>在分子加一項再減同一項</strong>（加減 $f(x+h)g(x)$）：</p>
+          <div class="eq">$$= \lim_{h \to 0} \frac{f(x + h)g(x + h) - f(x + h)g(x) + f(x + h)g(x) - f(x)g(x)}{h}$$</div>
+          <p>把前兩項、後兩項各自提出公因式：</p>
+          <div class="eq">$$= \lim_{h \to 0} \frac{f(x + h)\bigl[g(x + h) - g(x)\bigr] + g(x)\bigl[f(x + h) - f(x)\bigr]}{h}$$</div>
+          <p>拆成兩個極限，並把與 $h$ 無關的 $f(x+h) \to f(x)$、$g(x)$ 提出來：</p>
+          <div class="eq">$$= f(x)\lim_{h \to 0} \frac{g(x + h) - g(x)}{h} + g(x)\lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$</div>
+          <div class="eq">$$= f(x)g'(x) + g(x)f'(x)$$</div>
+        </div>
+      </section>
+
+      <!-- ============================ 5 ============================ -->
+      <section class="sec" id="s5">
+        <div class="sec-head"><span class="sec-num">05</span><h2>商法則</h2></div>
+        <p class="sec-sub">分母不動、分子要減——次序不能顛倒。</p>
+
+        <div class="def">
+          <span class="box-label">法則 · 商法則（quotient rule）</span>
+          <p>若 $h(x) = f(x)/g(x)$ 且 $g(x) \neq 0$，則</p>
+          <div class="eq">$$h'(x) = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^{2}}$$</div>
+          <p class="eq-note">口訣：<strong>分母平方分之「上微下不微，減上不微下微」</strong>。分子減法的次序與正負號是常見錯誤來源。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>兩個冪相除</div>
+          <div class="ex-body">
+            <p>$$h(x) = \frac{x^{6}}{x^{4}}$$</p>
+            <div class="eq">$$h'(x) = \frac{6x^{5}(x^{4}) - x^{6}(4x^{3})}{(x^{4})^{2}} = \frac{6x^{9} - 4x^{9}}{x^{8}} = \frac{2x^{9}}{x^{8}} = 2x$$</div>
+            <p class="eq-note">檢查：$x^{6}/x^{4} = x^{2}$，微分得 $2x$，一致。</p>
+          </div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · 商法則</span>
+          <p>同樣從定義開始：</p>
+          <div class="eq">$$\left(\frac{f}{g}\right)'(x) = \lim_{h \to 0} \frac{\dfrac{f(x + h)}{g(x + h)} - \dfrac{f(x)}{g(x)}}{h}$$</div>
+          <p>技巧是<strong>減一項再加回來</strong>（加減 $\dfrac{f(x)}{g(x + h)}$），把兩個分數接起來：</p>
+          <div class="eq">$$= \lim_{h \to 0} \frac{\dfrac{f(x + h)}{g(x + h)} - \dfrac{f(x)}{g(x + h)} + \dfrac{f(x)}{g(x + h)} - \dfrac{f(x)}{g(x)}}{h}$$</div>
+          <div class="eq">$$= \lim_{h \to 0} \frac{\dfrac{1}{g(x + h)}\bigl[f(x + h) - f(x)\bigr] + f(x)\left[\dfrac{1}{g(x + h)} - \dfrac{1}{g(x)}\right]}{h}$$</div>
+          <p>把後面那組通分：$\dfrac{1}{g(x+h)} - \dfrac{1}{g(x)} = -\dfrac{g(x+h) - g(x)}{g(x+h)g(x)}$，於是</p>
+          <div class="eq">$$= \lim_{h \to 0} \frac{1}{g(x + h)}\cdot\frac{f(x + h) - f(x)}{h} - \frac{f(x)}{g(x + h)g(x)}\cdot\frac{g(x + h) - g(x)}{h}$$</div>
+          <p>取極限（$g(x+h) \to g(x)$）：</p>
+          <div class="eq">$$= \frac{1}{g(x)}\lim_{h \to 0}\frac{f(x + h) - f(x)}{h} - \frac{f(x)}{[g(x)]^{2}}\lim_{h \to 0}\frac{g(x + h) - g(x)}{h}$$</div>
+          <div class="eq">$$= \frac{f'(x)}{g(x)} - \frac{f(x)g'(x)}{[g(x)]^{2}} = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^{2}}$$</div>
+        </div>
+      </section>
+
+      <!-- ============================ 6 ============================ -->
+      <section class="sec" id="s6">
+        <div class="sec-head"><span class="sec-num">06</span><h2>連鎖法則（複合函數）</h2></div>
+        <p class="sec-sub">函數裡還有函數時，變化率會「一層一層乘下去」。</p>
+
+        <p>假設 $k$ 是一個複合函數 $sr$，也就是 $k(x) = s(r(x))$。</p>
+        <p>$x$ 的小變化會造成 $r$ 的小變化，而 $r$ 的小變化又造成 $k$ 的小變化。因此</p>
+
+        <div class="eq">$$\frac{\Delta k}{\Delta x} = \frac{\Delta s}{\Delta x} = \frac{\Delta s}{\Delta r}\cdot\frac{\Delta r}{\Delta x}$$</div>
+
+        <p>取極限後得到</p>
+
+        <div class="eq">$$\frac{dk}{dx} = \frac{ds}{dx} = \frac{ds}{dr}\cdot\frac{dr}{dx}$$</div>
+        <div class="eq">$$k' = sr'(x) = s'\bigl(r(x)\bigr)\,r'(x)$$</div>
+
+        <div class="def">
+          <span class="box-label">法則 · 連鎖法則（chain rule）</span>
+          <p>若 $k(x) = s\bigl(r(x)\bigr)$，則</p>
+          <div class="eq">$$k'(x) = s'\bigl(r(x)\bigr)\,r'(x)$$</div>
+          <p class="eq-note">「外層微分（內層原樣放著）乘上內層微分」——由外往內一層一層剝。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>括號平方</div>
+          <div class="ex-body">
+            <p>$$k(x) = s\bigl(r(x)\bigr) = (5x^{2} + 3x + 7)^{2}$$</p>
+            <p>拆成內外兩層：$r(x) = 5x^{2} + 3x + 7$，外層 $s(u) = u^{2}$。</p>
+            <div class="eq">$$k'(x) = s'\bigl(r(x)\bigr)r'(x) = 2\bigl(r(x)\bigr)r'(x)$$</div>
+            <div class="eq">$$k'(x) = 2(5x^{2} + 3x + 7)(10x + 3)$$</div>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>在 $x = 1$ 取值</div>
+          <div class="ex-body">
+            <p>承上，求 $k(x) = (5x^{2} + 3x + 7)^{2}$ 在 $x = 1$ 的導數值。</p>
+            <div class="eq">$$k'(1) = 2\bigl(5(1)^{2} + 3(1) + 7\bigr)\bigl(10(1) + 3\bigr) = 2(15)(13) = 390$$</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 7 ============================ -->
+      <section class="sec" id="s7">
+        <div class="sec-head"><span class="sec-num">07</span><h2>反函數的導數</h2></div>
+        <p class="sec-sub">$f^{-1}$ 的導數，就是 $f'$ 的倒數。</p>
+
+        <p>回想反函數的定義：若 $g = f^{-1}$，則 $gf = f^{-1}\bigl(f(x)\bigr) = x = i$，也就是<strong>恆等函數</strong>。</p>
+        <p>複合函數的導數就是恆等函數的導數。對 $f^{-1}\bigl(f(x)\bigr) = x$ 的兩邊同時對 $x$ 微分（左邊用連鎖法則）：</p>
+
+        <div class="eq">$$\bigl(f^{-1}\bigr)'\bigl(f(x)\bigr)f'(x) = 1$$</div>
+        <div class="eq">$$\bigl(f^{-1}\bigr)'\bigl(f(x)\bigr) = \frac{1}{f'(x)}$$</div>
+
+        <p>若令 $y = f(x)$、$x = g(y)$，就得到更常用的形式：</p>
+
+        <div class="def">
+          <span class="box-label">法則 · 反函數導數</span>
+          <div class="eq">$$g'(y) = \frac{1}{f'(x)}$$</div>
+          <p class="eq-note">「反函數的斜率 = 原函數斜率的倒數」——因為把圖形對 $y = x$ 翻過去，上升與前進的角色互換。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>求反函數的導數（並驗算）</div>
+          <div class="ex-body">
+            <p>設 $f(x) = x^{2} - 5$（$x \geq 0$），求其反函數的導數。</p>
+            <p>直接套公式：</p>
+            <div class="eq">$$g'(y) = \frac{1}{f'(x)} = \frac{1}{2x}$$</div>
+            <p>驗算：由 $y = x^{2} - 5$ 解出 $x$，得 $x^{2} = y + 5$，所以</p>
+            <div class="eq">$$x = g(y) = (y + 5)^{1/2}$$</div>
+            <div class="eq">$$g'(y) = \frac{1}{2}(y + 5)^{-1/2} = \frac{1}{2\sqrt{y + 5}} = \frac{1}{2x} = \frac{1}{f'(x)}$$</div>
+            <p class="eq-note">兩條路得到同一個答案——這也說明為什麼反函數的導數是倒數。</p>
+          </div>
+        </div>
+
+        <div class="box box-accent">
+          <span class="box-label">經濟應用 · 供給集與反函數</span>
+          <p>供給集包含所有滿足供給關係的有序對 $(q, p) \in \mathbb{R}^{2}$：</p>
+          <div class="eq">$$S = \{\,(q, p) \mid 2p - 3q = 12\,\}$$</div>
+          <p>其中 $p$ 是價格，$q$ 是對應的供給量。供給函數為</p>
+          <div class="eq">$$q^{S}(p) = \frac{2p}{3} - 4$$</div>
+          <p>反供給函數則是</p>
+          <div class="eq">$$p^{S}(q) = 6 + \frac{3q}{2}$$</div>
+          <p>顯然 $q^{S}$ 與 $p^{S}$ 的導數分別是 $\dfrac{2}{3}$ 與 $\dfrac{3}{2}$。用反函數公式可以得到同樣的答案：</p>
+          <div class="eq">$$q^{S\prime}(p) = \frac{2}{3} = \frac{1}{p^{S\prime}(q)} = \frac{1}{3/2}$$</div>
+          <p class="eq-note">兩個導數互為倒數，正是反函數關係的必然結果。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 8 ============================ -->
+      <section class="sec" id="s8">
+        <div class="sec-head"><span class="sec-num">08</span><h2>高階導數與邊際概念</h2></div>
+        <p class="sec-sub">微分一次得到變化率；再微分一次，得到「變化率的變化率」。</p>
+
+        <p>前面談的是 $f$ 的一階導數，現在引入<strong>更高階</strong>的導數概念：</p>
+
+        <table class="tbl">
+          <caption>導數的記號</caption>
+          <thead>
+            <tr><th>階數</th><th>記號</th><th>念法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>一階</td><td>$f'(x)$ 或 $\dfrac{dy}{dx}$</td><td>first derivative</td></tr>
+            <tr><td>二階</td><td>$f''(x)$ 或 $\dfrac{d^{2}y}{dx^{2}}$</td><td>second derivative</td></tr>
+            <tr><td>三階</td><td>$f'''(x)$ 或 $\dfrac{d^{3}y}{dx^{3}}$</td><td>third derivative</td></tr>
+          </tbody>
+        </table>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>逐階微分</div>
+          <div class="ex-body">
+            <p>$$f(x) = 3x^{3} + 5x^{2} - 6x + 2$$</p>
+            <div class="eq">$$f'(x) = 9x^{2} + 10x - 6$$</div>
+            <div class="eq">$$f''(x) = 18x + 10$$</div>
+            <div class="eq">$$f'''(x) = 18$$</div>
+            <p class="eq-note">再微分一次就得到 $0$——三次多項式只有前三階導數不為零。</p>
+          </div>
+        </div>
+
+        <h3>邊際概念就是微分</h3>
+        <p>經濟學經常關心<strong>邊際</strong>（marginal）概念。假設 $y = f(x)$，當 $x$ 變動 $\Delta x$ 時，$y$ 的對應變動是</p>
+
+        <div class="eq">$$\Delta y = f(x + \Delta x) - f(x)$$</div>
+
+        <p>變化率為 $\Delta y / \Delta x$。當 $\Delta x$ 變得非常小時：</p>
+
+        <div class="eq">$$\frac{dy}{dx} = f'(x) = \lim_{\Delta x \to 0}\frac{\Delta y}{\Delta x}$$</div>
+
+        <div class="box box-tint">
+          <span class="box-label">重點</span>
+          <p>因此微分可以用來研究各種<strong>邊際變化</strong>：邊際成本、邊際收入、邊際效用、邊際產量。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 9 ============================ -->
+      <section class="sec" id="s9">
+        <div class="sec-head"><span class="sec-num">09</span><h2>邊際成本與邊際收入</h2></div>
+        <p class="sec-sub">把「多生產一單位要多花多少錢」寫成導數。</p>
+
+        <h3>邊際成本（Marginal Cost）</h3>
+        <p>設總成本函數為 $C = C(q)$，其中 $q$ 是生產水準、$C(q)$ 是該生產水準下的總成本。</p>
+        <p>若產量變動 $\Delta q$，變動後的總成本是 $C(q + \Delta q)$，因此總成本的變動為</p>
+
+        <div class="eq">$$\Delta C = C(q + \Delta q) - C(q)$$</div>
+
+        <p>而「每單位產量變動所造成的成本變動」就是 $\dfrac{\Delta C}{\Delta q}$。當 $\Delta q \to 0$（產量變化極小）：</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 邊際成本</span>
+          <div class="eq">$$MC(q) = C'(q) = \frac{dC}{dq} = \lim_{\Delta q \to 0}\frac{\Delta C}{\Delta q}$$</div>
+          <p>邊際成本解釋為「<strong>多生產一單位產出所增加的成本</strong>」。一般而言，$\Delta C$ 與 $\Delta q$ 的關係是</p>
+          <div class="eq">$$\Delta C \approx C'(q)\,\Delta q$$</div>
+          <p>若產量增加 1 單位（$\Delta q = 1$），則 $\Delta C \approx C'(q) = MC(q)$。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>線性成本：邊際成本等於平均變動成本</div>
+          <div class="ex-body">
+            <p>某自行車廠每週固定開銷 5 萬元，每生產一輛車的材料與工錢 25 元。成本函數為</p>
+            <div class="eq">$$C(q) = 50000 + 25q$$</div>
+            <p>5 萬元的開銷是<strong>固定成本</strong>（fixed cost），與產量 $q$ 無關。</p>
+            <p><strong>平均變動成本</strong>（average variable cost）按定義就是每單位的變動成本，即 25 元。</p>
+            <p>邊際成本為 $C'(q) = 25$（常數）——和平均變動成本相同。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>二次成本：邊際成本隨產量上升</div>
+          <div class="ex-body">
+            <p>現在成本函數改為</p>
+            <div class="eq">$$C(q) = 50000 + 25q + 0.001q^{2}$$</div>
+            <p>邊際成本為</p>
+            <div class="eq">$$C'(q) = 25 + 0.002q$$</div>
+            <p>若產量由每週 100 提升到每週 10,000，邊際成本會從</p>
+            <div class="eq">$$C'(100) = 25 + 0.002(100) = 25.2$$</div>
+            <p>上升到</p>
+            <div class="eq">$$C'(10{,}000) = 25 + 0.002(10{,}000) = 45$$</div>
+            <p class="eq-note">產量越大，多生產一單位越貴——這是二次項 $0.001q^{2}$ 造成的。</p>
+          </div>
+        </div>
+
+        <h3>從需求曲線到邊際收入（Marginal Revenue）</h3>
+        <p>設某商品的需求集為 $D = \{(q, p) \mid q + bp = a\}$。要求邊際收入，必須先把總收入寫成 $q$ 的函數：</p>
+
+        <div class="eq">$$R(q) = p(q)\,q$$</div>
+
+        <p>其中 $p(q)$ 是反需求函數。把 $q + bp = a$ 移項：</p>
+
+        <div class="eq">$$p^{D}(q) = \frac{a - q}{b}$$</div>
+
+        <p>於是總收入可以寫成</p>
+
+        <div class="eq">$$R(q) = q\,p^{D}(q) = q\left(\frac{a - q}{b}\right) = \frac{aq}{b} - \frac{q^{2}}{b}$$</div>
+
+        <p>微分得到邊際收入：</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 邊際收入</span>
+          <div class="eq">$$MR = R'(q) = \frac{a - 2q}{b}$$</div>
+          <p>邊際收入就是<strong>總收入對 $q$ 的導數</strong>。</p>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>獨占廠商的邊際收入</div>
+          <div class="ex-body">
+            <p>假設 Calculus Corporation 是獨占廠商，需求函數為</p>
+            <div class="eq">$$q = 300 - 20p$$</div>
+            <p>移項得到反需求函數</p>
+            <div class="eq">$$p^{D}(q) = 15 - \frac{q}{20}$$</div>
+            <p>因此總收入函數為</p>
+            <div class="eq">$$R = q\,p^{D}(q) = 15q - \frac{q^{2}}{20}$$</div>
+            <p>邊際收入函數為</p>
+            <div class="eq">$$MR = R'(q) = 15 - \frac{q}{10}$$</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 10 ============================ -->
+      <section class="sec" id="s10">
+        <div class="sec-head"><span class="sec-num">10</span><h2>需求彈性</h2></div>
+        <p class="sec-sub">「漲價會增加還是減少收入？」——答案完全取決於彈性。</p>
+
+        <p>設需求函數為 $q = q(p)$，總收入為 $R = qp$。由於 $q$ 取決於 $p$，可寫成 $R(p) = q(p)\,p$。</p>
+        <p>用<strong>乘積法則</strong>對 $p$ 微分：</p>
+
+        <div class="eq">$$R'(p) = q'(p)\,p + q$$</div>
+
+        <p>收入增加（$R' > 0$）的條件是 $q'(p)\,p + q > 0$，等價於</p>
+
+        <div class="eq">$$-\frac{q'(p)\,p}{q} < 1$$</div>
+
+        <div class="def">
+          <span class="box-label">定義 · 需求彈性（elasticity of demand）</span>
+          <div class="eq">$$\varepsilon(p) = -\frac{q'(p)\,p}{q}$$</div>
+          <p>因此收入對價格的導數可以改寫成</p>
+          <div class="eq">$$R'(p) = q'(p)\,p + q = q\left(\frac{q'(p)\,p}{q} + 1\right) = q\bigl[1 - \varepsilon(p)\bigr]$$</div>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">重點 · 彈性與收入</span>
+          <ul class="keypoints" style="border:0;background:none;padding:0;margin:0">
+            <li>$\varepsilon(p) < 1$（<strong>缺乏彈性</strong> inelastic）：小幅漲價會使收入<strong>增加</strong>。</li>
+            <li>$\varepsilon(p) > 1$（<strong>富有彈性</strong> elastic）：小幅漲價會使收入<strong>減少</strong>。</li>
+          </ul>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>固定彈性的需求函數</div>
+          <div class="ex-body">
+            <p>設需求函數為</p>
+            <div class="eq">$$q^{D}(p) = \frac{K}{p^{c}} = Kp^{-c}$$</div>
+            <p>其中 $K$ 與 $c$ 是正常數。需求彈性為</p>
+            <div class="eq">$$\varepsilon(p) = -\frac{q^{D\prime}(p)\,p}{q} = -\frac{-cKp^{-c-1}\cdot p}{Kp^{-c}} = c$$</div>
+            <p>彈性是<strong>常數</strong>。當 $c > 1$ 需求富有彈性，$c < 1$ 則缺乏彈性。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>線性需求：彈性隨價格變動</div>
+          <div class="ex-body">
+            <p>設需求集為 $D = \{(q, p) \mid q + 5p = 30\}$，其中 $p$ 是價格、$q$ 是對應的需求量。</p>
+            <p>需求函數為 $q^{D}(p) = 30 - 5p$，因此</p>
+            <div class="eq">$$\varepsilon(p) = -\frac{q^{D\prime}(p)\,p}{q} = -\frac{-5p}{30 - 5p} = \frac{p}{6 - p}$$</div>
+            <p>在 $p = 6$ 時 $\varepsilon(p)$ 無定義，所以彈性要有經濟意義，必須 $0 \leq p < 6$。</p>
+            <p>需求富有彈性（$\varepsilon(p) > 1$）的區間：</p>
+            <div class="eq">$$\frac{p}{6 - p} > 1 \;\Rightarrow\; p > 3$$</div>
+            <p>所以 $3 < p < 6$ 時富有彈性；$0 \leq p < 3$ 時缺乏彈性。</p>
+            <p class="eq-note">同樣一條需求線，便宜時沒彈性、貴時有彈性——漲價的效果會反過來。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 11 ============================ -->
+      <section class="sec" id="s11">
+        <div class="sec-head"><span class="sec-num">11</span><h2>指數函數</h2></div>
+        <p class="sec-sub">成長與複利的標準模型，而 $e^{x}$ 的導數就是它自己。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 指數函數（exponential function）</span>
+          <p>指數函數的形式為</p>
+          <div class="eq">$$f(x) = a^{x} \quad \text{for all } x \in \mathbb{R}, \text{ where } a > 0 \text{ and } a \neq 1$$</div>
+          <p>$a$ 稱為<strong>底數</strong>（base），$x$ 稱為<strong>指數</strong>（exponent）。例如 $2^{x}$、$\left(\dfrac{1}{4}\right)^{x}$、$5^{x}$。</p>
+        </div>
+
+        <ul>
+          <li>每個指數函數都通過 $(0, 1)$，因為 $a^{0} = 1$。</li>
+          <li>當 $a > 1$：$x$ 增加時 $f(x)$ 快速上升，代表<strong>快速成長</strong>。</li>
+          <li>當 $0 < a < 1$：函數快速衰減，$x$ 增加時趨近 $0$，但<strong>永遠不碰 $x$ 軸</strong>。</li>
+        </ul>
+
+        <p>指數函數常用來描述<strong>連續成長</strong>，例如複利、人口成長。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 自然指數函數</span>
+          <div class="eq">$$e^{x} = \lim_{m \to \infty}\left(1 + \frac{x}{m}\right)^{m}$$</div>
+          <p>當 $x = 1$：</p>
+          <div class="eq">$$e = \lim_{n \to \infty}\left(1 + \frac{1}{n}\right)^{n} \approx 2.71828$$</div>
+          <p>自然指數函數有個特殊性質：<strong>它的導數等於它自己</strong>。</p>
+          <div class="eq">$$\frac{d}{dx}e^{x} = e^{x}$$</div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · $\dfrac{d}{dx}e^{x} = e^{x}$</span>
+          <p>令 $y = e^{x}$，則 $\ln y = x$。對 $x$ 微分（用反函數導數的想法）：</p>
+          <div class="eq">$$\frac{d}{dx}e^{x} = \frac{dy}{dx} = \frac{1}{dx/dy} = \frac{1}{1/y} = y = e^{x}$$</div>
+          <p class="eq-note">中間用到 $\dfrac{d}{dy}\ln y = \dfrac{1}{y}$——下一節會證明這條。</p>
+        </div>
+
+        <div class="def">
+          <span class="box-label">法則 · 廣義指數函數法則</span>
+          <p>若 $f(x) = e^{g(x)}$，則</p>
+          <div class="eq">$$f'(x) = e^{g(x)}g'(x)$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>指數上是二次式</div>
+          <div class="ex-body">
+            <p>$$f(x) = e^{ax^{2} + bx + c}$$</p>
+            <div class="eq">$$f'(x) = (2ax + b)\,e^{ax^{2} + bx + c}$$</div>
+            <p class="eq-note">外面那一層原樣保留，乘上指數內部的導數。</p>
+          </div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · 廣義指數函數法則</span>
+          <p>令 $u = g(x)$，用連鎖法則：</p>
+          <div class="eq">$$\frac{d}{dx}e^{g(x)} = \frac{d}{dx}e^{u} = \frac{d}{du}e^{u}\cdot\frac{du}{dx} = e^{u}\frac{du}{dx} = e^{g(x)}g'(x)$$</div>
+        </div>
+      </section>
+
+      <!-- ============================ 12 ============================ -->
+      <section class="sec" id="s12">
+        <div class="sec-head"><span class="sec-num">12</span><h2>對數函數</h2></div>
+        <p class="sec-sub">對數是指數的逆運算，而它的導數是 $\dfrac{1}{x}$。</p>
+
+        <div class="def">
+          <span class="box-label">定義 · 對數函數（logarithmic function）</span>
+          <p>對數函數是指數函數的反函數。</p>
+          <div class="eq">$$\text{若 } y = a^{x}, \text{ 則 } \log_{a} y = x$$</div>
+          <p>例如：若 $y = 10^{2}$，則 $\log_{10}10^{2} = 2$；若 $y = 8 = 2^{3}$，則 $\log_{2}8 = 3$。</p>
+        </div>
+
+        <div class="def">
+          <span class="box-label">定義 · 自然對數</span>
+          <p>以 $e$ 為底的對數稱為<strong>自然對數</strong>（natural logarithm），是自然指數函數的反函數：</p>
+          <div class="eq">$$\log_{e}x = \ln x$$</div>
+          <p>若 $y = e^{x}$，則 $x = \ln y$；且對 $x > 0$ 有 $e^{\ln x} = x$。</p>
+          <p>若 $f(x) = \ln x$，則</p>
+          <div class="eq">$$f'(x) = \frac{1}{x} \quad \text{for } x > 0$$</div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · 對數函數法則 $f'(x) = \dfrac{1}{x}$</span>
+          <p>從定義出發：</p>
+          <div class="eq">$$f'(x) = \lim_{h \to 0}\frac{\ln(x + h) - \ln x}{h} = \lim_{h \to 0}\frac{1}{h}\ln\left(\frac{x + h}{x}\right)$$</div>
+          <p class="eq-note">用對數律 $\ln a - \ln b = \ln\dfrac{a}{b}$。</p>
+          <div class="eq">$$= \lim_{h \to 0}\frac{1}{h}\ln\left(1 + \frac{h}{x}\right) = \frac{1}{x}\lim_{h \to 0}\frac{x}{h}\ln\left(1 + \frac{h}{x}\right)$$</div>
+          <p>令 $u = \dfrac{x}{h}$，則 $\dfrac{x}{h}\ln\left(1 + \dfrac{h}{x}\right) = u\ln\left(1 + \dfrac{1}{u}\right) = \ln\left(1 + \dfrac{1}{u}\right)^{u}$：</p>
+          <div class="eq">$$f'(x) = \frac{1}{x}\lim_{h \to 0}\ln\left(1 + \frac{1}{u}\right)^{u}$$</div>
+          <p>當 $h \to 0$ 時 $u \to \infty$，而括號內正是 $e$ 的定義：</p>
+          <div class="eq">$$f'(x) = \frac{1}{x}\ln\left[\lim_{u \to \infty}\left(1 + \frac{1}{u}\right)^{u}\right] = \frac{1}{x}\ln e = \frac{1}{x}$$</div>
+        </div>
+
+        <div class="def">
+          <span class="box-label">法則 · 廣義對數函數法則</span>
+          <p>若 $f(x) = \ln g(x)$，則</p>
+          <div class="eq">$$f'(x) = \frac{g'(x)}{g(x)} \quad \text{for } x > 0$$</div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>先化簡再微分</div>
+          <div class="ex-body">
+            <p>$$f(x) = \ln(8x^{5}) = 5\ln(8x)$$</p>
+            <div class="eq">$$f'(x) = 5\left(\frac{1}{8x}\right)(8) = \frac{5}{x}$$</div>
+            <p class="eq-note">先把對數拆開（$\ln ab = \ln a + \ln b$、$\ln a^{n} = n\ln a$）通常會讓微分簡單很多。</p>
+          </div>
+        </div>
+
+        <div class="ex">
+          <div class="ex-head"><span class="tag">EXAMPLE</span>乘積的對數</div>
+          <div class="ex-body">
+            <p>設 $f(x) = \ln\bigl[x(1 - x)^{8}\bigr]$，其中 $0 < x < 1$。先拆：</p>
+            <div class="eq">$$f(x) = \ln x + \ln(1 - x)^{8} = \ln x + 8\ln(1 - x)$$</div>
+            <p>再逐項微分（第二項用連鎖法則，內層導數是 $-1$）：</p>
+            <div class="eq">$$f'(x) = \frac{1}{x} + \frac{8}{1 - x}(-1) = \frac{1}{x} - \frac{8}{1 - x}$$</div>
+            <p>通分整理：</p>
+            <div class="eq">$$f'(x) = \frac{1 - x - 8x}{x(1 - x)} = \frac{1 - 9x}{x(1 - x)}$$</div>
+            <p class="eq-note">分子 $1 - 9x$ 告訴我們：$x < \dfrac{1}{9}$ 時 $f$ 上升，之後開始下降。</p>
+          </div>
+        </div>
+
+        <div class="box">
+          <span class="box-label">證明 · 廣義對數函數法則</span>
+          <p>令 $u = g(x)$，用連鎖法則：</p>
+          <div class="eq">$$\frac{d}{dx}\ln g(x) = \frac{d}{dx}\ln u = \frac{d}{du}\ln u\cdot\frac{du}{dx} = \frac{1}{u}\cdot\frac{du}{dx} = \frac{1}{g(x)}g'(x)$$</div>
+        </div>
+
+        <div class="box box-tint">
+          <span class="box-label">本課重點</span>
+          <ul class="keypoints" style="border:0;padding:0;margin:0">
+            <li>導數是極限：$f'(x) = \lim\limits_{h \to 0}\dfrac{f(x+h) - f(x)}{h}$；微小變化下 $f'(x) \approx \dfrac{\Delta f}{\Delta x}$。</li>
+            <li>四條核心法則：冪函數 $kx^{k-1}$、和法則、乘積法則 $f g' + g f'$、商法則 $\dfrac{f'g - fg'}{g^{2}}$。</li>
+            <li>連鎖法則 $s'(r(x))\,r'(x)$ 處理複合函數；反函數的導數是<strong>倒數</strong> $g'(y) = \dfrac{1}{f'(x)}$。</li>
+            <li>邊際量就是導數：$MC = C'(q)$、$MR = R'(q)$；$\Delta C \approx C'(q)\Delta q$。</li>
+            <li>需求彈性 $\varepsilon(p) = -\dfrac{q'(p)p}{q}$；$\varepsilon < 1$ 時漲價增加收入，$\varepsilon > 1$ 時反而減少。</li>
+            <li>指數與對數：$\dfrac{d}{dx}e^{x} = e^{x}$、$\dfrac{d}{dx}\ln x = \dfrac{1}{x}$；複合版本是 $e^{g}g'$ 與 $\dfrac{g'}{g}$。</li>
+          </ul>
+        </div>
+      </section>
+
+      <nav class="lec-nav">
+        <a class="btn" href="../lesson-2/">← 上一課：數列與極限</a>
+        <a class="btn btn-primary" href="../lesson-4/">下一課：單變數最佳化 →</a>
+      </nav>
+
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 LuTsz’s Notes · EF2452 學習筆記</span>
+    <span class="footer-links">
+      <a href="../../../index.html">首頁</a>
+      <a href="../">數學筆記</a>
+      <a href="../lesson-4/">Lecture 4</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
