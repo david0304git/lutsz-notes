@@ -227,16 +227,16 @@ main.wrap{
 .nav-links .nav-pop{
   position:absolute;
   left:50%;
-  /* 垂直定位的兩個邊界條件（導覽列高 68px、連結高 38px、底線距連結底 5px）：
-       上界：貼圖頂端不能超出導覽列上緣——導覽列是 sticky 且貼齊視窗頂端，
-             超出視窗的 4px 會被切掉（頂部看起來像被遮住）。
-       下界：貼圖底端要停在底線上方，否則會橫切過底線。
-     取 height 44px、bottom 8px：頂端落在 y≈2（不超出導覽列上緣），
-     底端在 y≈46，剛好停在底線（y≈47）上方。 */
-  bottom:8px;
+  /* 垂直定位的可用空間只有 0..47（導覽列上緣到朱紅底線），貼圖比這空間窄，
+     所以無法真正置中於連結（連結中心 y≈33）。取「在不被切、不壓線的前提下
+     盡量往下」的解，讓貼圖中心落在 y≈26，靠近連結文字。
+     上界：頂端 y≈6，留在導覽列內，不會像之前那樣超出視窗被切。
+     下界：底端 y≈46，停在底線（y≈47）上方。
+     高度 40px 也讓貼圖略小，減少與左右相鄰連結的視覺壓迫。 */
+  bottom:6px;
   width:auto;
   max-width:none;
-  height:44px;
+  height:40px;
   pointer-events:none;
   opacity:0;
   animation:navPopOut var(--t-fast) var(--ease-out) forwards;
