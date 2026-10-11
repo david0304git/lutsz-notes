@@ -227,15 +227,16 @@ main.wrap{
 .nav-links .nav-pop{
   position:absolute;
   left:50%;
-  /* 連結文字約 58px 寬，貼圖是直式圖（112×173 這類），46px 高只有約 30px 寬，
-     所以下面會讓文字一起淡出，視覺上才是「被貼圖蓋住」。
-     垂直位置：連結的朱紅底線固定在連結下緣（實測 y≈47、貼圖底緣原本在 y≈53），
-     貼圖若壓在線上就會橫切過去。往上抬 11px 讓底緣停在線上方（y≈42），
-     兩者清楚分離。實測值：連結高 38px、底線距連結底 5px、貼圖高 46px。 */
-  bottom:11px;
+  /* 垂直定位的兩個邊界條件（導覽列高 68px、連結高 38px、底線距連結底 5px）：
+       上界：貼圖頂端不能超出導覽列上緣——導覽列是 sticky 且貼齊視窗頂端，
+             超出視窗的 4px 會被切掉（頂部看起來像被遮住）。
+       下界：貼圖底端要停在底線上方，否則會橫切過底線。
+     取 height 44px、bottom 8px：頂端落在 y≈2（不超出導覽列上緣），
+     底端在 y≈46，剛好停在底線（y≈47）上方。 */
+  bottom:8px;
   width:auto;
   max-width:none;
-  height:46px;
+  height:44px;
   pointer-events:none;
   opacity:0;
   animation:navPopOut var(--t-fast) var(--ease-out) forwards;
