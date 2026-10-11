@@ -206,10 +206,13 @@ main.wrap{
   content:"";position:absolute;left:14px;right:14px;bottom:5px;height:1px;
   background:var(--accent);
   transform:scaleX(0);transform-origin:left;
-  transition:transform var(--t-mid) var(--ease-out);
+  /* 用 opacity 做過場（不是 transform）：縮放交給 hover 狀態決定，
+     淡出交給下面有貼圖的連結，兩者才不會互相覆蓋。 */
+  opacity:0;
+  transition:opacity var(--t-mid) var(--ease-out);
 }
 .nav-links a:hover{color:var(--fg);text-decoration:none}
-.nav-links a:hover::after{transform:scaleX(1)}
+.nav-links a:hover::after{transform:scaleX(1);opacity:1}
 .nav-links a[aria-current="page"]{color:var(--fg);font-weight:600}
 .nav-links a[aria-current="page"]::after{transform:scaleX(1);opacity:.35}
 
@@ -224,10 +227,12 @@ main.wrap{
 .nav-links .nav-pop{
   position:absolute;
   left:50%;
-  /* 貼圖是直式（112×173 這類），寬高比使它能蓋住的橫向範圍有限：
-     連結文字約 58px 寬，貼圖要 46px 高才有約 30px 寬。
-     再放大就會超出 68px 的導覽列，所以取這個兼顧遮擋與版面的值。 */
-  bottom:0;
+  /* 連結文字約 58px 寬，貼圖是直式圖（112×173 這類），46px 高只有約 30px 寬，
+     所以下面會讓文字一起淡出，視覺上才是「被貼圖蓋住」。
+     垂直位置：連結的朱紅底線固定在連結下緣（實測 y≈47、貼圖底緣原本在 y≈53），
+     貼圖若壓在線上就會橫切過去。往上抬 11px 讓底緣停在線上方（y≈42），
+     兩者清楚分離。實測值：連結高 38px、底線距連結底 5px、貼圖高 46px。 */
+  bottom:11px;
   width:auto;
   max-width:none;
   height:46px;
@@ -254,15 +259,25 @@ main.wrap{
   animation:navPopIn var(--t-quick) var(--ease-out) both;
 }
 /* 貼圖是直式的，寬度不足以完整蓋住橫排文字；移入時把文字自己淡出，
-   視覺上就成為「貼圖把連結蓋住」。layout 不動，連結寬度與點擊範圍都不變。 */
+   視覺上就成為「貼圖把連結蓋住」。layout 不動，連結寬度與點擊範圍都不變。
+   底線也要一起淡出：它固定在連結下緣，貼圖蓋不到，
+   留著會橫切過貼圖（看起來像一條線擋在貼圖上）。 */
 .nav-links .has-popup:hover .nav-label,
 .nav-links .has-popup:focus-within .nav-label{opacity:0}
 .nav-links .has-popup .nav-label{
   transition:opacity var(--t-quick) var(--ease-out);
 }
-/* 目前所在頁面的連結保留文字，維持「我在這裡」的指示 */
+.nav-links .has-popup:hover::after,
+.nav-links .has-popup:focus-within::after{opacity:0}
+.nav-links .has-popup::after{transition:opacity var(--t-quick) var(--ease-out)}
+/* 目前所在頁面的連結保留文字，維持「我在這裡」的指示。
+   底線一律收起：它固定在連結下緣（實測 y≈47），留著會橫切過貼圖。
+   注意特異性：`.nav-links a[aria-current="page"]::after` 是 (0,2,1)，
+   這裡必須用兩層 `.nav-links` 才蓋得掉（(0,3,1)），否則底線仍會顯示。 */
 .nav-links .has-popup[aria-current="page"]:hover .nav-label,
 .nav-links .has-popup[aria-current="page"]:focus-within .nav-label{opacity:1}
+.nav-links .nav-links .has-popup[aria-current="page"]:hover::after,
+.nav-links .nav-links .has-popup[aria-current="page"]:focus-within::after{opacity:0}
 
 /* 手機：觸控沒有 hover，:hover 會「黏住」不放，所以直接不顯示彈出貼圖；
    品牌貼圖也縮小，避免擠壓字標。 */
