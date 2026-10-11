@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LuTsz’s Notes</title>
 <meta name="description" content="LuTsz’s Notes — 筆記專區、私人專區、開發專區。">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="stylesheet" href="assets/style.css?v=7">
 <style>
   /* ==========================================================================
      主頁（首頁專用）
@@ -17,19 +17,11 @@
      ========================================================================== */
 
   .home-hero{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 236px;
-    gap:56px;
-    align-items:center;
+    display:block;
     padding:104px 0 62px;
   }
-  .hero-text{min-width:0}
-  .hero-mascot{justify-self:end;width:100%;max-width:228px}
-  .hero-mascot img{display:block;width:100%;height:auto}
-
-  /* 吉祥物：輕微浮動（動畫本身已包含揮手與呼吸） */
-  @keyframes mascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-  .hero-mascot img{animation:mascotFloat 5s var(--ease-soft) infinite}
+  /* 貼圖已搬到導覽列（品牌文字右側），標題區只留文字 */
+  .home-hero .hero-text{max-width:64ch}
 
   .home-hero .eyebrow{
     display:flex;align-items:center;gap:12px;
@@ -221,19 +213,16 @@
     .entry,.entry::before,.entry::after,.entry .no,.entry .no::after,
     .entry h3,.entry .desc,.entry .facts span + span,.entry .go,
     .home-hero h1 em{transition-duration:.001ms!important}
-    .hero-mascot img{animation:none!important}
   }
 
-  /* 平板：吉祥物縮小，仍與文字並排 */
+  /* 平板 */
   @media (min-width:768px) and (max-width:1139px){
-    .home-hero{grid-template-columns:minmax(0,1fr) 178px;gap:34px;padding:86px 0 54px}
-    .hero-mascot{max-width:178px}
+    .home-hero{padding:86px 0 54px}
   }
 
-  /* 手機：單欄，吉祥物縮小放到文字下方 */
+  /* 手機 */
   @media (max-width:767px){
-    .home-hero{grid-template-columns:1fr;gap:18px;padding:56px 0 34px}
-    .hero-mascot{justify-self:start;max-width:122px}
+    .home-hero{padding:56px 0 34px}
     .home-hero .lede{font-size:16px;line-height:1.95}
     .entry{grid-template-columns:58px minmax(0,1fr);gap:20px;padding:30px 0}
     .entry .go{grid-column:2;padding-top:4px}
@@ -249,12 +238,24 @@
 
 <header class="site-header">
   <nav class="wrap nav" aria-label="主要導航">
-    <a class="brand" href="index.html">LuTsz<span class="apo">’</span>s <span class="dot">Notes</span></a>
+      <a class="brand" href="index.html">
+        <img class="brand-mascot" src="assets/mascot/hero.webp?v=6" width="288" height="439" alt="" aria-hidden="true" decoding="async">
+        LuTsz<span class="apo">’</span>s <span class="dot">Notes</span>
+      </a>
     <ul class="nav-links">
       <li><a href="index.html" aria-current="page">首頁</a></li>
-      <li><a href="notes/">筆記專區</a></li>
-      <li><a href="personal/">私人專區</a></li>
-      <li><a href="dev/">開發專區</a></li>
+      <li><a href="notes/" class="has-popup">
+            <span class="nav-pop" aria-hidden="true"><img src="assets/mascot/reading.webp?v=6" width="112" height="173" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">筆記專區</span>
+          </a></li>
+      <li><a href="personal/" class="has-popup">
+            <span class="nav-pop" aria-hidden="true"><img src="assets/mascot/rest.webp?v=6" width="115" height="155" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">私人專區</span>
+          </a></li>
+      <li><a href="dev/" class="has-popup">
+            <span class="nav-pop" aria-hidden="true"><img src="assets/mascot/forward.webp?v=6" width="124" height="176" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">開發專區</span>
+          </a></li>
     </ul>
   </nav>
 </header>
@@ -266,11 +267,6 @@
       <div class="eyebrow rise rise-1"><b>墨</b><span class="rule"></span>Notes · Personal · Dev</div>
       <h1 class="rise rise-2">學習筆記<span class="punc">，</span><br><span class="nowrap">和<em>正在做的事</em>。</span></h1>
       <p class="lede rise rise-3">上課的筆記、自己的整理，還有寫程式留下的東西。<span class="mark">分成三個地方放</span>，想找什麼從上面進去。</p>
-    </div>
-
-    <div class="hero-mascot rise rise-4" aria-hidden="true">
-<img src="assets/mascot/hero.webp?v=6" width="288" height="439"
-             alt="" aria-hidden="true" decoding="async" fetchpriority="high">
     </div>
   </section>
 
@@ -286,7 +282,7 @@
         <div class="facts">
           <span><b>2</b> 個科目</span>
           <span>Python <b>44</b> 小節</span>
-          <span>數學 <b>15</b> 小節</span>
+          <span>數學 <b>41</b> 小節</span>
         </div>
       </div>
       <span class="go">閱讀 →</span>
@@ -315,8 +311,8 @@
   </section>
 
   <dl class="colophon">
-    <div><dt>筆記</dt><dd><b>2</b> 個科目 · <b>59</b> 個小節</dd></div>
-    <div><dt>公式</dt><dd><b>515</b> 個 · 自己排版</dd></div>
+    <div><dt>筆記</dt><dd><b>2</b> 個科目 · <b>85</b> 個小節</dd></div>
+    <div><dt>公式</dt><dd><b>1,248</b> 條 · 自己排版</dd></div>
     <div><dt>投影片</dt><dd><b>100</b> 張 · 可下載</dd></div>
     <div><dt>怎麼做的</dt><dd>純 HTML，放在 GitHub Pages</dd></div>
   </dl>

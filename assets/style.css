@@ -149,6 +149,9 @@ main.wrap{
 }
 
 .brand{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
   font-family:var(--serif);
   font-weight:600;
   font-size:17px;
@@ -156,6 +159,12 @@ main.wrap{
   color:var(--fg);
   white-space:nowrap;
 }
+/* 品牌貼圖：只放在首頁（其餘頁面導覽列維持純文字） */
+.brand-mascot{
+  display:block;width:auto;height:40px;flex:0 0 auto;
+  animation:brandMascotFloat 5.4s var(--ease-soft) infinite;
+}
+@keyframes brandMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 /* 撇號：中文字型的 U+2019 是全形標點，會產生怪空格，
    所以讓它單獨走拉丁字型（半形字寬） */
 .brand .apo{
@@ -199,6 +208,56 @@ main.wrap{
 .nav-links a:hover::after{transform:scaleX(1)}
 .nav-links a[aria-current="page"]{color:var(--fg);font-weight:600}
 .nav-links a[aria-current="page"]::after{transform:scaleX(1);opacity:.35}
+
+/* ---------- 導航列彈出貼圖（滑鼠移入時由下往上彈出） ----------
+   作法是「往前播」進場、「倒著播」退場：
+   平時 play-state 停在第一格（透明），移入才開始播；
+   移出時改播 playOut（第一格＝完全展開），所以是從展開狀態收回。
+   位移只動 translateY／scale／opacity，不影響排版。 */
+.nav-links .has-popup{position:relative}
+.nav-links .nav-label{display:inline-block;position:relative}
+.nav-links .nav-pop{
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 4px);
+  width:auto;
+  height:52px;
+  pointer-events:none;
+  opacity:0;
+  animation:navPopOut var(--t-fast) var(--ease-out) forwards;
+}
+.nav-links .nav-pop img{display:block;width:auto;height:100%}
+@keyframes navPopIn{
+  0%  {opacity:0;transform:translate(-50%,14px) scale(.82)}
+  58% {opacity:1}
+  100%{opacity:1;transform:translate(-50%,0) scale(1)}
+}
+@keyframes navPopOut{
+  0%  {opacity:1;transform:translate(-50%,0) scale(1)}
+  100%{opacity:0;transform:translate(-50%,10px) scale(.86)}
+}
+/* :hover 排在 :focus-within 後面，鍵盤聚焦與滑鼠移入行為一致 */
+.nav-links .has-popup .nav-pop{transform-origin:50% 100%}
+.nav-links .has-popup:focus-within .nav-pop{
+  animation:navPopIn var(--t-mid) var(--ease-out) both;
+}
+.nav-links .has-popup:hover .nav-pop{
+  animation:navPopIn var(--t-mid) var(--ease-out) both;
+}
+
+/* 手機：觸控沒有 hover，:hover 會「黏住」不放，所以直接不顯示彈出貼圖；
+   品牌貼圖也縮小，避免擠壓字標。 */
+@media (max-width:767px){
+  .nav-links .nav-pop{display:none}
+  .brand-mascot{height:32px}
+}
+/* 尊重減少動態偏好：直接顯示，不做位移與淡入 */
+@media (prefers-reduced-motion:reduce){
+  .brand-mascot{animation:none!important}
+  .nav-links .nav-pop{animation:none!important}
+  .nav-links .has-popup:hover .nav-pop,
+  .nav-links .has-popup:focus-within .nav-pop{opacity:1}
+}
 
 /* ---------- 標題區 ---------- */
 
@@ -245,7 +304,12 @@ main.wrap{
 }
 .page-head p{margin:0;color:var(--fg-2);max-width:64ch}
 
-/* ---------- 頁首吉祥物（內頁用） ---------- */
+/* ---------- 標題區文字寬度 ----------
+   原本內頁頁首是「文字 + 右側吉祥物」的兩欄。貼圖搬到導覽列之後改成單欄，
+   並保留原本的圖文總寬（984 − 132 − 44）當作內文行寬，視覺上不會突然拉寬。 */
+.page-head > div:first-child{max-width:808px}
+
+/* ---------- 舊版頁首吉祥物（404 仍在用） ---------- */
 
 .page-head.has-mascot{
   display:grid;
@@ -253,7 +317,7 @@ main.wrap{
   gap:44px;
   align-items:center;
 }
-.page-head.has-mascot > div:first-child{min-width:0}
+.page-head.has-mascot > div:first-child{min-width:0;max-width:none}
 .page-mascot{justify-self:end;width:100%;max-width:132px}
 .page-mascot img{display:block;width:100%;height:auto}
 @keyframes pageMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
