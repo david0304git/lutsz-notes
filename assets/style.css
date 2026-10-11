@@ -46,6 +46,7 @@
   --ease-soft:cubic-bezier(.32,.72,.35,1);   /* 更柔，大面積位移用 */
   --ease:cubic-bezier(.16,.84,.44,1);        /* 向後相容 */
   --t-fast:.22s;
+  --t-quick:.34s;            /* 介於 fast 與 mid 之間：小幅位移用，維持俐落 */
   --t-mid:.45s;
   --t-slow:.85s;
   --wrap:1060px;
@@ -149,9 +150,6 @@ main.wrap{
 }
 
 .brand{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
   font-family:var(--serif);
   font-weight:600;
   font-size:17px;
@@ -159,9 +157,15 @@ main.wrap{
   color:var(--fg);
   white-space:nowrap;
 }
-/* 品牌貼圖：只放在首頁（其餘頁面導覽列維持純文字） */
+/* 品牌貼圖：只放在首頁（其餘頁面導覽列維持純文字）
+   注意：這裡刻意不用 flex。flex 容器會把純文字變成匿名 flex item，
+   white-space:nowrap 的空白摺疊就失效，字標間距會被撐開；
+   用 inline + vertical-align 才能完全保留原本的字距。 */
 .brand-mascot{
-  display:block;width:auto;height:40px;flex:0 0 auto;
+  display:inline-block;
+  width:auto;height:1.55em;
+  vertical-align:-.5em;
+  margin-right:.42em;
   animation:brandMascotFloat 5.4s var(--ease-soft) infinite;
 }
 @keyframes brandMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
@@ -209,54 +213,69 @@ main.wrap{
 .nav-links a[aria-current="page"]{color:var(--fg);font-weight:600}
 .nav-links a[aria-current="page"]::after{transform:scaleX(1);opacity:.35}
 
-/* ---------- 導航列彈出貼圖（滑鼠移入時由下往上彈出） ----------
-   作法是「往前播」進場、「倒著播」退場：
-   平時 play-state 停在第一格（透明），移入才開始播；
-   移出時改播 playOut（第一格＝完全展開），所以是從展開狀態收回。
-   位移只動 translateY／scale／opacity，不影響排版。 */
+/* ---------- 導航列彈出貼圖（滑鼠移入時由下往上彈出，並蓋住連結文字） ----------
+   base 動畫是「退場」而且 fill 為 forwards：移出 hover 後動畫被取消，
+   會從頭播一次退場（第一格＝完全展開），所以能從展開狀態收回去。
+   移到 hover 上才會被 navPopIn 覆蓋；進場與退場速率分開，不會互相拖慢。
+   貼圖由 nav 下緣之外升起，最終停在連結文字上方把它蓋住；只動
+   translate／scale／opacity，不影響排版。 */
 .nav-links .has-popup{position:relative}
-.nav-links .nav-label{display:inline-block;position:relative}
+.nav-links .nav-label{display:inline-block}
 .nav-links .nav-pop{
   position:absolute;
   left:50%;
-  bottom:calc(100% + 4px);
+  /* 貼圖是直式（112×173 這類），寬高比使它能蓋住的橫向範圍有限：
+     連結文字約 58px 寬，貼圖要 46px 高才有約 30px 寬。
+     再放大就會超出 68px 的導覽列，所以取這個兼顧遮擋與版面的值。 */
+  bottom:0;
   width:auto;
-  height:52px;
+  max-width:none;
+  height:46px;
   pointer-events:none;
   opacity:0;
   animation:navPopOut var(--t-fast) var(--ease-out) forwards;
 }
 .nav-links .nav-pop img{display:block;width:auto;height:100%}
 @keyframes navPopIn{
-  0%  {opacity:0;transform:translate(-50%,14px) scale(.82)}
-  58% {opacity:1}
+  0%  {opacity:0;transform:translate(-50%,24px) scale(.86)}
+  62% {opacity:1}
   100%{opacity:1;transform:translate(-50%,0) scale(1)}
 }
 @keyframes navPopOut{
   0%  {opacity:1;transform:translate(-50%,0) scale(1)}
-  100%{opacity:0;transform:translate(-50%,10px) scale(.86)}
+  100%{opacity:0;transform:translate(-50%,24px) scale(.9)}
 }
 /* :hover 排在 :focus-within 後面，鍵盤聚焦與滑鼠移入行為一致 */
 .nav-links .has-popup .nav-pop{transform-origin:50% 100%}
 .nav-links .has-popup:focus-within .nav-pop{
-  animation:navPopIn var(--t-mid) var(--ease-out) both;
+  animation:navPopIn var(--t-quick) var(--ease-out) both;
 }
 .nav-links .has-popup:hover .nav-pop{
-  animation:navPopIn var(--t-mid) var(--ease-out) both;
+  animation:navPopIn var(--t-quick) var(--ease-out) both;
 }
+/* 貼圖是直式的，寬度不足以完整蓋住橫排文字；移入時把文字自己淡出，
+   視覺上就成為「貼圖把連結蓋住」。layout 不動，連結寬度與點擊範圍都不變。 */
+.nav-links .has-popup:hover .nav-label,
+.nav-links .has-popup:focus-within .nav-label{opacity:0}
+.nav-links .has-popup .nav-label{
+  transition:opacity var(--t-quick) var(--ease-out);
+}
+/* 目前所在頁面的連結保留文字，維持「我在這裡」的指示 */
+.nav-links .has-popup[aria-current="page"]:hover .nav-label,
+.nav-links .has-popup[aria-current="page"]:focus-within .nav-label{opacity:1}
 
 /* 手機：觸控沒有 hover，:hover 會「黏住」不放，所以直接不顯示彈出貼圖；
    品牌貼圖也縮小，避免擠壓字標。 */
 @media (max-width:767px){
   .nav-links .nav-pop{display:none}
-  .brand-mascot{height:32px}
+  .brand-mascot{height:1.3em}
 }
-/* 尊重減少動態偏好：直接顯示，不做位移與淡入 */
+/* 尊重減少動態偏好：直接顯示在定位點，不做位移與淡入 */
 @media (prefers-reduced-motion:reduce){
   .brand-mascot{animation:none!important}
   .nav-links .nav-pop{animation:none!important}
   .nav-links .has-popup:hover .nav-pop,
-  .nav-links .has-popup:focus-within .nav-pop{opacity:1}
+  .nav-links .has-popup:focus-within .nav-pop{opacity:1;transform:translate(-50%,0) scale(1)}
 }
 
 /* ---------- 標題區 ---------- */
