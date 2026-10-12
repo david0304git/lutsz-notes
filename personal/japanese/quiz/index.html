@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>互動測驗 · 日文筆記 · LuTsz’s Notes</title>
+<meta name="description" content="日文 N5 互動測驗：助詞、動詞變化、單字、漢字讀音、會話。可依主題與題數篩選，即時對答案並自動計分。">
+<link rel="stylesheet" href="../../../assets/style.css?v=17">
+<link rel="stylesheet" href="../jp.css?v=1">
+</head>
+<body>
+
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="主要導航">
+      <a class="brand" href="../../../index.html">
+        <img class="brand-mascot" src="../../../assets/mascot/rest.webp?v=6" width="115" height="155" alt="" aria-hidden="true" decoding="async">
+        LuTsz<span class="apo">’</span>s <span class="dot">Notes</span>
+      </a>
+    <ul class="nav-links">
+      <li><a href="../../../index.html">首頁</a></li>
+      <li><a href="../../../notes/" class="has-popup">
+            <span class="nav-pop" aria-hidden="true"><img src="../../../assets/mascot/reading.webp?v=6" width="112" height="173" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">筆記專區</span>
+          </a></li>
+      <li><a href="../../" class="has-popup" aria-current="page">
+            <span class="nav-pop" aria-hidden="true"><img src="../../../assets/mascot/rest.webp?v=6" width="115" height="155" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">私人專區</span>
+          </a></li>
+      <li><a href="../../../dev/" class="has-popup">
+            <span class="nav-pop" aria-hidden="true"><img src="../../../assets/mascot/forward.webp?v=6" width="124" height="176" alt="" loading="lazy" decoding="async"></span>
+            <span class="nav-label">開發專區</span>
+          </a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="page-head">
+    <p class="crumb"><a href="../../../index.html">首頁</a> ／ <a href="../../">私人專區</a> ／ <a href="../">日文筆記</a> ／ 互動測驗</p>
+    <h1>互動測驗</h1>
+    <p>點選項就立刻對答案，並顯示解說。可以先挑主題再決定題數，做完自動計分。</p>
+  </div>
+
+  <div class="callout">
+    <span class="ico">i</span>
+    <div>
+      <p>五十音的假名測驗在 <a href="../kana/#s6">五十音那一頁</a> 的最下面，這裡練的是<strong>助詞、動詞變化、單字、漢字讀音、會話</strong>。</p>
+    </div>
+  </div>
+
+  <div class="chip-row" id="q-topics" style="margin-top:28px">
+    <button class="chip is-active" type="button" data-topic="all">全部</button>
+    <button class="chip" type="button" data-topic="particle">助詞</button>
+    <button class="chip" type="button" data-topic="verb">動詞變化</button>
+    <button class="chip" type="button" data-topic="adj">形容詞</button>
+    <button class="chip" type="button" data-topic="vocab">單字</button>
+    <button class="chip" type="button" data-topic="kanji">漢字讀音</button>
+    <button class="chip" type="button" data-topic="phrase">會話</button>
+  </div>
+
+  <div class="chip-row" id="q-counts">
+    <button class="chip is-active" type="button" data-count="10">10 題</button>
+    <button class="chip" type="button" data-count="20">20 題</button>
+    <button class="chip" type="button" data-count="0">全部</button>
+  </div>
+
+  <div class="quiz" id="quiz-root">
+    <div class="quiz-bar">
+      <span class="qb-score">答對 <b id="q-correct">0</b> / <span id="q-done">0</span></span>
+      <span class="qb-score">本回 <b id="q-total">0</b> 題</span>
+      <span class="qb-spacer"></span>
+      <button class="btn" type="button" id="q-reset">重新開始</button>
+    </div>
+    <div id="q-list"></div>
+    <div class="quiz-result" id="q-result">
+      <p class="qr-score" id="q-score">—</p>
+      <p class="qr-note" id="q-note"></p>
+    </div>
+  </div>
+
+  <nav class="lec-nav">
+    <a class="btn" href="../phrases/">← 上一單元：日常會話</a>
+    <a class="btn btn-primary" href="../">回日文筆記 →</a>
+  </nav>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 LuTsz’s Notes · 日文筆記</span>
+    <span class="footer-links">
+      <a href="../../../index.html">首頁</a>
+      <a href="../../">私人專區</a>
+      <a href="../">日文筆記</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     題庫
+     每題：[主題, 題目 HTML, 正解, [三個干擾選項], 解說 HTML]
+     題目與解說裡的日文用 <span class="ja"> 包起來，才會走日文字型。
+     ============================================================ */
+  var BANK = [
+
+    /* ---------- 助詞 ---------- */
+    ["particle", '私<span class="ja">＿</span>学生です。', "は", ["が","を","に"],
+     '<span class="ja">は</span> 提示主題。整句是「我是學生」。'],
+    ["particle", '<span class="ja">誰＿来ましたか。</span>', "が", ["は","を","も"],
+     '問「誰」的時候，主語用 <span class="ja">が</span>；回答也用 <span class="ja">が</span>。'],
+    ["particle", '<span class="ja">ご飯＿食べます。</span>', "を", ["が","に","で"],
+     '<span class="ja">を</span> 標記動作的直接受詞（讀 o）。'],
+    ["particle", '<span class="ja">7時＿起きます。</span>', "に", ["で","を","へ"],
+     '具體時間點用 <span class="ja">に</span>。<span class="ja">今日、明日</span> 這類相對時間不加。'],
+    ["particle", '<span class="ja">図書館＿勉強します。</span>', "で", ["に","を","へ"],
+     '動作發生的場所用 <span class="ja">で</span>。存在位置才用 <span class="ja">に</span>。'],
+    ["particle", '<span class="ja">教室＿学生がいます。</span>', "に", ["で","を","と"],
+     '<span class="ja">いる／ある</span> 的存在位置用 <span class="ja">に</span>。'],
+    ["particle", '<span class="ja">バス＿行きます。</span>', "で", ["に","を","から"],
+     '手段、工具用 <span class="ja">で</span>。「搭巴士去」。'],
+    ["particle", '<span class="ja">友達＿映画を見ます。</span>', "と", ["に","を","で"],
+     '一起做某事的對象用 <span class="ja">と</span>。'],
+    ["particle", '<span class="ja">9時＿5時まで働きます。</span>', "から", ["まで","より","ので"],
+     '<span class="ja">から</span> 是起點、<span class="ja">まで</span> 是終點。'],
+    ["particle", '<span class="ja">私＿学生です。</span>（我也是學生）', "も", ["は","が","の"],
+     '<span class="ja">も</span> 表示「也」。'],
+    ["particle", '<span class="ja">これは私＿本です。</span>', "の", ["は","が","を"],
+     '<span class="ja">の</span> 表示所屬，「我的書」。'],
+    ["particle", '<span class="ja">日本＿行きます。</span>（方向）', "へ", ["を","で","と"],
+     '<span class="ja">へ</span> 標記移動方向，讀 e。<span class="ja">に</span> 也可以。'],
+    ["particle", '<span class="ja">本＿雑誌を読みます。</span>（列舉）', "や", ["と","か","も"],
+     '<span class="ja">や</span> 是部分列舉，暗示還有其他東西。'],
+    ["particle", '<span class="ja">コーヒー＿お茶を飲みます。</span>（選一個）', "か", ["や","と","も"],
+     '<span class="ja">か</span> 表示「或」，從中選一個。'],
+    ["particle", '<span class="ja">日本＿台湾の方が暑いです。</span>', "より", ["まで","から","ほど"],
+     '<span class="ja">A より B の方が～</span>：B 比 A 更～。'],
+
+    /* ---------- 動詞變化 ---------- */
+    ["verb", '<span class="ja">書く</span> 的て形是？', "書いて", ["書って","書きて","書んで"],
+     '<span class="ja">く</span> 結尾 → <span class="ja">いて</span>。所以 <span class="ja">書く→書いて</span>。'],
+    ["verb", '<span class="ja">行く</span> 的て形是？', "行って", ["行いて","行きて","行んで"],
+     '唯一例外！<span class="ja">行く</span> 屬於「う・つ・る → って」那組。'],
+    ["verb", '<span class="ja">飲む</span> 的て形是？', "飲んで", ["飲みて","飲って","飲いで"],
+     '<span class="ja">む・ぬ・ぶ</span> → <span class="ja">んで</span>。'],
+    ["verb", '<span class="ja">話す</span> 的て形是？', "話して", ["話しって","話んで","話いで"],
+     '<span class="ja">す</span> → <span class="ja">して</span>。'],
+    ["verb", '<span class="ja">泳ぐ</span> 的て形是？', "泳いで", ["泳いて","泳んで","泳ぎて"],
+     '<span class="ja">ぐ</span> → <span class="ja">いで</span>。'],
+    ["verb", '<span class="ja">食べる</span> 的て形是？', "食べて", ["食べって","食べんで","食べいて"],
+     'II 類（一段）：直接去掉 <span class="ja">る</span> 加 <span class="ja">て</span>。'],
+    ["verb", '<span class="ja">勉強する</span> 的て形是？', "勉強して", ["勉強すて","勉強しって","勉強せて"],
+     '<span class="ja">する</span> → <span class="ja">して</span>。'],
+    ["verb", '<span class="ja">来る</span> 的て形是？', "来て（きて）", ["来って","来んで","来いて"],
+     '<span class="ja">来る</span> 是 III 類不規則：<span class="ja">来て</span>，讀 <strong>きて</strong>。'],
+    ["verb", '<span class="ja">書く</span> 的ない形是？', "書かない", ["書くない","書きない","書しない"],
+     'I 類：語尾 u 段 → a 段 ＋ <span class="ja">ない</span>。'],
+    ["verb", '<span class="ja">買う</span> 的ない形是？', "買わない", ["買あない","買うない","買ない"],
+     '語尾 <span class="ja">う</span> 要變成 <span class="ja">わ</span>（不是 あ），所以是 <span class="ja">買わない</span>。'],
+    ["verb", '<span class="ja">食べる</span> 的ない形是？', "食べない", ["食べらない","食ない","食べぬ"],
+     'II 類去掉 <span class="ja">る</span> ＋ <span class="ja">ない</span>。'],
+    ["verb", '<span class="ja">する</span> 的ない形是？', "しない", ["すない","しらない","せない"],
+     '<span class="ja">する→しない</span>、<span class="ja">来る→来ない（こない）</span>，這兩個要硬記。'],
+    ["verb", '<span class="ja">飲む</span> 的た形是？', "飲んだ", ["飲った","飲みた","飲いだ"],
+     'て形的 <span class="ja">て</span> 換 <span class="ja">た</span>、<span class="ja">で</span> 換 <span class="ja">だ</span>：<span class="ja">飲んで→飲んだ</span>。'],
+    ["verb", '<span class="ja">行く</span> 的た形是？', "行った", ["行いた","行きた","行いだ"],
+     '<span class="ja">行って→行った</span>。'],
+    ["verb", '「請說慢一點」日文怎麼說？', "ゆっくり話してください", ["ゆっくり話します","ゆっくり話したい","ゆっくり話さない"],
+     '<span class="ja">～てください</span> 是「請～」。'],
+    ["verb", '「現在正在看書」日文怎麼說？', "今 本を読んでいます", ["今 本を読みます","今 本を読んでください","今 本を読んだ"],
+     '<span class="ja">～ています</span> 表示動作進行中。'],
+    ["verb", '「想去日本」日文怎麼說？', "日本に行きたいです", ["日本に行きます","日本に行ってください","日本に行きました"],
+     '<span class="ja">ます形去ます＋たい</span>：<span class="ja">行きます→行きたい</span>。'],
+    ["verb", '<span class="ja">書く</span> 是哪一類動詞？', "I 類（五段）", ["II 類（一段）","III 類（不規則）","不屬於動詞"],
+     '語尾是 <span class="ja">く</span>，不是 <span class="ja">る</span>，所以是 I 類。'],
+    ["verb", '<span class="ja">帰る</span> 是哪一類動詞？', "I 類（五段）", ["II 類（一段）","III 類（不規則）","兩類都可以"],
+     '陷阱題。<span class="ja">帰る</span> 讀 <span class="ja">かえる</span>，<span class="ja">る</span> 前面是 <strong>e 音</strong>，照規則應該算 II 類——但它是<strong>例外，屬 I 類</strong>：<span class="ja">帰ります</span>。要一起背的還有 <span class="ja">入る（はいる）、走る（はしる）、切る（きる）、知る（しる）、要る（いる）</span>。'],
+    ["verb", '<span class="ja">食べる</span> 是哪一類動詞？', "II 類（一段）", ["I 類（五段）","III 類（不規則）","不屬於動詞"],
+     '<span class="ja">る</span> 前面是 <span class="ja">e</span> 音（べ），所以是 II 類。'],
+
+    /* ---------- 形容詞 ---------- */
+    ["adj", '<span class="ja">高い</span> 的否定形是？', "高くない", ["高いない","高ではない","高かない"],
+     'い形容詞：<span class="ja">い</span> → <span class="ja">くない</span>。'],
+    ["adj", '<span class="ja">高い</span> 的過去形是？', "高かった", ["高いだった","高くだった","高かったです"],
+     'い形容詞過去：<span class="ja">い</span> → <span class="ja">かった</span>。'],
+    ["adj", '<span class="ja">いい</span> 的否定形是？', "よくない", ["いくない","いいない","いではない"],
+     '<span class="ja">いい</span> 要用原形 <span class="ja">よい</span> 變化，所以是 <span class="ja">よくない</span>。'],
+    ["adj", '<span class="ja">いい</span> 的過去形是？', "よかった", ["いかった","いいだった","よっかった"],
+     '同理，<span class="ja">いい→よかった</span>。這是唯一的例外字。'],
+    ["adj", '<span class="ja">きれい</span> 是哪一類？', "な形容詞", ["い形容詞","名詞","動詞"],
+     '陷阱題：<span class="ja">きれい</span> 雖然以 <span class="ja">い</span> 結尾，但是<strong>な形容詞</strong>：<span class="ja">きれいな花</span>。'],
+    ["adj", '<span class="ja">元気</span> 接名詞要怎麼寫？', "元気な", ["元気の","元気い","元気だ"],
+     'な形容詞接名詞要加 <span class="ja">な</span>。'],
+    ["adj", '<span class="ja">高い</span> 接名詞要怎麼寫？', "高い", ["高いな","高いの","高く"],
+     'い形容詞直接接名詞，什麼都不加。'],
+    ["adj", '<span class="ja">静か</span> 的否定（敬體）是？', "静かではありません", ["静かくないです","静かくありません","静かないです"],
+     'な形容詞的否定跟名詞一樣：<span class="ja">～ではありません</span>。'],
+    ["adj", '「漂亮的花」日文怎麼說？', "きれいな花", ["きれいい花","きれいの花","きれいく花"],
+     '<span class="ja">きれい</span> 是な形容詞，所以要加 <span class="ja">な</span>。'],
+    ["adj", '「不忙」日文怎麼說？', "忙しくない", ["忙しいない","忙しない","忙しくありませんでした"],
+     'い形容詞現在的否定：<span class="ja">忙しい→忙しくない</span>。'],
+
+    /* ---------- 單字 ---------- */
+    ["vocab", '<span class="ja">図書館</span> 是什麼意思？', "圖書館", ["醫院","郵局","銀行"],
+     '<span class="ja">図書館（としょかん）</span>。醫院是 <span class="ja">病院（びょういん）</span>。'],
+    ["vocab", '<span class="ja">病院</span> 怎麼讀？', "びょういん", ["びよういん","びょうき","いしゃ"],
+     '<span class="ja">病院（びょういん）</span> 是醫院；<span class="ja">美容院（びよういん）</span> 是美容院——差在長音。'],
+    ["vocab", '<span class="ja">毎朝</span> 是什麼意思？', "每天早上", ["每天中午","每天晚上","明天早上"],
+     '<span class="ja">毎（まい）</span>＋<span class="ja">朝（あさ）</span>＝每天早上。'],
+    ["vocab", '<span class="ja">野菜</span> 是什麼意思？', "蔬菜", ["水果","肉","蛋"],
+     '<span class="ja">野菜（やさい）</span>。水果是 <span class="ja">果物（くだもの）</span>。'],
+    ["vocab", '<span class="ja">卵</span> 怎麼讀？', "たまご", ["たまこ","らん","たまごと"],
+     '<span class="ja">卵（たまご）</span>。'],
+    ["vocab", '<span class="ja">財布</span> 是什麼意思？', "錢包", ["錢","包包","鑰匙"],
+     '<span class="ja">財布（さいふ）</span> 是錢包；錢是 <span class="ja">お金（おかね）</span>。'],
+    ["vocab", '<span class="ja">冷蔵庫</span> 是什麼意思？', "冰箱", ["電視","洗衣機","冷氣"],
+     '<span class="ja">冷蔵庫（れいぞうこ）</span>。'],
+    ["vocab", '<span class="ja">友達</span> 怎麼讀？', "ともだち", ["ゆうだち","ともたち","ゆうじん"],
+     '<span class="ja">友達（ともだち）</span>。'],
+    ["vocab", '<span class="ja">お父さん</span> 用在什麼時候？', "稱呼別人的父親", ["稱呼自己的父親","稱呼自己的哥哥","正式書面用語"],
+     '自己的父親用 <span class="ja">ちち</span>，別人的父親用 <span class="ja">おとうさん</span>。'],
+    ["vocab", '<span class="ja">賑やか</span> 是什麼意思？', "熱鬧", ["安靜","漂亮","方便"],
+     '<span class="ja">賑やか（にぎやか）</span> 是熱鬧；安靜是 <span class="ja">静か（しずか）</span>。'],
+    ["vocab", '<span class="ja">便利</span> 是什麼意思？', "方便", ["有名","親切","辛苦"],
+     '<span class="ja">便利（べんり）</span> 是な形容詞。'],
+    ["vocab", '<span class="ja">駅</span> 是什麼意思？', "車站", ["機場","學校","銀行"],
+     '<span class="ja">駅（えき）</span> 是車站。'],
+
+    /* ---------- 漢字讀音 ---------- */
+    ["kanji", '<span class="ja">今日</span> 怎麼讀？', "きょう", ["こんにち","いまび","きょねん"],
+     '<span class="ja">今日（きょう）</span>。正式場合也會讀 <span class="ja">こんにち</span>，但日常是 <span class="ja">きょう</span>。'],
+    ["kanji", '<span class="ja">明日</span> 怎麼讀？', "あした", ["あすた","みょうにち","あけび"],
+     '<span class="ja">明日（あした）</span>，正式場合讀 <span class="ja">あす</span> 或 <span class="ja">みょうにち</span>。'],
+    ["kanji", '<span class="ja">昨日</span> 怎麼讀？', "きのう", ["さくじつ","きにち","いのう"],
+     '<span class="ja">昨日（きのう）</span>。'],
+    ["kanji", '<span class="ja">人</span> 的訓讀是？', "ひと", ["じん","にん","ひとつ"],
+     '<span class="ja">人</span> 訓讀 <span class="ja">ひと</span>；音讀 <span class="ja">じん／にん</span>（<span class="ja">日本人、三人</span>）。'],
+    ["kanji", '<span class="ja">日本</span> 怎麼讀？', "にほん", ["にっぽん","じほん","ひもと"],
+     '<span class="ja">日本（にほん）</span>。<span class="ja">にっぽん</span> 也用，但較正式。'],
+    ["kanji", '<span class="ja">学生</span> 怎麼讀？', "がくせい", ["がくしょう","まなびせい","がっせい"],
+     '<span class="ja">学生（がくせい）</span>。注意 <span class="ja">学</span> 在這裡是 <span class="ja">がく</span>，不是 <span class="ja">がっ</span>。'],
+    ["kanji", '<span class="ja">学校</span> 怎麼讀？', "がっこう", ["がくこう","まなびこう","がこう"],
+     '<span class="ja">学校（がっこう）</span>。這裡 <span class="ja">学</span> 被促音化成 <span class="ja">がっ</span>。'],
+    ["kanji", '<span class="ja">時間</span> 怎麼讀？', "じかん", ["ときかん","じけん","しかん"],
+     '<span class="ja">時間（じかん）</span>。'],
+    ["kanji", '<span class="ja">電車</span> 怎麼讀？', "でんしゃ", ["でんくるま","でんしや","てんしゃ"],
+     '<span class="ja">電車（でんしゃ）</span> 是電車；<span class="ja">自動車（じどうしゃ）</span> 是汽車。'],
+    ["kanji", '<span class="ja">毎日</span> 怎麼讀？', "まいにち", ["まいひ","まいにちー","めいにち"],
+     '<span class="ja">毎日（まいにち）</span>。'],
+    ["kanji", '<span class="ja">食べる</span> 的 <span class="ja">食</span> 讀音是？', "た（べる）", ["しょく","し","く"],
+     '<span class="ja">食</span> 訓讀 <span class="ja">たべる</span>；音讀 <span class="ja">しょく</span>（<span class="ja">食事</span>）。'],
+    ["kanji", '<span class="ja">大きい</span> 怎麼讀？', "おおきい", ["おうきい","だいきい","たいきい"],
+     '<span class="ja">大きい（おおきい）</span>。注意是長音 <span class="ja">おお</span>，不是 <span class="ja">おう</span>。'],
+
+    /* ---------- 會話 ---------- */
+    ["phrase", '早上見到人說什麼？', "おはようございます", ["こんにちは","こんばんは","おやすみなさい"],
+     '早上用 <span class="ja">おはようございます</span>；白天 <span class="ja">こんにちは</span>；晚上 <span class="ja">こんばんは</span>。'],
+    ["phrase", '第一次見面時說什麼？', "はじめまして", ["さようなら","いただきます","おかげさまで"],
+     '<span class="ja">はじめまして</span> 後面通常接 <span class="ja">どうぞ よろしく。</span>'],
+    ["phrase", '吃飯前說什麼？', "いただきます", ["ごちそうさま","おかげさまで","しつれいします"],
+     '開動前 <span class="ja">いただきます</span>；吃完 <span class="ja">ごちそうさまでした</span>。'],
+    ["phrase", '進別人房間前說什麼？', "しつれいします", ["おじゃましました","いただきます","おかげさまで"],
+     '進入時 <span class="ja">失礼します</span>；離開時 <span class="ja">お邪魔しました</span>。'],
+    ["phrase", '「多少錢？」日文怎麼說？', "いくらですか", ["いつですか","どれですか","なんですか"],
+     '<span class="ja">いくら</span> 問價格；<span class="ja">いつ</span> 問時間；<span class="ja">どれ</span> 問「哪一個」。'],
+    ["phrase", '「請給我這個」日文怎麼說？', "これをください", ["これをします","これがいます","これがあります"],
+     '<span class="ja">～をください</span> 是「請給我～」。'],
+    ["phrase", '「我不懂」日文怎麼說？', "わかりません", ["しりません","いりません","できません"],
+     '<span class="ja">わかりません</span> 是「不懂／不知道（理解上）」；<span class="ja">しりません</span> 是「不知道（沒這資訊）」。'],
+    ["phrase", '「不好意思（叫人時）」日文怎麼說？', "すみません", ["ごめんなさい","どういたしまして","はじめまして"],
+     '<span class="ja">すみません</span> 可以叫人也道歉；<span class="ja">ごめんなさい</span> 偏向真的做錯事。'],
+    ["phrase", '「不用了／不需要」日文怎麼說？', "いいえ、けっこうです", ["いいえ、だいじょうぶです","はい、そうです","いいえ、ちがいます"],
+     '<span class="ja">結構です</span> 是委婉的拒絕。'],
+    ["phrase", '「請稍等一下」日文怎麼說？', "ちょっと待ってください", ["ちょっと待ちます","ちょっと待ちたい","ちょっと待たない"],
+     '<span class="ja">～てください</span> 是請求。']
+  ];
+
+  var TOPIC_NAMES = {
+    particle: "助詞", verb: "動詞變化", adj: "形容詞",
+    vocab: "單字", kanji: "漢字讀音", phrase: "會話"
+  };
+
+  var root = document.getElementById("q-list");
+  var elCorrect = document.getElementById("q-correct");
+  var elDone = document.getElementById("q-done");
+  var elTotal = document.getElementById("q-total");
+  var elResult = document.getElementById("q-result");
+  var elScore = document.getElementById("q-score");
+  var elNote = document.getElementById("q-note");
+
+  var topic = "all";
+  var count = 10;
+  var seed = Math.floor(Math.random() * 1e9);
+  var state = { correct: 0, done: 0 };
+
+  function rng(){ seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+  function shuffle(a){
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(rng() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function build(){
+    seed = Math.floor(Math.random() * 1e9);
+    var pool = BANK.filter(function(q){ return topic === "all" || q[0] === topic; });
+    var n = (count === 0) ? pool.length : Math.min(count, pool.length);
+    var picked = shuffle(pool.slice()).slice(0, n);
+
+    state = { correct: 0, done: 0 };
+    elResult.classList.remove("is-shown");
+    root.innerHTML = "";
+    elTotal.textContent = picked.length;
+    elCorrect.textContent = "0";
+    elDone.textContent = "0";
+
+    if (!picked.length){
+      root.innerHTML = '<p class="sec-sub">這個主題目前沒有題目。</p>';
+      return;
+    }
+
+    picked.forEach(function(item, idx){
+      var answer = item[2];
+      var opts = shuffle([answer].concat(item[3]));
+
+      var box = document.createElement("div");
+      box.className = "q-item";
+
+      var head = document.createElement("div");
+      head.className = "q-head";
+      var tag = TOPIC_NAMES[item[0]] || "";
+      head.innerHTML = '<span class="q-no">Q' + (idx + 1) + '</span>';
+      var ask = document.createElement("p");
+      ask.className = "q-ask";
+      ask.innerHTML = item[1] + ' <span class="pos">' + tag + '</span>';
+      head.appendChild(ask);
+      box.appendChild(head);
+
+      var ul = document.createElement("ul");
+      ul.className = "q-options";
+
+      opts.forEach(function(o, oi){
+        var li = document.createElement("li");
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "q-opt";
+        btn.innerHTML = '<span class="o-key">' + "ABCD".charAt(oi) + '</span><span class="opt-txt">' + o + '</span>';
+        btn.addEventListener("click", function(){
+          if (box.classList.contains("is-answered")) return;
+          box.classList.add("is-answered");
+          state.done++;
+          var right = (o === answer);
+          if (right) state.correct++;
+
+          Array.prototype.forEach.call(ul.querySelectorAll(".q-opt"), function(b){
+            b.disabled = true;
+            var txt = b.querySelector(".opt-txt").textContent;
+            if (txt === answer) b.classList.add("is-correct");
+            else if (txt === o) b.classList.add("is-wrong");
+          });
+
+          var ex = document.createElement("p");
+          ex.className = "q-explain";
+          ex.innerHTML = (right ? "<strong>答對了。</strong> " : "<strong>正解是「" + answer + "」。</strong> ")
+                        + item[4];
+          box.appendChild(ex);
+
+          elCorrect.textContent = state.correct;
+          elDone.textContent = state.done;
+          if (state.done === picked.length) finish(picked.length);
+        });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+
+      box.appendChild(ul);
+      root.appendChild(box);
+    });
+  }
+
+  function finish(total){
+    var pct = Math.round(state.correct / total * 100);
+    elScore.textContent = state.correct + " / " + total + "（" + pct + "%）";
+    var note;
+    if (pct === 100) note = "全對。可以換下一個主題，或把題數調成「全部」再挑戰一次。";
+    else if (pct >= 80) note = "很穩，把答錯的那幾題對應的筆記段落再看一次就好。";
+    else if (pct >= 60) note = "基本可以了，但錯的題目通常集中在同一兩個觀念，回頭對照筆記補起來。";
+    else note = "先回去看「文法句型」或「單字」那一頁，再回來重做。";
+    elNote.textContent = note + "（主題：" + (topic === "all" ? "全部" : TOPIC_NAMES[topic]) + "）";
+    elResult.classList.add("is-shown");
+    elResult.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  document.getElementById("q-reset").addEventListener("click", build);
+
+  Array.prototype.forEach.call(document.querySelectorAll("#q-topics .chip"), function(btn){
+    btn.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll("#q-topics .chip"), function(b){ b.classList.remove("is-active"); });
+      btn.classList.add("is-active");
+      topic = btn.getAttribute("data-topic");
+      build();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("#q-counts .chip"), function(btn){
+    btn.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll("#q-counts .chip"), function(b){ b.classList.remove("is-active"); });
+      btn.classList.add("is-active");
+      count = parseInt(btn.getAttribute("data-count"), 10);
+      build();
+    });
+  });
+
+  build();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,515 @@
+/* ==========================================================================
+   LuTsz’s Notes · 日文筆記專用樣式
+   在 assets/style.css 之後載入，沿用全站變數與元件，只補日文需要的部分。
+
+   為什麼要另開一支：全站的中文標題走 Noto Serif TC（subset 過的 912 字），
+   不含假名；直接沿用會讓假名落到系統預設字型，跟漢字混在一起很雜。
+   這一頁把日文統一交給系統的日文字型堆疊（macOS 的 Hiragino、
+   Windows 的 Yu Gothic／Meiryo、Android 的 Noto Sans JP）。
+   ========================================================================== */
+
+:root{
+  /* 日文用字型：假名與漢字都交給日文字型，避免中日字形混用 */
+  --jp:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",
+       "Noto Sans JP","Noto Sans CJK JP","MS PGothic",sans-serif;
+  /* 全形假名要比較大的行高才好讀 */
+  --jp-lh:1.95;
+}
+
+/* ---------- 日文文字區塊 ---------- */
+
+.ja{font-family:var(--jp);line-height:var(--jp-lh)}
+
+/* 單一句子或詞條：比內文稍大，方便看清楚假名 */
+.ja-sentence{
+  font-family:var(--jp);
+  font-size:17px;
+  line-height:var(--jp-lh);
+  color:var(--fg);
+}
+
+/* 讀音（假名標注）：小字、淡色、墊在漢字上面 */
+.ja-reading{
+  display:block;
+  font-family:var(--jp);
+  font-size:12px;
+  line-height:1.5;
+  color:var(--fg-3);
+  letter-spacing:.02em;
+}
+
+/* 漢字＋讀音的堆疊 */
+.ja-word{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:flex-start;
+  vertical-align:bottom;
+}
+.ja-word > b{
+  font-family:var(--jp);
+  font-size:17px;
+  font-weight:600;
+  color:var(--fg);
+}
+
+/* 羅馬音：等寬、淡色 */
+.romaji{
+  font-family:var(--mono);
+  font-size:12.5px;
+  letter-spacing:.04em;
+  color:var(--fg-3);
+}
+
+/* ---------- 五十音表 ---------- */
+
+.kana-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:8px;
+  margin:20px 0 26px;
+}
+.kana-cell{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  padding:12px 6px 10px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+  text-align:center;
+  transition:border-color var(--t-fast) var(--ease-out),
+             background var(--t-fast) var(--ease-out);
+}
+.kana-cell:hover{border-color:var(--line-2);background:var(--tint)}
+.kana-cell .k{
+  font-family:var(--jp);
+  font-size:24px;
+  line-height:1.25;
+  color:var(--fg);
+}
+.kana-cell .r{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  color:var(--fg-3);
+}
+/* 空缺格（や行、わ行的空位） */
+.kana-cell.is-blank{background:var(--bg-warm);border-style:dashed}
+.kana-cell.is-voice{border-color:var(--line-2)}
+.kana-cell.is-voice .k{color:var(--accent-dim)}
+/* 小寫假名標記 */
+.kana-cell .tag-sm{
+  font-family:var(--mono);
+  font-size:9.5px;
+  letter-spacing:.08em;
+  color:var(--accent);
+}
+
+/* 五十音的分段標題（あ行、か行…） */
+.kana-row-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+  margin:26px 0 10px;
+}
+
+/* ---------- 單字卡 ---------- */
+
+.vocab-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(232px,1fr));
+  gap:12px;
+  margin:18px 0 26px;
+}
+.vocab-card{
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+}
+.vocab-card .vc-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+}
+.vocab-card .vc-word{
+  font-family:var(--jp);
+  font-size:19px;
+  font-weight:600;
+  color:var(--fg);
+}
+.vocab-card .vc-kana{
+  font-family:var(--jp);
+  font-size:12.5px;
+  color:var(--fg-3);
+}
+.vocab-card .vc-mean{font-size:14px;color:var(--fg-2);margin:0}
+.vocab-card .vc-meta{
+  margin-top:8px;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.05em;
+  color:var(--fg-3);
+}
+
+/* 詞性標籤 */
+.pos{
+  display:inline-block;
+  padding:1px 7px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--tint);
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.04em;
+  color:var(--fg-3);
+  white-space:nowrap;
+}
+.pos.is-verb{color:var(--accent-dim);border-color:var(--line-2)}
+
+/* ---------- 表格（沿用數學筆記的 .tbl 設計） ---------- */
+
+.tbl{
+  width:100%;
+  margin:20px 0 26px;
+  border-collapse:collapse;
+  font-size:14.5px;
+}
+.tbl caption{
+  caption-side:top;
+  text-align:left;
+  padding-bottom:10px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  color:var(--fg-3);
+}
+.tbl th,.tbl td{
+  padding:10px 13px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:middle;
+}
+.tbl thead th{
+  border-bottom:1px solid var(--line-2);
+  font-weight:600;
+  font-size:13px;
+  color:var(--fg-2);
+  background:var(--tint);
+}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl .ja,.tbl .ja-sentence{font-size:15.5px;line-height:1.7}
+/* 表格橫向捲動（手機） */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:20px 0 26px}
+.tbl-scroll .tbl{margin:0;min-width:520px}
+
+/* ---------- 句型方塊 ---------- */
+
+.pattern{
+  padding:16px 18px;
+  border:1px solid var(--line);
+  border-left:2px solid var(--accent);
+  border-radius:var(--rad);
+  background:#fff;
+  margin:18px 0;
+}
+.pattern .p-label{
+  display:block;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.14em;
+  color:var(--fg-3);
+  margin-bottom:8px;
+}
+.pattern .p-form{
+  font-family:var(--jp);
+  font-size:19px;
+  line-height:1.7;
+  color:var(--fg);
+  margin:0 0 10px;
+}
+.pattern .p-note{margin:0;font-size:14px;color:var(--fg-2)}
+
+/* 接續規則（動詞變化用） */
+.conj{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:8px 12px;
+  padding:9px 0;
+  border-bottom:1px solid var(--line);
+  font-size:14.5px;
+}
+.conj:last-child{border-bottom:0}
+.conj .c-tag{
+  flex:0 0 92px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.06em;
+  color:var(--fg-3);
+}
+.conj .ja{font-size:16px}
+
+/* ---------- 提醒框（沿用 .box / .box-tint） ---------- */
+
+.box{
+  padding:16px 18px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+  margin:20px 0;
+}
+.box-tint{background:var(--tint)}
+.box-accent{background:var(--tint);border-color:var(--line-2)}
+.box-label{
+  display:block;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+  margin-bottom:9px;
+}
+.box ul,.box ol{margin:0;padding-left:20px;color:var(--fg-2)}
+.box li{margin-bottom:7px}
+.box p{margin:0 0 10px;color:var(--fg-2)}
+.box p:last-child{margin-bottom:0}
+
+/* ---------- 兩本教材的課次對照 ---------- */
+
+.book-tag{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.03em;
+  padding:1px 6px;
+  border-radius:4px;
+  border:1px solid var(--line);
+  background:var(--tint);
+  color:var(--fg-3);
+  white-space:nowrap;
+}
+.book-tag.is-minna{color:#2f5d8a;border-color:#c9d9e8;background:#f2f7fb}
+.book-tag.is-kango{color:#7a4a1f;border-color:#e6d5c0;background:#fbf6f0}
+
+/* ---------- 目錄（沿用數學筆記的 .lec-toc 概念） ---------- */
+
+.jp-toc{
+  padding:16px 18px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:var(--tint);
+  margin:0 0 34px;
+}
+.jp-toc .toc-head{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--fg-3);
+  margin:0 0 10px;
+}
+.jp-toc ol{
+  margin:0;
+  padding-left:20px;
+  columns:2;
+  column-gap:28px;
+}
+.jp-toc li{margin-bottom:6px;break-inside:avoid}
+.jp-toc a{color:var(--fg-2)}
+.jp-toc a:hover{color:var(--accent)}
+
+/* 段落標號（沿用數學筆記） */
+.sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
+.sec-num{
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.1em;
+  color:var(--accent);
+}
+.sec-head h2{margin:0}
+.sec-sub{margin:-6px 0 18px;color:var(--fg-3);font-size:14.5px}
+
+/* 上一頁／下一頁 */
+.lec-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:52px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+}
+
+/* ---------- 互動測驗 ---------- */
+
+.quiz{margin:22px 0 0}
+.quiz-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 14px;
+  padding:12px 16px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:var(--tint);
+  margin-bottom:22px;
+}
+.quiz-bar .qb-score{
+  font-family:var(--mono);
+  font-size:12.5px;
+  letter-spacing:.04em;
+  color:var(--fg-2);
+}
+.quiz-bar .qb-score b{color:var(--accent);font-size:15px}
+.quiz-bar .qb-spacer{flex:1 1 auto}
+
+.q-item{
+  padding:18px 20px 16px;
+  border:1px solid var(--line);
+  border-radius:var(--rad);
+  background:#fff;
+  margin-bottom:14px;
+}
+.q-head{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  margin-bottom:12px;
+}
+.q-no{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.08em;
+  color:var(--fg-3);
+  flex:0 0 auto;
+}
+.q-ask{font-size:15.5px;color:var(--fg);margin:0;font-weight:500}
+.q-ask .ja,.q-ask .ja-sentence{font-size:18px}
+
+.q-options{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.q-opt{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  font:inherit;
+  font-size:14.5px;
+  color:var(--fg-2);
+  text-align:left;
+  cursor:pointer;
+  transition:border-color var(--t-fast) var(--ease-out),
+             background var(--t-fast) var(--ease-out),
+             color var(--t-fast) var(--ease-out);
+}
+.q-opt:hover:not(:disabled){border-color:var(--line-2);background:var(--tint);color:var(--fg)}
+.q-opt:disabled{cursor:default}
+.q-opt .o-key{
+  flex:0 0 auto;
+  width:19px;height:19px;
+  display:grid;place-items:center;
+  border:1px solid var(--line);
+  border-radius:5px;
+  font-family:var(--mono);
+  font-size:10.5px;
+  color:var(--fg-3);
+  background:var(--tint);
+}
+.q-opt .ja{font-size:16px}
+/* 答對／答錯 */
+.q-opt.is-correct{
+  border-color:#8fb28a;
+  background:#f2f8f0;
+  color:#2f5228;
+}
+.q-opt.is-correct .o-key{border-color:#8fb28a;background:#e2efe0;color:#2f5228}
+.q-opt.is-wrong{
+  border-color:#d9a9a0;
+  background:#fdf3f1;
+  color:#7d3125;
+}
+.q-opt.is-wrong .o-key{border-color:#d9a9a0;background:#f7e4e0;color:#7d3125}
+
+.q-explain{
+  display:none;
+  margin:12px 0 0;
+  padding:11px 14px;
+  border-left:2px solid var(--line-2);
+  background:var(--tint);
+  border-radius:0 8px 8px 0;
+  font-size:13.5px;
+  color:var(--fg-2);
+}
+.q-item.is-answered .q-explain{display:block}
+.q-explain .ja{font-size:15px}
+
+/* 結果列 */
+.quiz-result{
+  display:none;
+  padding:18px 20px;
+  border:1px solid var(--line-2);
+  border-radius:var(--rad);
+  background:var(--tint);
+  margin-top:22px;
+}
+.quiz-result.is-shown{display:block}
+.quiz-result .qr-score{
+  font-family:var(--serif);
+  font-size:26px;
+  font-weight:600;
+  color:var(--fg);
+  margin:0 0 6px;
+}
+.quiz-result .qr-note{margin:0;font-size:14.5px;color:var(--fg-2)}
+
+/* 篩選按鈕列 */
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.chip{
+  padding:6px 13px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#fff;
+  font:inherit;
+  font-size:13px;
+  color:var(--fg-2);
+  cursor:pointer;
+  transition:border-color var(--t-fast) var(--ease-out),
+             background var(--t-fast) var(--ease-out),
+             color var(--t-fast) var(--ease-out);
+}
+.chip:hover{border-color:var(--line-2);color:var(--fg)}
+.chip.is-active{background:var(--fg);border-color:var(--fg);color:#fff}
+
+/* ---------- 響應式 ---------- */
+
+@media (max-width:767px){
+  .kana-grid{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+  .kana-cell{padding:9px 2px 8px;border-radius:9px}
+  .kana-cell .k{font-size:19px}
+  .kana-cell .r{font-size:9.5px}
+  .vocab-grid{grid-template-columns:1fr}
+  .q-options{grid-template-columns:1fr}
+  .jp-toc ol{columns:1}
+}
+
+/* 尊重減少動態偏好 */
+@media (prefers-reduced-motion:reduce){
+  .kana-cell,.q-opt,.chip{transition:none!important}
+}
